@@ -11,7 +11,7 @@ cmake ../ -DFORCE_RSUSB_BACKEND=true -DCMAKE_BUILD_TYPE=release
 ```
 
 ## 2.my_realsense_lab
-该文件夹下代码是为满足特定需求而编写的代码，在每一个子文件夹下（如 rs-gamma）执行以下命令可在build目录下的bin文件夹中生成对应的可执行文件
+该文件夹下代码是为满足特定需求而编写的代码，在每一个子文件夹下（如 rs-gamma）执行以下命令可在build目录下的bin文件夹中生成对应的可执行文件（编译前需要先修改源码中的文件储存路径及创建setting.txt）
 ```shell
 mkdir build && cd build && cmake .. && make 
 ```
