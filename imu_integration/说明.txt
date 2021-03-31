@@ -1,2 +1,0 @@
-time_dispose.m为主文件
-imu积分在其后半部分
