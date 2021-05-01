@@ -16,15 +16,15 @@ find_package(realsense2 REQUIRED)
 find_package(OpenCV REQUIRED)
 
 set(SOURCES
-    src/camera.cpp
     src/main.cpp
     src/mainwindow.cpp)
 set(HEADERS
-    include/camera.h
     include/mainwindow.h)
 set(FORMS
     src/mainwindow.ui)
 
-add_executable(signals_and_slots ${SOURCES} ${HEADERS} ${FORMS})
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include ${CMAKE_CURRENT_LIST_DIR}/modules/mono_dataset_code/include)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/modules/mono_dataset_code)
 
-target_link_libraries(signals_and_slots PRIVATE Qt5::Widgets ${realsense2_LIBRARY} ${OpenCV_LIBS})
+add_executable(signals_and_slots ${SOURCES} ${HEADERS} ${FORMS})
+target_link_libraries(signals_and_slots PRIVATE Qt5::Widgets photometricCalib ${realsense2_LIBRARY} ${OpenCV_LIBS})
