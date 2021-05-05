@@ -1,3 +1,5 @@
+#include "findPointsInRange.h"
+
 #include <time.h>
 
 #include <Eigen/Core>

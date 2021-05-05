@@ -28,6 +28,8 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "responseCalib.h"
+
 #include <dirent.h>
 
 #include <algorithm>

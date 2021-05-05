@@ -17,15 +17,11 @@ class MainWindow : public QMainWindow {
   ~MainWindow();
 
  private slots:
-  void on_pushButton_2_clicked();
+  void on_nextButtonP1_clicked();
 
-  void on_pushButton_5_clicked();
+  void on_nextButtonP2_clicked();
 
-  void on_pushButton_8_clicked();
-
-  void on_pushButton_9_clicked();
-
-  void on_pushButton_12_clicked();
+  void on_nextButtonP3_clicked();
 
  private:
   Ui::MainWindow *ui;
