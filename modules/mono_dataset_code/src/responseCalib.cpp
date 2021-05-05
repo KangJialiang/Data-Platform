@@ -27,6 +27,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 #include "responseCalib.h"
 
 #include <dirent.h>
@@ -242,15 +243,16 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
 
   if (-1 == system("rm -rf photoCalibResult"))
     printf("could not delete old photoCalibResult folder!\n");
-  if (-1 == system("mkdir photoCalibResult"))
+  if (-1 == system(("mkdir " + folder + "/photoCalibResult").c_str()))
     printf("could not create photoCalibResult folder!\n");
 
   std::ofstream logFile;
-  logFile.open("photoCalibResult/log.txt", std::ios::trunc | std::ios::out);
+  logFile.open(folder + "photoCalibResult/log.txt",
+               std::ios::trunc | std::ios::out);
   logFile.precision(15);
 
   printf("init RMSE = %f! \t", rmse(G, E, exposureVec, dataVec, w * h)[0]);
-  plotE(E, w, h, "photoCalibResult/E-0");
+  plotE(E, w, h, folder + "/photoCalibResult/E-0");
   cv::waitKey(100);
 
   bool optE = true;
@@ -281,8 +283,8 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
       printf("optG RMSE = %f! \t", rmse(G, E, exposureVec, dataVec, w * h)[0]);
 
       char buf[1000];
-      snprintf(buf, 1000, "photoCalibResult/G-%d.png", it + 1);
-      plotG(G, label, buf);
+      snprintf(buf, 1000, "/photoCalibResult/G-%d.png", it + 1);
+      plotG(G, label, folder + buf);
     }
 
     if (optE) {
@@ -309,8 +311,8 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
       printf("OptE RMSE = %f!  \t", rmse(G, E, exposureVec, dataVec, w * h)[0]);
 
       char buf[1000];
-      snprintf(buf, 1000, "photoCalibResult/E-%d", it + 1);
-      plotE(E, w, h, buf);
+      snprintf(buf, 1000, "/photoCalibResult/E-%d", it + 1);
+      plotE(E, w, h, folder + buf);
     }
 
     // rescale such that maximum response is 255 (fairly arbitrary choice).
@@ -331,7 +333,8 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
   logFile.close();
 
   std::ofstream lg;
-  lg.open("photoCalibResult/pcalib.txt", std::ios::trunc | std::ios::out);
+  lg.open(folder + "photoCalibResult/pcalib.txt",
+          std::ios::trunc | std::ios::out);
   lg.precision(15);
   for (int i = 0; i < 256; i++) lg << G[i] << " ";
   lg << "\n";

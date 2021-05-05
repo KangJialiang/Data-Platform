@@ -36,6 +36,7 @@
 // #include <aruco/cvdrawingutils.h>
 #include <dirent.h>
 
+#include <QLabel>
 #include <algorithm>
 #include <fstream>
 #include <opencv2/aruco.hpp>
@@ -46,7 +47,7 @@
 #include "Eigen/Core"
 #include "Eigen/LU"
 
-QTextBrowser* setTextTest;
+extern QTextBrowser* setTextTest;
 
 // reads interpolated element from a uchar* array
 // SSE2 optimization possible
@@ -68,7 +69,8 @@ EIGEN_ALWAYS_INLINE float getInterpolatedElement(const float* const mat,
   return res;
 }
 
-void displayImage(float* I, int w, int h, std::string name) {
+void displayImage(float* I, int w, int h, std::string name,
+                  std::string folder) {
   float vmin = 1e10;
   float vmax = -1e10;
 
@@ -90,7 +92,7 @@ void displayImage(float* I, int w, int h, std::string name) {
 
   printf("plane image values %f - %f!\n", vmin, vmax);
   // cv::imshow(name, img);
-  cv::imwrite("vignetteCalibResult/plane.png", img);
+  cv::imwrite(folder + "vignetteCalibResult/plane.png", img);
 }
 void displayImageV(float* I, int w, int h, std::string name) {
   cv::Mat img = cv::Mat(h, w, CV_8UC3);
@@ -165,15 +167,17 @@ void parseArgument(char* arg) {
   printf("could not parse argument \"%s\"!!\n", arg);
 }
 */
-void vignetteCalib(std::string folder, QTextBrowser* textBrowser) {
+void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
+                   std::string folderforResponseCalib, QLabel* label) {
   // for (int i = 2; i < argc; i++) parseArgument(argv[i]);
   setTextTest = textBrowser;
-  system(
-      ("cp -f photoCalibResult/pcalib.txt " + folder + "/pcalib.txt").c_str());
 
+  system(("cp -f " + folderforResponseCalib + "/photoCalibResult/pcalib.txt " +
+          folder + "/pcalib.txt")
+             .c_str());
   if (-1 == system("rm -rf vignetteCalibResult"))
     printf("could not delete old vignetteCalibResult folder!\n");
-  if (-1 == system("mkdir vignetteCalibResult"))
+  if (-1 == system(("mkdir " + folder + "/vignetteCalibResult").c_str()))
     printf("could not delete old vignetteCalibResult folder!\n");
 
   // argv[1] =
@@ -357,7 +361,7 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser) {
     if (rand() % 40 == 0) {
       char buf[1000];
       snprintf(buf, 1000, "vignetteCalibResult/img%d.png", i);
-      cv::imwrite(buf, dbgImg);
+      cv::imwrite(folder + buf, dbgImg);
     }
 
     cv::waitKey(1);
@@ -367,7 +371,8 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser) {
   }
 
   std::ofstream logFile;
-  logFile.open("vignetteCalibResult/log.txt", std::ios::trunc | std::ios::out);
+  logFile.open(folder + "vignetteCalibResult/log.txt",
+               std::ios::trunc | std::ios::out);
   logFile.precision(15);
 
   int n = images.size();
@@ -438,7 +443,7 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser) {
       else
         planeColor[pi] = planeColorFC[pi] / planeColorFF[pi];
     }
-    displayImage(planeColor, gw, gh, "Plane");
+    displayImage(planeColor, gw, gh, "Plane", folder);
 
     printf("%f residual terms => %f\n", R, sqrtf(E / R));
 
@@ -589,15 +594,21 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser) {
             cv::Mat(hI, wI, CV_32F, vignetteFactorTT) * 254.9 * 254.9;
         cv::Mat wrap16;
         wrap.convertTo(wrap16, CV_16U, 1, 0);
-        cv::imwrite("vignetteCalibResult/vignetteSmoothed.png", wrap16);
-        cv::waitKey(50);
+        cv::imwrite(folder + "vignetteCalibResult/vignetteSmoothed.png",
+                    wrap16);
+        QPixmap pixmap(QString::fromStdString(
+            folder + "vignetteCalibResult/vignetteSmoothed.png"));
+        label->setPixmap(pixmap);
+        // label->setFixedSize(150, 100);
+        label->setScaledContents(true);
+        // cv::waitKey(50);
       }
       {
         displayImageV(vignetteFactor, wI, hI, "VignetteOrg");
         cv::Mat wrap = cv::Mat(hI, wI, CV_32F, vignetteFactor) * 254.9 * 254.9;
         cv::Mat wrap16;
         wrap.convertTo(wrap16, CV_16U, 1, 0);
-        cv::imwrite("vignetteCalibResult/vignette.png", wrap16);
+        cv::imwrite(folder + "vignetteCalibResult/vignette.png", wrap16);
         cv::waitKey(50);
       }
     }

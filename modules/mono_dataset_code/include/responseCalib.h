@@ -3,6 +3,5 @@
 #include <QLabel>
 #include <QtWidgets/QTextBrowser>
 #include <string>
-void responseCalib(std::string folder, QTextBrowser *textBrowser,
-                   QLabel *label);
+void responseCalib(std::string folder, QTextBrowser *textBrowser,QLabel*label);
 #endif
