@@ -34,3 +34,9 @@ void MainWindow::on_startButtonP2_clicked() {
   responseCalib(ui->inOutPathLineP2->text().toStdString(), ui->shellOutTextP2,
                 ui->picOutLabelP2);
 }
+
+void MainWindow::on_startButtonP4_clicked() {
+  vignetteCalib(ui->vignettePathLineP4->text().toStdString(),
+                ui->shellOutTextP4, ui->gammaPathLineP4->text().toStdString(),
+                ui->picOutLabelP4);
+}

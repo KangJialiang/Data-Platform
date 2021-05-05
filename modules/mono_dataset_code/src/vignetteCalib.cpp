@@ -172,10 +172,11 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
   // for (int i = 2; i < argc; i++) parseArgument(argv[i]);
   setTextTest = textBrowser;
 
-  system(("cp -f " + folderforResponseCalib + "/photoCalibResult/pcalib.txt " +
-          folder + "/pcalib.txt")
-             .c_str());
-  if (-1 == system("rm -rf vignetteCalibResult"))
+  if (-1 == system(("cp -f " + folderforResponseCalib +
+                    "/photoCalibResult/pcalib.txt " + folder + "/pcalib.txt")
+                       .c_str()))
+    printf("could not copy pcalib.txt!\n");
+  if (-1 == system(("rm -rf " + folder + "/vignetteCalibResult").c_str()))
     printf("could not delete old vignetteCalibResult folder!\n");
   if (-1 == system(("mkdir " + folder + "/vignetteCalibResult").c_str()))
     printf("could not delete old vignetteCalibResult folder!\n");

@@ -25,6 +25,8 @@ class MainWindow : public QMainWindow {
 
   void on_startButtonP2_clicked();
 
+  void on_startButtonP4_clicked();
+
  private:
   Ui::MainWindow *ui;
 };

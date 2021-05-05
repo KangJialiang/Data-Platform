@@ -241,7 +241,7 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
     }
   for (int k = 0; k < w * h; k++) E[k] = E[k] / En[k];
 
-  if (-1 == system("rm -rf photoCalibResult"))
+  if (-1 == system(("rm -rf " + folder + "/photoCalibResult").c_str()))
     printf("could not delete old photoCalibResult folder!\n");
   if (-1 == system(("mkdir " + folder + "/photoCalibResult").c_str()))
     printf("could not create photoCalibResult folder!\n");
@@ -333,7 +333,7 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
   logFile.close();
 
   std::ofstream lg;
-  lg.open(folder + "photoCalibResult/pcalib.txt",
+  lg.open(folder + "/photoCalibResult/pcalib.txt",
           std::ios::trunc | std::ios::out);
   lg.precision(15);
   for (int i = 0; i < 256; i++) lg << G[i] << " ";
