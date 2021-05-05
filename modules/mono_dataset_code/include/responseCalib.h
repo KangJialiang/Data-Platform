@@ -1,6 +1,8 @@
 #ifndef RESPONSECALIB_H
 #define RESPONSECALIB_H
+#include <QLabel>
 #include <QtWidgets/QTextBrowser>
 #include <string>
-int responseCalib(std::string folder, QTextBrowser *textBrowser);
+void responseCalib(std::string folder, QTextBrowser *textBrowser,
+                   QLabel *label);
 #endif

@@ -27,11 +27,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 #include "responseCalib.h"
 
 #include <dirent.h>
 
+#include <QLabel>
 #include <algorithm>
 #include <fstream>
 #include <sstream>
@@ -103,14 +103,14 @@ void plotE(double* E, int w, int h, std::string saveTo = "") {
   }
 
   printf("Irradiance %f - %f\n", Emin, Emax);
-  cv::imshow("lnE", EImg);
+  // cv::imshow("lnE", EImg);
 
   if (saveTo != "") {
     cv::imwrite(saveTo + ".png", EImg);
     cv::imwrite(saveTo + "16.png", EImg16);
   }
 }
-void plotG(double* G, std::string saveTo = "") {
+void plotG(double* G, QLabel* label, std::string saveTo = "") {
   cv::Mat GImg = cv::Mat(256, 256, CV_32FC1);
   GImg.setTo(0);
 
@@ -129,8 +129,14 @@ void plotG(double* G, std::string saveTo = "") {
   }
 
   printf("Inv. Response %f - %f\n", min, max);
-  cv::imshow("G", GImg);
-  if (saveTo != "") cv::imwrite(saveTo, GImg * 255);
+  // cv::imshow("G", GImg);
+  if (saveTo != "") {
+    cv::imwrite(saveTo, GImg * 255);
+    QPixmap pixmap(QString::fromStdString(saveTo));
+    label->setPixmap(pixmap);
+    // label->setFixedSize(150, 100);
+    label->setScaledContents(true);
+  }
 }
 
 /*
@@ -157,7 +163,8 @@ void parseArgument(char* arg) {
 }
 */
 
-int responseCalib(std::string folder, QTextBrowser* textBrowser) {
+void responseCalib(std::string folder, QTextBrowser* textBrowser,
+                   QLabel* label) {
   // parse arguments
   // for (int i = 2; i < argc; i++) parseArgument(argv[i]);
 
@@ -275,7 +282,7 @@ int responseCalib(std::string folder, QTextBrowser* textBrowser) {
 
       char buf[1000];
       snprintf(buf, 1000, "photoCalibResult/G-%d.png", it + 1);
-      plotG(G, buf);
+      plotG(G, label, buf);
     }
 
     if (optE) {

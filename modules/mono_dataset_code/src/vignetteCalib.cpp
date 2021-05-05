@@ -27,7 +27,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-
 #include "vignetteCalib.h"
 
 #include "opencv2/opencv.hpp"
@@ -90,7 +89,7 @@ void displayImage(float* I, int w, int h, std::string name) {
   }
 
   printf("plane image values %f - %f!\n", vmin, vmax);
-  cv::imshow(name, img);
+  // cv::imshow(name, img);
   cv::imwrite("vignetteCalibResult/plane.png", img);
 }
 void displayImageV(float* I, int w, int h, std::string name) {
@@ -103,7 +102,7 @@ void displayImageV(float* I, int w, int h, std::string name) {
       img.at<cv::Vec3b>(i) = cv::Vec3b(c, c, c);
     }
   }
-  cv::imshow(name, img);
+  // cv::imshow(name, img);
 }
 
 int imageSkip = 1;
@@ -353,7 +352,7 @@ int vignetteCalib(std::string folder, QTextBrowser* textBrowser) {
         }
       }
 
-    cv::imshow("inRaw", dbgImg);
+    // cv::imshow("inRaw", dbgImg);
 
     if (rand() % 40 == 0) {
       char buf[1000];
