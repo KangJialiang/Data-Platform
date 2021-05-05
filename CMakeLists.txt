@@ -26,7 +26,7 @@ set(HEADERS
 set(FORMS
     src/mainwindow.ui)
 
-include_directories(${QWT_INCLUDE_DIR})
+# include_directories(${QWT_INCLUDE_DIR})
 
 include_directories(${CMAKE_CURRENT_LIST_DIR}/include ${CMAKE_CURRENT_LIST_DIR}/modules/mono_dataset_code/include)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/modules/mono_dataset_code)
