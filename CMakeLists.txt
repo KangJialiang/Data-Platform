@@ -34,7 +34,7 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/modules/mono_dataset_code)
 add_executable(signals_and_slots ${SOURCES} ${HEADERS} ${FORMS})
 target_link_libraries(signals_and_slots
     PRIVATE Qt5::Widgets
-    ${QWT_LIBRARY}
+#    ${QWT_LIBRARY}
     ${realsense2_LIBRARY}
     ${OpenCV_LIBS}
     responseCalib

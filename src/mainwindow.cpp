@@ -31,7 +31,6 @@ void MainWindow::on_nextButtonP3_clicked() {
 }
 
 void MainWindow::on_startButtonP2_clicked() {
-  QString dataFolderPath = ui->inOutPathLineP2->text();
-  responseCalib(dataFolderPath.toStdString(), ui->shellOutTextP2,
+  responseCalib(ui->inOutPathLineP2->text().toStdString(), ui->shellOutTextP2,
                 ui->picOutLabelP2);
 }
