@@ -21,7 +21,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="gammaCalibData">
        <attribute name="title">
@@ -182,33 +182,6 @@
         <string>响应函数标定</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="0" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="pathToCameraLabelP2">
-          <property name="text">
-           <string>camera路径</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="shellOutLabelP2">
-          <property name="text">
-           <string>shell输出</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1" alignment="Qt::AlignRight|Qt::AlignBottom">
-         <widget class="QPushButton" name="nextButtonP2">
-          <property name="text">
-           <string>下一步</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="inOutPathLineP2"/>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="pathToCameraLineP2"/>
-        </item>
         <item row="1" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
          <widget class="QLabel" name="inOutPathLabelP2">
           <property name="text">
@@ -223,13 +196,54 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
-         <widget class="QTextBrowser" name="shellOutTextP2"/>
+        <item row="0" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+         <widget class="QLabel" name="pathToCameraLabelP2">
+          <property name="text">
+           <string>camera路径</string>
+          </property>
+         </widget>
         </item>
-        <item row="8" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
+        <item row="9" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
          <widget class="QPushButton" name="exitButtonP2">
           <property name="text">
            <string>退出</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="pathToCameraLineP2"/>
+        </item>
+        <item row="3" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+         <widget class="QLabel" name="shellOutLabelP2">
+          <property name="text">
+           <string>shell输出</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QTextBrowser" name="shellOutTextP2"/>
+        </item>
+        <item row="9" column="1" alignment="Qt::AlignRight|Qt::AlignBottom">
+         <widget class="QPushButton" name="nextButtonP2">
+          <property name="text">
+           <string>下一步</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="inOutPathLineP2"/>
+        </item>
+        <item row="5" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+         <widget class="QLabel" name="pictureLabelP2">
+          <property name="text">
+           <string>图片</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLabel" name="picOutLabelP2">
+          <property name="text">
+           <string>输出图片</string>
           </property>
          </widget>
         </item>

@@ -165,7 +165,7 @@ void parseArgument(char* arg) {
   printf("could not parse argument \"%s\"!!\n", arg);
 }
 */
-int vignetteCalib(std::string folder, QTextBrowser* textBrowser) {
+void vignetteCalib(std::string folder, QTextBrowser* textBrowser) {
   // for (int i = 2; i < argc; i++) parseArgument(argv[i]);
   setTextTest = textBrowser;
   system(

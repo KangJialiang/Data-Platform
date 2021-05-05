@@ -343,5 +343,4 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
   delete[] En;
   delete[] G;
   for (int i = 0; i < n; i++) delete[] dataVec[i];
-  return 0;
 }
