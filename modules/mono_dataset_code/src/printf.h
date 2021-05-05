@@ -4,10 +4,10 @@
 
 extern QTextBrowser *setTextTest;
 
-#define printf(...)                             \
-  do {                                          \
-    char haskdfhaksjfh[1000];                   \
-    snprintf(haskdfhaksjfh, 1000, __VA_ARGS__); \
+#define printf(...)                        \
+  do {                                     \
+    char tempBuff[1000];                   \
+    snprintf(tempBuff, 1000, __VA_ARGS__); \
   } while (0)
 
 #endif
