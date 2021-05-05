@@ -8,6 +8,7 @@ extern QTextBrowser *setTextTest;
   do {                                     \
     char tempBuff[1000];                   \
     snprintf(tempBuff, 1000, __VA_ARGS__); \
+    setTextTest->append(tempBuff);         \
   } while (0)
 
 #endif
