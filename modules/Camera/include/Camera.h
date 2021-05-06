@@ -2,10 +2,10 @@
 #include <opencv2/opencv.hpp>
 #include <string>
 
-class Camera {
+class RsCamera {
  public:
-  Camera(int index, std::string pathToCameraTxt, int framerate = 0);
-  ~Camera();
+  RsCamera(int index, std::string pathToCameraTxt, int framerate = 0);
+  ~RsCamera();
 
   int getMinExposure();
   int getMaxExposure();

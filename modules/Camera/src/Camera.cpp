@@ -7,13 +7,13 @@
 #include <string>
 #include <vector>
 
-void Camera::setExposureTime(rs2::sensor sensor, int exposureTime) {
+void RsCamera::setExposureTime(rs2::sensor sensor, int exposureTime) {
   if (exposureTime < minExposureTime || exposureTime > maxExposureTime)
     throw std::invalid_argument("Invalid exposure time!");
   sensor.set_option(RS2_OPTION_EXPOSURE, exposureTime);
 }
 
-rs2::frame Camera::getRawFrame() {
+rs2::frame RsCamera::getRawFrame() {
   rs2::frameset rsFrameSet = rsPipe.wait_for_frames();
   rs2::frame rsFrame = rsFrameSet.get_color_frame();
 
@@ -27,7 +27,7 @@ rs2::frame Camera::getRawFrame() {
   return rsFrame;
 }
 
-Camera::Camera(int index, std::string pathToCameraTxt, int framerate) {
+RsCamera::RsCamera(int index, std::string pathToCameraTxt, int framerate) {
   /* 0 means left infrared, 1 means right infrared*/
 
   std::ifstream cameraTxtFile(pathToCameraTxt);
@@ -82,9 +82,9 @@ Camera::Camera(int index, std::string pathToCameraTxt, int framerate) {
     throw std::runtime_error("Do not support variable exposure time");
 }
 
-Camera::~Camera() {}
+RsCamera::~RsCamera() {}
 
-cv::Mat Camera::getFrame(int exposureTime) {
+cv::Mat RsCamera::getFrame(int exposureTime) {
   int rsActureExposureTime;
   // set and (check) exposure time
   do {
@@ -97,7 +97,7 @@ cv::Mat Camera::getFrame(int exposureTime) {
   return getFrame();
 }
 
-cv::Mat Camera::getFrame() {
+cv::Mat RsCamera::getFrame() {
   rs2::frame rsFrame = getRawFrame();
   cv::Mat frameMat(cv::Size(imgWidth, imgHeight), CV_8UC3,
                    (void*)rsFrame.get_data(), cv::Mat::AUTO_STEP);
