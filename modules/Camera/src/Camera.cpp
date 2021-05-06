@@ -25,8 +25,6 @@ Camera::Camera(int index, std::string pathToCameraTxt, int framerate) {
   if (std::sscanf(hightWidthLine.c_str(), "%d %d", &imgWidth, &imgHeight) != 2)
     throw std::invalid_argument("Failed to read image width and height!");
 
-  char log_file[50];
-
   // create a configuration for configuring the pipeline with a non default
   // profile
   rs2::config rsConf;
@@ -47,9 +45,6 @@ Camera::Camera(int index, std::string pathToCameraTxt, int framerate) {
   auto depth_sensor = rsDevices.first<rs2::depth_sensor>();
   if (depth_sensor.supports(RS2_OPTION_EMITTER_ENABLED))
     depth_sensor.set_option(RS2_OPTION_EMITTER_ENABLED, 0.f);
-
-  rs2::frameset frames;
-  rs2::frame frame;
 
   // select sensor
   std::vector<rs2::sensor> rsSensors = rsDevices.query_sensors();

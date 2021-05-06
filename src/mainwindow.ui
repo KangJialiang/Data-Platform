@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>386</width>
-    <height>453</height>
+    <width>1000</width>
+    <height>1600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>2</number>
       </property>
       <widget class="QWidget" name="gammaCalibData">
        <attribute name="title">
@@ -55,7 +55,7 @@
         <item row="5" column="0">
          <widget class="QLabel" name="LOrRLabelP1">
           <property name="text">
-           <string>左右目判断</string>
+           <string>左右目选择</string>
           </property>
          </widget>
         </item>
@@ -65,9 +65,6 @@
            <string>开始</string>
           </property>
          </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QLineEdit" name="LOrRLineP1"/>
         </item>
         <item row="3" column="1">
          <layout class="QHBoxLayout" name="minExposureLayoutP1">
@@ -167,6 +164,20 @@
         <item row="9" column="1">
          <widget class="QLineEdit" name="gammaPathLineP1"/>
         </item>
+        <item row="5" column="1">
+         <widget class="QComboBox" name="LOrRBoxP1">
+          <item>
+           <property name="text">
+            <string>L</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>R</string>
+           </property>
+          </item>
+         </widget>
+        </item>
        </layout>
       </widget>
       <widget class="QWidget" name="gammaCalib">
@@ -236,77 +247,10 @@
         <string>晕影函数数据采集</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="3" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="pathToCameraLabelP3">
+        <item row="0" column="0" colspan="2">
+         <widget class="QLabel" name="exposureLabelP3">
           <property name="text">
-           <string>camera路径</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="5" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QLabel" name="picOutLabelP3">
-          <property name="text">
-           <string>输出图片</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="5">
-         <widget class="QLineEdit" name="LOrRLineP3"/>
-        </item>
-        <item row="4" column="0" colspan="3" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="LOrRLabelP3">
-          <property name="text">
-           <string>左右目判断</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0" colspan="2" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="fpsLabelP3">
-          <property name="text">
-           <string>FPS</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="pointsInRangeLabelP3">
-          <property name="text">
-           <string>已覆盖范围</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
-         <widget class="QPushButton" name="exitButtonP3">
-          <property name="text">
-           <string>退出</string>
-          </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
-          <property name="default">
-           <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="5">
-         <widget class="QLineEdit" name="vignettePathLineP3"/>
-        </item>
-        <item row="3" column="5">
-         <widget class="QLineEdit" name="pathToCameraLineP3"/>
-        </item>
-        <item row="7" column="5">
-         <widget class="QPushButton" name="startButtonP3">
-          <property name="text">
-           <string>开始</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="vignettePathLabelP3">
-          <property name="text">
-           <string>晕影数据路径</string>
+           <string>曝光时间(μs)</string>
           </property>
          </widget>
         </item>
@@ -317,15 +261,22 @@
           </property>
          </widget>
         </item>
-        <item row="9" column="5" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
-         <widget class="QLabel" name="pointsInRangeOutLabelP3">
+        <item row="8" column="5" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+         <widget class="QLabel" name="picOutLabelP3">
           <property name="text">
-           <string>已覆盖</string>
+           <string>输出图片</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="5">
-         <widget class="QLineEdit" name="fpsLineP3"/>
+        <item row="9" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+         <widget class="QLabel" name="pointsInRangeLabelP3">
+          <property name="text">
+           <string>已覆盖范围</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="5">
+         <widget class="QLineEdit" name="vignettePathLineP3"/>
         </item>
         <item row="10" column="5" alignment="Qt::AlignRight|Qt::AlignBottom">
          <widget class="QPushButton" name="nextButtonP3">
@@ -334,12 +285,8 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0" colspan="2">
-         <widget class="QLabel" name="exposureLabelP3">
-          <property name="text">
-           <string>曝光时间(μs)</string>
-          </property>
-         </widget>
+        <item row="3" column="5">
+         <widget class="QLineEdit" name="pathToCameraLineP3"/>
         </item>
         <item row="0" column="5">
          <layout class="QHBoxLayout" name="exposureLayoutP3">
@@ -361,6 +308,81 @@
            </widget>
           </item>
          </layout>
+        </item>
+        <item row="5" column="0" colspan="2" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+         <widget class="QLabel" name="fpsLabelP3">
+          <property name="text">
+           <string>FPS</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" colspan="3" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+         <widget class="QLabel" name="LOrRLabelP3">
+          <property name="text">
+           <string>左右目选择</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
+         <widget class="QPushButton" name="exitButtonP3">
+          <property name="text">
+           <string>退出</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+         <widget class="QLabel" name="vignettePathLabelP3">
+          <property name="text">
+           <string>晕影数据路径</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="5" alignment="Qt::AlignHCenter|Qt::AlignVCenter">
+         <widget class="QLabel" name="pointsInRangeOutLabelP3">
+          <property name="text">
+           <string>已覆盖</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+         <widget class="QLabel" name="pathToCameraLabelP3">
+          <property name="text">
+           <string>camera路径</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="5">
+         <widget class="QPushButton" name="startButtonP3">
+          <property name="text">
+           <string>开始</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="5">
+         <widget class="QLineEdit" name="fpsLineP3"/>
+        </item>
+        <item row="4" column="5">
+         <widget class="QComboBox" name="comboBox">
+          <item>
+           <property name="text">
+            <string>L</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>R</string>
+           </property>
+          </item>
+         </widget>
         </item>
        </layout>
       </widget>
