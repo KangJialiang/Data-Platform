@@ -18,7 +18,7 @@ include_directories(
         ${Boost_INCLUDE_DIRS}
         ${LIBZIP_INCLUDE_DIR_ZIP}
         ${LIBZIP_INCLUDE_DIR_ZIPCONF}
-        "${CMAKE_CURRENT_SOURCE_DIR}/include"
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
  add_library(responseCalib src/responseCalib.cpp src/FOVUndistorter.cpp src/PhotometricUndistorter.cpp)

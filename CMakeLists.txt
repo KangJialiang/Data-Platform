@@ -14,7 +14,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_MODULE_PATH "${CMAKE_MODULE_PATH}" "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 find_package(Qt5 COMPONENTS Widgets REQUIRED)
-# find_package(Qwt REQUIRED)
 find_package(realsense2 REQUIRED)
 find_package(OpenCV REQUIRED)
 
@@ -26,17 +25,18 @@ set(HEADERS
 set(FORMS
     src/mainwindow.ui)
 
-# include_directories(${QWT_INCLUDE_DIR})
-
-include_directories(${CMAKE_CURRENT_LIST_DIR}/include ${CMAKE_CURRENT_LIST_DIR}/modules/mono_dataset_code/include)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/include
+    ${CMAKE_CURRENT_LIST_DIR}/modules/mono_dataset_code/include
+    ${CMAKE_CURRENT_LIST_DIR}/modules/Camera/include)
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/modules/mono_dataset_code)
+add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/modules/Camera)
 
 add_executable(signals_and_slots ${SOURCES} ${HEADERS} ${FORMS})
 target_link_libraries(signals_and_slots
     PRIVATE Qt5::Widgets
-#    ${QWT_LIBRARY}
     ${realsense2_LIBRARY}
     ${OpenCV_LIBS}
     responseCalib
     vignetteCalib
-    findPointsInRange)
+    findPointsInRange
+    Camera)

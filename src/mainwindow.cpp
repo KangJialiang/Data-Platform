@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QStringList>
 
+#include "Camera.h"
 #include "findPointsInRange.h"
 #include "responseCalib.h"
 #include "ui_mainwindow.h"
