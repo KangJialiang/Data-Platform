@@ -31,7 +31,7 @@ void MainWindow::on_nextButtonP3_clicked() {
 }
 
 void MainWindow::on_startButtonP2_clicked() {
-  responseCalib(ui->inOutPathLineP2->text().toStdString(), ui->shellOutTextP2,
+  responseCalib(ui->gammaPathLineP2->text().toStdString(), ui->shellOutTextP2,
                 ui->picOutLabelP2);
 }
 
