@@ -14,11 +14,11 @@ class Camera {
 
  private:
   void setExposureTime(rs2::sensor sensor, int exposureTime);
+  rs2::frame getRawFrame();
 
   int minExposureTime, maxExposureTime;
   int imgHeight, imgWidth;
-
+  int rsCameraIndex;
   rs2::pipeline rsPipe;  // a pipeline which abstracts the device
   rs2::sensor rsSensorSelected;
-  int rsCameraIndex;
 };

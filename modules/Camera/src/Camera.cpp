@@ -5,11 +5,26 @@
 #include <librealsense2/rs.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
+#include <vector>
 
 void Camera::setExposureTime(rs2::sensor sensor, int exposureTime) {
   if (exposureTime < minExposureTime || exposureTime > maxExposureTime)
     throw std::invalid_argument("Invalid exposure time!");
   sensor.set_option(RS2_OPTION_EXPOSURE, exposureTime);
+}
+
+rs2::frame Camera::getRawFrame() {
+  rs2::frameset rsFrameSet = rsPipe.wait_for_frames();
+  rs2::frame rsFrame = rsFrameSet.get_color_frame();
+
+  if (rsCameraIndex == 0)
+    rsFrame = rsFrameSet.get_infrared_frame(1);  // attention
+  else if (rsCameraIndex == 1)
+    rsFrame = rsFrameSet.get_infrared_frame(2);  // attention
+  else if (rsCameraIndex == 2)
+    rsFrame = rsFrameSet.get_color_frame();
+
+  return rsFrame;
 }
 
 Camera::Camera(int index, std::string pathToCameraTxt, int framerate) {
@@ -74,16 +89,7 @@ cv::Mat Camera::getFrame(int exposureTime) {
   // set and (check) exposure time
   do {
     setExposureTime(rsSensorSelected, exposureTime);
-    rs2::frameset rsTmpFrameSet = rsPipe.wait_for_frames();
-    rs2::frame rsTmpFrame = rsTmpFrameSet.get_color_frame();
-
-    if (rsCameraIndex == 0)
-      rsTmpFrame = rsTmpFrameSet.get_infrared_frame(1);  // attention
-    else if (rsCameraIndex == 1)
-      rsTmpFrame = rsTmpFrameSet.get_infrared_frame(2);  // attention
-    else if (rsCameraIndex == 2)
-      rsTmpFrame = rsTmpFrameSet.get_color_frame();
-
+    rs2::frame rsTmpFrame = getRawFrame();
     rsActureExposureTime =
         rsTmpFrame.get_frame_metadata(RS2_FRAME_METADATA_ACTUAL_EXPOSURE);
   } while (exposureTime != rsActureExposureTime);
@@ -92,18 +98,9 @@ cv::Mat Camera::getFrame(int exposureTime) {
 }
 
 cv::Mat Camera::getFrame() {
-  rs2::frameset rsFrameSet = rsPipe.wait_for_frames();
-  rs2::frame rsFrame = rsFrameSet.get_color_frame();
-
-  if (rsCameraIndex == 0)
-    rsFrame = rsFrameSet.get_infrared_frame(1);  // attention
-  else if (rsCameraIndex == 1)
-    rsFrame = rsFrameSet.get_infrared_frame(2);  // attention
-  else if (rsCameraIndex == 2)
-    rsFrame = rsFrameSet.get_color_frame();
-
+  rs2::frame rsFrame = getRawFrame();
   cv::Mat frameMat(cv::Size(imgWidth, imgHeight), CV_8UC3,
                    (void*)rsFrame.get_data(), cv::Mat::AUTO_STEP);
 
-  return frameMat;
+  return frameMat.clone();
 }
