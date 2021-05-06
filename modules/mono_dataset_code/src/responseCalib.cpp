@@ -173,6 +173,7 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
   // first parameter is dataset location.
   setTextTest = textBrowser;
   int w = 0, h = 0, n = 0;
+  if (folder.back() != '/') folder += '/';
 
   DatasetReader* reader = new DatasetReader(folder);
   std::vector<double> exposureVec;

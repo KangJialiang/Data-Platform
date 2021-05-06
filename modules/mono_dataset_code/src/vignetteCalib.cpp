@@ -171,6 +171,8 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
                    std::string folderforResponseCalib, QLabel* label) {
   // for (int i = 2; i < argc; i++) parseArgument(argv[i]);
   setTextTest = textBrowser;
+  if (folder.back() != '/') folder += '/';
+  if (folderforResponseCalib.back() != '/') folderforResponseCalib += '/';
 
   if (-1 == system(("cp -f " + folderforResponseCalib +
                     "/photoCalibResult/pcalib.txt " + folder + "/pcalib.txt")
