@@ -73,7 +73,8 @@ void MainWindow::on_startButtonP1_clicked() {
   if (dataPath.back() != '/') dataPath += '/';
   if (-1 == system(("mkdir -p " + dataPath).c_str()))
     throw std::invalid_argument("Cannot create dir " + dataPath);
-  system(("mkdir -p " + dataPath + "images/").c_str());
+  if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
   if (-1 ==
       system(
           ("cp -f " + pathToCameraTxt + " " + dataPath + "camera.txt").c_str()))
@@ -144,7 +145,8 @@ void MainWindow::on_startButtonP3_clicked() {
   if (dataPath.back() != '/') dataPath += '/';
   if (-1 == system(("mkdir -p " + dataPath).c_str()))
     throw std::invalid_argument("Cannot create dir " + dataPath);
-  system(("mkdir -p " + dataPath + "images/").c_str());
+  if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
   if (-1 ==
       system(
           ("cp -f " + pathToCameraTxt + " " + dataPath + "camera.txt").c_str()))
