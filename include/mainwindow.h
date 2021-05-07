@@ -27,6 +27,20 @@ class MainWindow : public QMainWindow {
 
   void on_startButtonP4_clicked();
 
+  void on_pathToCameraLineP1_editingFinished();
+
+  void on_pathToCameraLineP3_editingFinished();
+
+  void on_startButtonP1_clicked();
+
+  void on_maxExposureSliderP1_valueChanged(int value);
+
+  void on_minExposureSliderP1_valueChanged(int value);
+
+  void on_exposureSliderP3_valueChanged(int value);
+
+  void on_startButtonP3_clicked();
+
  private:
   Ui::MainWindow *ui;
 };

@@ -9,7 +9,7 @@
 
 #include "FOVUndistorter.h"
 
-void findPointsInRange(cv::InputArray inputImg, cv::Mat& result,
+void findPointsInRange(const cv::InputArray inputImg, cv::Mat& result,
                        std::string cameraTxtPath) {
   cv::Mat img = inputImg.getMat();
 
