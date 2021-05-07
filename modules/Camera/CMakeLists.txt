@@ -12,4 +12,4 @@ set(CMAKE_CXX_FLAGS
 include_directories(${OpenCV_INCLUDE_DIRS} ${CMAKE_CURRENT_SOURCE_DIR}/include)
 
 add_library(Camera src/RsCamera.cpp)
-target_link_libraries(Camera ${OpenCV_LIBS})
+target_link_libraries(Camera ${OpenCV_LIBS} ${realsense2_LIBRARY})
