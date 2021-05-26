@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>4</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -480,11 +480,6 @@
          </widget>
         </item>
        </layout>
-      </widget>
-      <widget class="QWidget" name="acquisition">
-       <attribute name="title">
-        <string>采集函数标定</string>
-       </attribute>
       </widget>
       <widget class="QWidget" name="LiDARCalib">
        <property name="enabled">
@@ -1072,6 +1067,54 @@ color: rgb(239, 41, 41);
  <resources/>
  <connections>
   <connection>
+   <sender>fpsBoxP3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>fpsSliderP3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>328</x>
+     <y>187</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>155</x>
+     <y>179</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exitButtonP1</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>399</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>186</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxExposureSliderP1</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>maxExposureBoxP1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>360</x>
+     <y>153</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>gammaPathLineP2</sender>
    <signal>textChanged(QString)</signal>
    <receiver>gammaPathLineP4</receiver>
@@ -1100,54 +1143,6 @@ color: rgb(239, 41, 41);
     <hint type="destinationlabel">
      <x>275</x>
      <y>203</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>exitButtonP1</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>81</x>
-     <y>399</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>186</x>
-     <y>285</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fpsBoxP3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>fpsSliderP3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>328</x>
-     <y>187</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>155</x>
-     <y>179</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>maxExposureSliderP1</sender>
-   <signal>sliderMoved(int)</signal>
-   <receiver>maxExposureBoxP1</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>275</x>
-     <y>146</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>360</x>
-     <y>153</y>
     </hint>
    </hints>
   </connection>
@@ -1184,7 +1179,23 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
-   <sender>exitButtonP3</sender>
+   <sender>exposureBoxP3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>exposureSliderP3</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>360</x>
+     <y>147</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exitButtonP2</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
@@ -1216,23 +1227,7 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
-   <sender>exposureBoxP3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>exposureSliderP3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>360</x>
-     <y>147</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>275</x>
-     <y>141</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>exitButtonP2</sender>
+   <sender>exitButtonP3</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
@@ -1296,22 +1291,6 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
-   <sender>maxExposureBoxP1</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>maxExposureSliderP1</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>360</x>
-     <y>153</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>275</x>
-     <y>146</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>minExposureBoxP1</sender>
    <signal>sliderMoved(int)</signal>
    <receiver>minExposureSliderP1</receiver>
@@ -1324,6 +1303,22 @@ color: rgb(239, 41, 41);
     <hint type="destinationlabel">
      <x>360</x>
      <y>209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxExposureBoxP1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>maxExposureSliderP1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>360</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>146</y>
     </hint>
    </hints>
   </connection>
