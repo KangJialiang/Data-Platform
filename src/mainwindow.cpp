@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget* parent)
       img_(nullptr),
       pc_(nullptr) {
   ui->setupUi(this);
-  this->resize(QSize(1000, 1000));
+  this->resize(QSize(1000, 800));
 
   config_path_ = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
                                               tr("Config JSON Files(*.json)"));
