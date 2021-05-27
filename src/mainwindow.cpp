@@ -378,8 +378,6 @@ void MainWindow::on_Open_Dataset_Button_clicked() {
         QString::number(data_reader_->getDatasetSize()));
 
     showTFWindow();
-
-    //        on_next_pose_clicked();
   }
 }
 
