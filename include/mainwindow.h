@@ -56,7 +56,7 @@ class MainWindow : public QMainWindow {
 
   void on_startButtonP3_clicked();
 
-  void on_startButtonP5_clicked();
+  void on_Open_Config_Button_clicked();
 
   void on_Open_Dataset_Button_clicked();
   void on_Set_K_Button_clicked();

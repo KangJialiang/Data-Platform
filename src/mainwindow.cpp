@@ -39,6 +39,7 @@ QPixmap cvMat2QPixmap(const cv::Mat& inMat) {
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
+
       sid_(INT_MAX),
       is_calibrated_(false),
       data_reader_(nullptr),
@@ -46,53 +47,6 @@ MainWindow::MainWindow(QWidget* parent)
       pc_(nullptr) {
   ui->setupUi(this);
   this->resize(QSize(1000, 800));
-
-  config_path_ = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
-                                              tr("Config JSON Files(*.json)"));
-
-  if (config_path_.isEmpty()) {
-    QTimer::singleShot(0, this, &QApplication::quit);
-    return;
-  }
-
-  std::ifstream f(config_path_.toStdString());
-  if (!f.good()) {
-    f.close();
-    QTimer::singleShot(0, this, &QApplication::quit);
-    return;
-  }
-
-  try {
-    f >> js_;
-  } catch (nlohmann::json::parse_error& e) {
-    std::cerr << e.what();
-    f.close();
-    QTimer::singleShot(0, this, &QApplication::quit);
-    return;
-  }
-  calibrator_.reset(new lqh::Calibrator(js_));
-
-  auto& flt = js_["pc"]["filter"];
-  ui->angle_start_slide->setValue(static_cast<int>(flt["angle_start"]));
-  ui->angle_size_slide->setValue(static_cast<int>(flt["angle_size"]));
-  ui->distance_slide->setValue(
-      static_cast<int>(10 * flt["distance"].get<double>()));
-  ui->floor_gap_slide->setValue(
-      static_cast<int>(10 * flt["floor_gap"].get<double>()));
-
-  img_viewer_.reset(new ImageViewer);
-  img_viewer_->show();
-  pc_viewer_.reset(new PointcloudViewer);
-  pc_viewer_->show();
-
-  connect(ui->angle_start_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->angle_size_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->distance_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -271,7 +225,54 @@ void MainWindow::on_startButtonP4_clicked() {
                 ui->picOutLabelP4);
 }
 
-void MainWindow::on_startButtonP5_clicked(){};
+void MainWindow::on_Open_Config_Button_clicked() {
+  config_path_ = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
+                                              tr("Config JSON Files(*.json)"));
+
+  if (config_path_.isEmpty()) {
+    QTimer::singleShot(0, this, &QApplication::quit);
+    return;
+  }
+
+  std::ifstream f(config_path_.toStdString());
+  if (!f.good()) {
+    f.close();
+    QTimer::singleShot(0, this, &QApplication::quit);
+    return;
+  }
+
+  try {
+    f >> js_;
+  } catch (nlohmann::json::parse_error& e) {
+    std::cerr << e.what();
+    f.close();
+    QTimer::singleShot(0, this, &QApplication::quit);
+    return;
+  }
+  calibrator_.reset(new lqh::Calibrator(js_));
+
+  auto& flt = js_["pc"]["filter"];
+  ui->angle_start_slide->setValue(static_cast<int>(flt["angle_start"]));
+  ui->angle_size_slide->setValue(static_cast<int>(flt["angle_size"]));
+  ui->distance_slide->setValue(
+      static_cast<int>(10 * flt["distance"].get<double>()));
+  ui->floor_gap_slide->setValue(
+      static_cast<int>(10 * flt["floor_gap"].get<double>()));
+
+  img_viewer_.reset(new ImageViewer);
+  img_viewer_->show();
+  pc_viewer_.reset(new PointcloudViewer);
+  pc_viewer_->show();
+
+  connect(ui->angle_start_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->angle_size_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->distance_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+};
 
 void MainWindow::closeEvent(QCloseEvent* event) {
   if (img_viewer_) {
