@@ -1,8 +1,8 @@
 #ifndef IMAGEVIEWER_H
 #define IMAGEVIEWER_H
 
-#include <QMainWindow>
 #include <QContextMenuEvent>
+#include <QMainWindow>
 
 #include <memory>
 
@@ -12,30 +12,29 @@ namespace Ui {
 class ImageViewer;
 }
 
-class ImageViewer : public QMainWindow
-{
-    Q_OBJECT
+class ImageViewer : public QMainWindow {
+  Q_OBJECT
 
-public:
-    explicit ImageViewer(QWidget *parent = 0);
-    ~ImageViewer();
+ public:
+  explicit ImageViewer(QWidget *parent = 0);
+  ~ImageViewer();
 
-    void startPickPoints();
-    void quitPickPoints();
-    void getPickPoitns(std::vector<cv::Point2d>& pts);
+  void startPickPoints();
+  void quitPickPoints();
+  void getPickPoitns(std::vector<cv::Point2d> &pts);
 
-public slots:
-    void showImage(std::shared_ptr<cv::Mat> img);
+ public slots:
+  void showImage(std::shared_ptr<cv::Mat> img);
 
-protected:
-    void contextMenuEvent(QContextMenuEvent *event) override;
+ protected:
+  void contextMenuEvent(QContextMenuEvent *event) override;
 
-private slots:
-    void on_actionSave_Image_triggered();
+ private slots:
+  void on_actionSave_Image_triggered();
 
-private:
-    Ui::ImageViewer *ui;
-    std::shared_ptr<cv::Mat> img_;
+ private:
+  Ui::ImageViewer *ui;
+  std::shared_ptr<cv::Mat> img_;
 };
 
-#endif // IMAGEVIEWER_H
+#endif  // IMAGEVIEWER_H
