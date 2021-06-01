@@ -3,7 +3,7 @@
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
-
+#include <QImage>
 #include <QMainWindow>
 #include <memory>
 #include <opencv2/opencv.hpp>
@@ -30,6 +30,7 @@ class MainWindow : public QMainWindow {
 
  private:
   Ui::MainWindow *ui;
+  QPixmap cvMat2QPixmap(cv::Mat &inMat);
 
  private slots:
   void on_nextButtonP1_clicked();

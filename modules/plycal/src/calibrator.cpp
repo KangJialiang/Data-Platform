@@ -16,15 +16,14 @@
 /* Includes ------------------------------------------------------------------*/
 #include "calibrator.h"
 
-#include <fstream>
-#include <iostream>
-
+#include <ceres/ceres.h>
+#include <ceres/rotation.h>
 #include <pcl/common/common.h>
 #include <pcl/common/io.h>
 #include <pcl/registration/icp.h>
 
-#include <ceres/ceres.h>
-#include <ceres/rotation.h>
+#include <fstream>
+#include <iostream>
 
 using namespace lqh;
 /* Private define ------------------------------------------------------------*/
@@ -378,7 +377,7 @@ void Calibrator::Optimize(Eigen::Matrix4d& tf) {
   options.max_num_iterations = 5000;
   // or use all cpu cores
   options.num_threads = boost::thread::hardware_concurrency() - 1;
-  options.num_linear_solver_threads = options.num_threads;
+  // options.num_linear_solver_threads = options.num_threads;
   // options.minimizer_progress_to_stdout = true;
 
   ceres::Solve(options, &problem, &summary);

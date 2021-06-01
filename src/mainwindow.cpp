@@ -27,13 +27,28 @@
 RsCamera camera;
 RsCamera* cameraP = &camera;
 
-QPixmap cvMat2QPixmap(const cv::Mat& inMat) {
-  cv::Mat mat;
-  cv::cvtColor(inMat, mat, cv::COLOR_BGR2RGB);
-  QImage img((uchar*)mat.data, mat.cols, mat.rows, mat.step1(),
-             QImage::Format_RGB32);
-  QPixmap pixMap = QPixmap::fromImage(img);
-  return pixMap;
+// QPixmap cvMat2QPixmap(const cv::Mat& inMat) {
+//   cv::Mat mat;
+//   cv::cvtColor(inMat, mat, cv::COLOR_BGR2RGB);
+//   QImage img((uchar*)mat.data, mat.cols, mat.rows, mat.step1(),
+//              QImage::Format_RGB32);
+//   QPixmap pixMap = QPixmap::fromImage(img);
+//   return pixMap;
+// }
+QPixmap MainWindow::cvMat2QPixmap(cv::Mat& inMat) {
+  cv::Mat rgb;
+  QImage img;
+  if (inMat.channels() == 3) {
+    cvtColor(inMat, rgb, cv::COLOR_BGR2RGB);
+    img = QImage((const uchar*)(rgb.data), rgb.cols, rgb.rows,
+                 rgb.cols * rgb.channels(), QImage::Format_RGB888);
+}
+
+  else {
+    img = QImage((const uchar*)(inMat.data), inMat.cols, inMat.rows,
+                 inMat.cols * inMat.channels(), QImage::Format_Indexed8);
+  }
+  return QPixmap::fromImage(img);
 }
 
 MainWindow::MainWindow(QWidget* parent)
@@ -67,21 +82,39 @@ void MainWindow::on_pathToCameraLineP1_editingFinished() {
 void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
   if (cameraP) {
     cv::Mat tmpMat = cameraP->getFrame(value);
-    QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-    ui->picOutLabelP1->setPixmap(tmpPixMap);
+    QPixmap img = cvMat2QPixmap(tmpMat);
+    ui->graphicsViewP1->resize(img.width(), img.height());
+    QGraphicsScene* cam_scene = new QGraphicsScene;
+    cam_scene->setSceneRect(0, 0, img.width(), img.height());
+    cam_scene->addPixmap(img);
+    ui->graphicsViewP1->setScene(cam_scene);
+    ui->graphicsViewP1->adjustSize();
+    ui->graphicsViewP1->show();
+    // cv::Mat tmpMat = cameraP->getFrame(value);
+    // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
+    // ui->picOutLabelP1->setPixmap(tmpPixMap);
   }
 }
 
 void MainWindow::on_minExposureSliderP1_valueChanged(int value) {
   if (cameraP) {
     cv::Mat tmpMat = cameraP->getFrame(value);
-    QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-    ui->picOutLabelP1->setPixmap(tmpPixMap);
+    QPixmap img = cvMat2QPixmap(tmpMat);
+    ui->graphicsViewP1->resize(img.width(), img.height());
+    QGraphicsScene* cam_scene = new QGraphicsScene;
+    cam_scene->setSceneRect(0, 0, img.width(), img.height());
+    cam_scene->addPixmap(img);
+    ui->graphicsViewP1->setScene(cam_scene);
+    ui->graphicsViewP1->adjustSize();
+    ui->graphicsViewP1->show();
+    // cv::Mat tmpMat = cameraP->getFrame(value);
+    // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
+    // ui->picOutLabelP1->setPixmap(tmpPixMap);
   }
 }
 
 void MainWindow::on_startButtonP1_clicked() {
-  RsCamera* cameraP = cameraP;
+  // RsCamera* cameraP = cameraP;
   std::string dataPath = ui->gammaPathLineP1->text().toStdString();
   std::string pathToCameraTxt = ui->pathToCameraLineP1->text().toStdString();
   int minExposureTime = ui->minExposureSliderP1->value();
@@ -113,20 +146,30 @@ void MainWindow::on_startButtonP1_clicked() {
   timesFile.open(dataPath + "times.txt", std::ios::out | std::ios::trunc);
 
   for (int i = 0; i < exposureTimes.size(); i++) {
-    int timeOfArrival;
+    int timeOfArrival = 0;
     auto exposureTime = exposureTimes[i];
     char imgId[100];
     snprintf(imgId, 100, "%05d", i);
     char imgName[100];
-    snprintf(imgName, 100, "images/%05d", i);
+    snprintf(imgName, 100, "images/%05d.png", i);
     cv::Mat currentFrame = cameraP->getFrame(exposureTime, timeOfArrival);
     cv::imwrite((dataPath + imgName).c_str(), currentFrame);
     timesFile << imgId << " " << timeOfArrival << " " << exposureTime / 1000.0
               << "\n";
 
     // show frame on qt
-    QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
-    ui->picOutLabelP1->setPixmap(currentPixMap);
+    QPixmap img = cvMat2QPixmap(currentFrame);
+    ui->graphicsViewP1->resize(img.width(), img.height());
+    QGraphicsScene* cam_scene = new QGraphicsScene;
+    cam_scene->setSceneRect(0, 0, img.width(), img.height());
+    cam_scene->addPixmap(img);
+    ui->graphicsViewP1->setScene(cam_scene);
+    ui->graphicsViewP1->adjustSize();
+    ui->graphicsViewP1->show();
+    QCoreApplication::processEvents();  // visualizing code ever after, needn't
+                                        // care
+    // QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
+    // ui->picOutLabelP1->setPixmap(currentPixMap);
   }
 
   timesFile.close();
@@ -148,13 +191,22 @@ void MainWindow::on_pathToCameraLineP3_editingFinished() {
 void MainWindow::on_exposureSliderP3_valueChanged(int value) {
   if (cameraP) {
     cv::Mat tmpMat = cameraP->getFrame(value);
-    QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-    ui->picOutLabelP3->setPixmap(tmpPixMap);
+    QPixmap img = cvMat2QPixmap(tmpMat);
+    ui->graphicsViewP3->resize(img.width(), img.height());
+    QGraphicsScene* cam_scene = new QGraphicsScene;
+    cam_scene->setSceneRect(0, 0, img.width(), img.height());
+    cam_scene->addPixmap(img);
+    ui->graphicsViewP3->setScene(cam_scene);
+    ui->graphicsViewP3->adjustSize();
+    ui->graphicsViewP3->show();
+    // cv::Mat tmpMat = cameraP->getFrame(value);
+    // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
+    // ui->picOutLabelP3->setPixmap(tmpPixMap);
   }
 }
 
 void MainWindow::on_startButtonP3_clicked() {
-  RsCamera* cameraP = cameraP;
+  // RsCamera* cameraP = cameraP;
   std::string dataPath = ui->vignettePathLineP3->text().toStdString();
   std::string pathToCameraTxt = ui->pathToCameraLineP3->text().toStdString();
   int exposureTime = ui->exposureSliderP3->value();
@@ -182,21 +234,39 @@ void MainWindow::on_startButtonP3_clicked() {
     char imgId[100];
     snprintf(imgId, 100, "%05d", i);
     char imgName[100];
-    snprintf(imgName, 100, "images/%05d", i);
+    snprintf(imgName, 100, "images/%05d.png", i);
     cv::Mat currentFrame = cameraP->getFrame(exposureTime, timeOfArrival);
     cv::imwrite((dataPath + imgName).c_str(), currentFrame);
     timesFile << imgId << " " << timeOfArrival << " " << exposureTime / 1000.0
               << "\n";
 
     // show current frame on qt
-    QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
-    ui->picOutLabelP3->setPixmap(currentPixMap);
+
+    QPixmap img = cvMat2QPixmap(currentFrame);
+    ui->graphicsViewP3->resize(img.width(), img.height());
+    QGraphicsScene* cam_scene = new QGraphicsScene;
+    cam_scene->setSceneRect(0, 0, img.width(), img.height());
+    cam_scene->addPixmap(img);
+    ui->graphicsViewP3->setScene(cam_scene);
+    ui->graphicsViewP3->adjustSize();
+    ui->graphicsViewP3->show();
+    // QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
+    // ui->picOutLabelP3->setPixmap(currentPixMap);
 
     findPointsInRange(currentFrame, pointsInRange, pathToCameraTxt);
 
     // show covered range on qt
-    QPixmap pointsInRangePixMap = cvMat2QPixmap(pointsInRange);
-    ui->pointsInRangeOutLabelP3->setPixmap(pointsInRangePixMap);
+    QPixmap img2 = cvMat2QPixmap(pointsInRange);
+    QGraphicsScene* cam_scene2 = new QGraphicsScene;
+    cam_scene2->setSceneRect(0, 0, img2.width(), img2.height());
+    cam_scene2->addPixmap(img2);
+    ui->graphicsViewP3_1->setScene(cam_scene2);
+    ui->graphicsViewP3_1->adjustSize();
+    ui->graphicsViewP3_1->show();
+    QCoreApplication::processEvents();  // visualizing code ever after, needn't
+                                        // care
+    // QPixmap pointsInRangePixMap = cvMat2QPixmap(pointsInRange);
+    // ui->pointsInRangeOutLabelP3->setPixmap(pointsInRangePixMap);
   }
 
   timesFile.close();
