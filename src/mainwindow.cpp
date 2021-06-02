@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include <pcl/io/pcd_io.h>  //for debug only
+
 #include <QAction>
 #include <QCloseEvent>
 #include <QCompleter>
@@ -27,14 +29,6 @@
 RsCamera camera;
 RsCamera* cameraP = &camera;
 
-// QPixmap cvMat2QPixmap(const cv::Mat& inMat) {
-//   cv::Mat mat;
-//   cv::cvtColor(inMat, mat, cv::COLOR_BGR2RGB);
-//   QImage img((uchar*)mat.data, mat.cols, mat.rows, mat.step1(),
-//              QImage::Format_RGB32);
-//   QPixmap pixMap = QPixmap::fromImage(img);
-//   return pixMap;
-// }
 QPixmap MainWindow::cvMat2QPixmap(cv::Mat& inMat) {
   cv::Mat rgb;
   QImage img;
@@ -42,9 +36,7 @@ QPixmap MainWindow::cvMat2QPixmap(cv::Mat& inMat) {
     cvtColor(inMat, rgb, cv::COLOR_BGR2RGB);
     img = QImage((const uchar*)(rgb.data), rgb.cols, rgb.rows,
                  rgb.cols * rgb.channels(), QImage::Format_RGB888);
-}
-
-  else {
+  } else {
     img = QImage((const uchar*)(inMat.data), inMat.cols, inMat.rows,
                  inMat.cols * inMat.channels(), QImage::Format_Indexed8);
   }
@@ -83,13 +75,13 @@ void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
   if (cameraP) {
     cv::Mat tmpMat = cameraP->getFrame(value);
     QPixmap img = cvMat2QPixmap(tmpMat);
-    ui->graphicsViewP1->resize(img.width(), img.height());
-    QGraphicsScene* cam_scene = new QGraphicsScene;
-    cam_scene->setSceneRect(0, 0, img.width(), img.height());
-    cam_scene->addPixmap(img);
-    ui->graphicsViewP1->setScene(cam_scene);
-    ui->graphicsViewP1->adjustSize();
-    ui->graphicsViewP1->show();
+    ui->picOutViewP1->resize(img.width(), img.height());
+    QGraphicsScene* camScene = new QGraphicsScene;
+    camScene->setSceneRect(0, 0, img.width(), img.height());
+    camScene->addPixmap(img);
+    ui->picOutViewP1->setScene(camScene);
+    ui->picOutViewP1->adjustSize();
+    ui->picOutViewP1->show();
     // cv::Mat tmpMat = cameraP->getFrame(value);
     // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
     // ui->picOutLabelP1->setPixmap(tmpPixMap);
@@ -100,13 +92,13 @@ void MainWindow::on_minExposureSliderP1_valueChanged(int value) {
   if (cameraP) {
     cv::Mat tmpMat = cameraP->getFrame(value);
     QPixmap img = cvMat2QPixmap(tmpMat);
-    ui->graphicsViewP1->resize(img.width(), img.height());
-    QGraphicsScene* cam_scene = new QGraphicsScene;
-    cam_scene->setSceneRect(0, 0, img.width(), img.height());
-    cam_scene->addPixmap(img);
-    ui->graphicsViewP1->setScene(cam_scene);
-    ui->graphicsViewP1->adjustSize();
-    ui->graphicsViewP1->show();
+    ui->picOutViewP1->resize(img.width(), img.height());
+    QGraphicsScene* camScene = new QGraphicsScene;
+    camScene->setSceneRect(0, 0, img.width(), img.height());
+    camScene->addPixmap(img);
+    ui->picOutViewP1->setScene(camScene);
+    ui->picOutViewP1->adjustSize();
+    ui->picOutViewP1->show();
     // cv::Mat tmpMat = cameraP->getFrame(value);
     // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
     // ui->picOutLabelP1->setPixmap(tmpPixMap);
@@ -114,7 +106,6 @@ void MainWindow::on_minExposureSliderP1_valueChanged(int value) {
 }
 
 void MainWindow::on_startButtonP1_clicked() {
-  // RsCamera* cameraP = cameraP;
   std::string dataPath = ui->gammaPathLineP1->text().toStdString();
   std::string pathToCameraTxt = ui->pathToCameraLineP1->text().toStdString();
   int minExposureTime = ui->minExposureSliderP1->value();
@@ -159,13 +150,13 @@ void MainWindow::on_startButtonP1_clicked() {
 
     // show frame on qt
     QPixmap img = cvMat2QPixmap(currentFrame);
-    ui->graphicsViewP1->resize(img.width(), img.height());
-    QGraphicsScene* cam_scene = new QGraphicsScene;
-    cam_scene->setSceneRect(0, 0, img.width(), img.height());
-    cam_scene->addPixmap(img);
-    ui->graphicsViewP1->setScene(cam_scene);
-    ui->graphicsViewP1->adjustSize();
-    ui->graphicsViewP1->show();
+    ui->picOutViewP1->resize(img.width(), img.height());
+    QGraphicsScene* currentScene = new QGraphicsScene;
+    currentScene->setSceneRect(0, 0, img.width(), img.height());
+    currentScene->addPixmap(img);
+    ui->picOutViewP1->setScene(currentScene);
+    ui->picOutViewP1->adjustSize();
+    ui->picOutViewP1->show();
     QCoreApplication::processEvents();  // visualizing code ever after, needn't
                                         // care
     // QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
@@ -192,13 +183,13 @@ void MainWindow::on_exposureSliderP3_valueChanged(int value) {
   if (cameraP) {
     cv::Mat tmpMat = cameraP->getFrame(value);
     QPixmap img = cvMat2QPixmap(tmpMat);
-    ui->graphicsViewP3->resize(img.width(), img.height());
-    QGraphicsScene* cam_scene = new QGraphicsScene;
-    cam_scene->setSceneRect(0, 0, img.width(), img.height());
-    cam_scene->addPixmap(img);
-    ui->graphicsViewP3->setScene(cam_scene);
-    ui->graphicsViewP3->adjustSize();
-    ui->graphicsViewP3->show();
+    ui->picOutViewP3->resize(img.width(), img.height());
+    QGraphicsScene* currentScene = new QGraphicsScene;
+    currentScene->setSceneRect(0, 0, img.width(), img.height());
+    currentScene->addPixmap(img);
+    ui->picOutViewP3->setScene(currentScene);
+    ui->picOutViewP3->adjustSize();
+    ui->picOutViewP3->show();
     // cv::Mat tmpMat = cameraP->getFrame(value);
     // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
     // ui->picOutLabelP3->setPixmap(tmpPixMap);
@@ -243,13 +234,13 @@ void MainWindow::on_startButtonP3_clicked() {
     // show current frame on qt
 
     QPixmap img = cvMat2QPixmap(currentFrame);
-    ui->graphicsViewP3->resize(img.width(), img.height());
-    QGraphicsScene* cam_scene = new QGraphicsScene;
-    cam_scene->setSceneRect(0, 0, img.width(), img.height());
-    cam_scene->addPixmap(img);
-    ui->graphicsViewP3->setScene(cam_scene);
-    ui->graphicsViewP3->adjustSize();
-    ui->graphicsViewP3->show();
+    ui->picOutViewP3->resize(img.width(), img.height());
+    QGraphicsScene* camScene = new QGraphicsScene;
+    camScene->setSceneRect(0, 0, img.width(), img.height());
+    camScene->addPixmap(img);
+    ui->picOutViewP3->setScene(camScene);
+    ui->picOutViewP3->adjustSize();
+    ui->picOutViewP3->show();
     // QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
     // ui->picOutLabelP3->setPixmap(currentPixMap);
 
@@ -257,12 +248,12 @@ void MainWindow::on_startButtonP3_clicked() {
 
     // show covered range on qt
     QPixmap img2 = cvMat2QPixmap(pointsInRange);
-    QGraphicsScene* cam_scene2 = new QGraphicsScene;
-    cam_scene2->setSceneRect(0, 0, img2.width(), img2.height());
-    cam_scene2->addPixmap(img2);
-    ui->graphicsViewP3_1->setScene(cam_scene2);
-    ui->graphicsViewP3_1->adjustSize();
-    ui->graphicsViewP3_1->show();
+    QGraphicsScene* pointsInRangeScene = new QGraphicsScene;
+    pointsInRangeScene->setSceneRect(0, 0, img2.width(), img2.height());
+    pointsInRangeScene->addPixmap(img2);
+    ui->pointsInRangeOutViewP3->setScene(pointsInRangeScene);
+    ui->pointsInRangeOutViewP3->adjustSize();
+    ui->pointsInRangeOutViewP3->show();
     QCoreApplication::processEvents();  // visualizing code ever after, needn't
                                         // care
     // QPixmap pointsInRangePixMap = cvMat2QPixmap(pointsInRange);
@@ -295,31 +286,125 @@ void MainWindow::on_startButtonP4_clicked() {
                 ui->picOutLabelP4);
 }
 
+void MainWindow::on_openConfigButton_clicked() {
+  Eigen::Matrix4d tf;
+  tf.setIdentity();
+
+  readConfig();
+
+  auto setWidget = [](double data, QSlider* sld, QLabel* lb) {
+    int32_t val = static_cast<int32_t>(std::round(data * 500 + 500));
+    if (val < 0) {
+      val = 0;
+    }
+    if (val > 1000) {
+      val = 1000;
+    }
+    sld->setValue(val);
+    lb->setText(QString("%1").arg((val - 500.0) / 500.0, 6, 'f', 3, ' '));
+  };
+
+  setWidget(tf(0, 3), ui->tx_slide, ui->tx_text);
+  setWidget(tf(1, 3), ui->ty_slide, ui->ty_text);
+  setWidget(tf(2, 3), ui->tz_slide, ui->tz_text);
+
+  // xyz - euler
+  Eigen::Matrix3d rotation = tf.topLeftCorner(3, 3);
+  // [0:pi]x[-pi:pi]x[-pi:pi]
+  Eigen::Vector3d angle = rotation.eulerAngles(0, 1, 2) / PI * 180;
+  Eigen::Vector3i r = angle.cast<int>();
+
+  uint16_t v = r(0) < 0 ? 0 : (r(0) > 180 ? 180 : r(0));
+  ui->rx_slide->setValue(v);
+  ui->rx_text->setText(QString::number(v));
+
+  v = r(1) < -180 ? 0 : (r(1) > 180 ? 360 : r(1) + 180);
+  ui->ry_slide->setValue(v);
+  ui->ry_text->setText(QString::number(r(1)));
+
+  v = r(2) < -180 ? 0 : (r(2) > 180 ? 360 : r(2) + 180);
+  ui->rz_slide->setValue(v);
+  ui->rz_text->setText(QString::number(r(2)));
+
+  connect(ui->rx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->ry_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->rz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+
+  // img_ = data_reader_->getImage();
+  // pc_ = data_reader_->getPointcloud();
+  // if (img_ == nullptr || pc_ == nullptr) {
+  //   QMessageBox::warning(this, tr("Error"),
+  //                        tr("Fail to read image or pointcloud"));
+  //   data_reader_.reset(nullptr);
+  //   return;
+  // }
+
+  img_ = std::make_shared<cv::Mat>(
+      cv::imread("/home/user/Desktop/data/image_orig/0.jpg"));  // for test only
+  pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
+  pcl::io::loadPCDFile("/home/user/Desktop/data/pointcloud/0.pcd",
+                       *pc_);  // for test only
+
+  std::shared_ptr<cv::Mat> img_mark = std::make_shared<cv::Mat>();
+  img_->copyTo(*img_mark);
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcc(
+      new pcl::PointCloud<pcl::PointXYZRGB>);
+  pcl::copyPointCloud(*pc_, *pcc);
+  for (auto& p : pcc->points) {
+    p.rgba = 0xffffffff;
+  }
+
+  // cv::imshow("test", *img_);
+  // cv::waitKey(0);
+
+  //    calibrator_->SetTranformation(tf_);
+  calibrator_->SetTranformation(tf);
+  calibrator_->Project(*pcc, *img_mark);
+
+  img_viewer_.reset(new ImageViewer);
+  img_viewer_->show();
+  img_viewer_->showImage(img_mark);
+  pc_viewer_.reset(new PointcloudViewer);
+  pc_viewer_->show();
+  pc_viewer_->showPointcloud(pcc);
+}
+
+void MainWindow::on_finishButton_clicked() { closeImgAndPcViewers(); }
+
+void MainWindow::on_tabWidget_currentChanged(int index) {
+  closeImgAndPcViewers();
+}
+
+void MainWindow::tfProcess() {
+  Eigen::Matrix4d tf;
+  tf.setIdentity();
+  tf(0, 3) = (ui->tx_slide->value() - 500) / 500.0;
+  ui->tx_text->setText(QString::number(tf(0, 3)));
+  tf(1, 3) = (ui->ty_slide->value() - 500) / 500.0;
+  ui->ty_text->setText(QString::number(tf(1, 3)));
+  tf(2, 3) = (ui->tz_slide->value() - 500) / 500.0;
+  ui->tz_text->setText(QString::number(tf(2, 3)));
+
+  ui->rx_text->setText(QString::number(ui->rx_slide->value()));
+  double rx = ui->rx_slide->value() / 180.0 * PI;
+  ui->ry_text->setText(QString::number(ui->ry_slide->value() - 180));
+  double ry = (ui->ry_slide->value() - 180.0) / 180.0 * PI;
+  ui->rz_text->setText(QString::number(ui->rz_slide->value() - 180));
+  double rz = (ui->rz_slide->value() - 180.0) / 180.0 * PI;
+
+  Eigen::Quaterniond ag = Eigen::AngleAxisd(rx, Eigen::Vector3d::UnitX()) *
+                          Eigen::AngleAxisd(ry, Eigen::Vector3d::UnitY()) *
+                          Eigen::AngleAxisd(rz, Eigen::Vector3d::UnitZ());
+  tf.topLeftCorner(3, 3) = ag.matrix();
+  tf.row(3) << 0, 0, 0, 1;
+  updateWithTransformation(tf);
+}
+
 void MainWindow::on_Open_Config_Button_clicked() {
-  config_path_ = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
-                                              tr("Config JSON Files(*.json)"));
-
-  if (config_path_.isEmpty()) {
-    QTimer::singleShot(0, this, &QApplication::quit);
-    return;
-  }
-
-  std::ifstream f(config_path_.toStdString());
-  if (!f.good()) {
-    f.close();
-    QTimer::singleShot(0, this, &QApplication::quit);
-    return;
-  }
-
-  try {
-    f >> js_;
-  } catch (nlohmann::json::parse_error& e) {
-    std::cerr << e.what();
-    f.close();
-    QTimer::singleShot(0, this, &QApplication::quit);
-    return;
-  }
-  calibrator_.reset(new lqh::Calibrator(js_));
+  readConfig();
 
   auto& flt = js_["pc"]["filter"];
   ui->angle_start_slide->setValue(static_cast<int>(flt["angle_start"]));
@@ -345,14 +430,7 @@ void MainWindow::on_Open_Config_Button_clicked() {
 };
 
 void MainWindow::closeEvent(QCloseEvent* event) {
-  if (img_viewer_) {
-    img_viewer_->close();
-    img_viewer_.release();
-  }
-  if (pc_viewer_) {
-    pc_viewer_->close();
-    img_viewer_.release();
-  }
+  closeImgAndPcViewers();
 
   event->accept();
 }
@@ -592,6 +670,30 @@ void MainWindow::on_pick_points_end_clicked() {
   updateLabels();
 }
 
+void MainWindow::readConfig() {
+  config_path_ = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
+                                              tr("Config JSON Files(*.json)"));
+  if (config_path_.isEmpty()) {
+    QMessageBox::warning(this, tr("Error"), tr("Config file is empty"));
+    return;
+  }
+  std::ifstream f(config_path_.toStdString());
+  if (!f.good()) {
+    f.close();
+    QMessageBox::warning(this, tr("Error"), tr("Failed to read config file"));
+    return;
+  }
+  try {
+    f >> js_;
+  } catch (nlohmann::json::parse_error& e) {
+    std::cerr << e.what();
+    f.close();
+    QMessageBox::warning(this, tr("Error"), tr(e.what()));
+    return;
+  }
+  calibrator_.reset(new lqh::Calibrator(js_));
+}
+
 void MainWindow::updateLabels() {
   if (sensor_data_.size() > 0) {
     ui->current_data_id->setText(QString::number(sid_));
@@ -819,4 +921,15 @@ void MainWindow::showTFWindow() {
   tfwindow_->move(this->pos());
   tfwindow_->show();
   this->hide();
+}
+
+void MainWindow::closeImgAndPcViewers() {
+  if (img_viewer_) {
+    img_viewer_->close();
+    img_viewer_.release();
+  }
+  if (pc_viewer_) {
+    pc_viewer_->close();
+    img_viewer_.release();
+  }
 }
