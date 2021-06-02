@@ -326,22 +326,6 @@ void MainWindow::on_openConfigButton_clicked() {
   ui->rz_slide->setValue(v);
   ui->rz_text->setText(QString::number(r(2)));
 
-  connect(ui->rx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->ry_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->rz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-
-  // img_ = data_reader_->getImage();
-  // pc_ = data_reader_->getPointcloud();
-  // if (img_ == nullptr || pc_ == nullptr) {
-  //   QMessageBox::warning(this, tr("Error"),
-  //                        tr("Fail to read image or pointcloud"));
-  //   data_reader_.reset(nullptr);
-  //   return;
-  // }
-
   img_ = std::make_shared<cv::Mat>(
       cv::imread("/home/user/Desktop/data/image_orig/0.jpg"));  // for test only
   pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
@@ -370,6 +354,13 @@ void MainWindow::on_openConfigButton_clicked() {
   pc_viewer_.reset(new PointcloudViewer);
   pc_viewer_->show();
   pc_viewer_->showPointcloud(pcc);
+
+  connect(ui->rx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->ry_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->rz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
 }
 
 void MainWindow::on_finishButton_clicked() { closeImgAndPcViewers(); }
