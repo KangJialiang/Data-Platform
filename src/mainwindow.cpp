@@ -1,6 +1,12 @@
 #include "mainwindow.h"
 
-#include <pcl/io/pcd_io.h>  //for debug only
+// #include <pcl/io/pcd_io.h>  //for debug only
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+#include <pcl_conversions/pcl_conversions.h>
+#include <pcl_ros/point_cloud.h>
+#include <ros/ros.h>
+#include <sensor_msgs/PointCloud2.h>
 
 #include <QAction>
 #include <QCloseEvent>
@@ -54,6 +60,13 @@ MainWindow::MainWindow(QWidget* parent)
       pc_(nullptr) {
   ui->setupUi(this);
   this->resize(QSize(1000, 800));
+
+  subPointCloud = nh.subscribe<sensor_msgs::PointCloud2>(
+      "velodyne_points", 2, &MainWindow::pointCloudHandler, this);
+  rosTimer = new QTimer(this);
+  rosTimer->setInterval(20);  // 单位毫秒
+  connect(rosTimer, &QTimer::timeout, this, &MainWindow::timerLoop);
+  rosTimer->start();
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -286,6 +299,13 @@ void MainWindow::on_startButtonP4_clicked() {
                 ui->picOutLabelP4);
 }
 
+void MainWindow::pointCloudHandler(
+    const sensor_msgs::PointCloud2ConstPtr& msg) {
+  pcl::fromROSMsg(*msg, pointCloud);
+}
+
+void MainWindow::timerLoop() { ros::spinOnce(); }
+
 void MainWindow::on_openConfigButton_clicked() {
   Eigen::Matrix4d tf;
   tf.setIdentity();
@@ -327,11 +347,9 @@ void MainWindow::on_openConfigButton_clicked() {
   ui->rz_text->setText(QString::number(r(2)));
 
   img_ = std::make_shared<cv::Mat>(
-      cv::imread("/home/user/Desktop/data/image_orig/0.jpg"));  // for test only
+      cv::Mat(240, 320, CV_8UC3, cv::Scalar(175, 175, 255)));  // for test only
   pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
-  pcl::io::loadPCDFile("/home/user/Desktop/data/pointcloud/0.pcd",
-                       *pc_);  // for test only
-
+  *pc_ = pointCloud;
   std::shared_ptr<cv::Mat> img_mark = std::make_shared<cv::Mat>();
   img_->copyTo(*img_mark);
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcc(

@@ -3,9 +3,12 @@
 
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
+#include <ros/ros.h>
+#include <sensor_msgs/PointCloud2.h>
 
 #include <QImage>
 #include <QMainWindow>
+#include <QTimer>
 #include <memory>
 #include <opencv2/opencv.hpp>
 
@@ -42,6 +45,13 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow *ui;
 
   QPixmap cvMat2QPixmap(cv::Mat &inMat);
+
+  ros::NodeHandle nh;
+  ros::Subscriber subPointCloud;
+  void timerLoop();
+  void pointCloudHandler(const sensor_msgs::PointCloud2ConstPtr &msg);
+  QTimer *rosTimer;
+  pcl::PointCloud<pcl::PointXYZI> pointCloud;
 
   struct SensorData {
     bool img_good;
