@@ -307,71 +307,12 @@ void MainWindow::pointCloudHandler(
 void MainWindow::timerLoop() { ros::spinOnce(); }
 
 void MainWindow::on_openConfigButton_clicked() {
-  Eigen::Matrix4d tf;
-  tf.setIdentity();
-
   readConfig();
-
-  auto setWidget = [](double data, QSlider* sld, QLabel* lb) {
-    int32_t val = static_cast<int32_t>(std::round(data * 500 + 500));
-    if (val < 0) {
-      val = 0;
-    }
-    if (val > 1000) {
-      val = 1000;
-    }
-    sld->setValue(val);
-    lb->setText(QString("%1").arg((val - 500.0) / 500.0, 6, 'f', 3, ' '));
-  };
-
-  setWidget(tf(0, 3), ui->tx_slide, ui->tx_text);
-  setWidget(tf(1, 3), ui->ty_slide, ui->ty_text);
-  setWidget(tf(2, 3), ui->tz_slide, ui->tz_text);
-
-  // xyz - euler
-  Eigen::Matrix3d rotation = tf.topLeftCorner(3, 3);
-  // [0:pi]x[-pi:pi]x[-pi:pi]
-  Eigen::Vector3d angle = rotation.eulerAngles(0, 1, 2) / PI * 180;
-  Eigen::Vector3i r = angle.cast<int>();
-
-  uint16_t v = r(0) < 0 ? 0 : (r(0) > 180 ? 180 : r(0));
-  ui->rx_slide->setValue(v);
-  ui->rx_text->setText(QString::number(v));
-
-  v = r(1) < -180 ? 0 : (r(1) > 180 ? 360 : r(1) + 180);
-  ui->ry_slide->setValue(v);
-  ui->ry_text->setText(QString::number(r(1)));
-
-  v = r(2) < -180 ? 0 : (r(2) > 180 ? 360 : r(2) + 180);
-  ui->rz_slide->setValue(v);
-  ui->rz_text->setText(QString::number(r(2)));
-
-  img_ = std::make_shared<cv::Mat>(
-      cv::Mat(240, 320, CV_8UC3, cv::Scalar(175, 175, 255)));  // for test only
-  pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
-  *pc_ = pointCloud;
-  std::shared_ptr<cv::Mat> img_mark = std::make_shared<cv::Mat>();
-  img_->copyTo(*img_mark);
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr pcc(
-      new pcl::PointCloud<pcl::PointXYZRGB>);
-  pcl::copyPointCloud(*pc_, *pcc);
-  for (auto& p : pcc->points) {
-    p.rgba = 0xffffffff;
-  }
-
-  // cv::imshow("test", *img_);
-  // cv::waitKey(0);
-
-  //    calibrator_->SetTranformation(tf_);
-  calibrator_->SetTranformation(tf);
-  calibrator_->Project(*pcc, *img_mark);
 
   img_viewer_.reset(new ImageViewer);
   img_viewer_->show();
-  img_viewer_->showImage(img_mark);
   pc_viewer_.reset(new PointcloudViewer);
   pc_viewer_->show();
-  pc_viewer_->showPointcloud(pcc);
 
   connect(ui->rx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
   connect(ui->ry_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
@@ -379,6 +320,15 @@ void MainWindow::on_openConfigButton_clicked() {
   connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
   connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
   connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+}
+
+void MainWindow::on_refreshButton_clicked() {
+  img_ = std::make_shared<cv::Mat>(
+      cv::Mat(240, 320, CV_8UC3, cv::Scalar(175, 175, 255)));  // for test only
+  pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
+  *pc_ = pointCloud;
+
+  tfProcess();
 }
 
 void MainWindow::on_finishButton_clicked() { closeImgAndPcViewers(); }

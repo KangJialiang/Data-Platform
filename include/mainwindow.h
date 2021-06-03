@@ -152,5 +152,7 @@ class MainWindow : public QMainWindow {
   void on_finishButton_clicked();
 
   void on_openConfigButton_clicked();
+
+  void on_refreshButton_clicked();
 };
 #endif  // MAINWINDOW_H
