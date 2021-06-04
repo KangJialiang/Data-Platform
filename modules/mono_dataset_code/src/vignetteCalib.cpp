@@ -36,6 +36,7 @@
 // #include <aruco/cvdrawingutils.h>
 #include <dirent.h>
 
+#include <QCoreApplication>
 #include <QLabel>
 #include <algorithm>
 #include <fstream>
@@ -219,7 +220,8 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
 
   if (meanExposure == 0) meanExposure = 1;
 
-  for (int i = 0; i < reader->getNumImages(); i += imageSkip) {
+  for (int i = 0; i < reader->getNumImages();
+       i += imageSkip, QCoreApplication::processEvents();) {
     // std::vector<aruco::Marker> Markers;
     std::vector<int> markerIds;
     std::vector<std::vector<cv::Point2f>> markerCorners;
@@ -391,7 +393,8 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
 
   double E = 0;
   double R = 0;
-  for (int it = 0; it < maxIterations; it++) {
+  for (int it = 0; it < maxIterations;
+       it++, QCoreApplication::processEvents();) {
     int oth2 = outlierTh * outlierTh;
     if (it < maxIterations / 2) oth2 = 10000 * 10000;
 
