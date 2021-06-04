@@ -75,17 +75,17 @@ RsCamera::RsCamera(int index, std::string pathToCameraTxt, int frameRate) {
   // select sensor
   std::vector<rs2::sensor> rsSensors = rsDevices.query_sensors();
   rs2::sensor rsInfraredSensor = rsSensors[0];
-  this->rsSensorSelected = rsInfraredSensor;
+  // this->rsSensorSelected = rsInfraredSensor;
   //  rs2::sensor rsColorSensor = rsSensors[1];
 
-  //  if (index == 0) {
-  //    this->rsSensorSelected = rsInfraredSensor;
-  //    this->rsCameraIndex = index;
-  //  } else if (index == 1) {
-  //    this->rsSensorSelected = rsInf;
-  //    this->rsCameraIndex = index;
-  //  } else
-  //    throw std::invalid_argument("Invalid camera index!");
+  if (index == 0) {
+    this->rsSensorSelected = rsInfraredSensor;
+    this->rsCameraIndex = index;
+  } else if (index == 1) {
+    this->rsSensorSelected = rsInfraredSensor;
+    this->rsCameraIndex = index;
+  } else
+    throw std::invalid_argument("Invalid camera index!");
 
   if (this->rsSensorSelected.supports(RS2_OPTION_EXPOSURE)) {
     auto range = this->rsSensorSelected.get_option_range(RS2_OPTION_EXPOSURE);
