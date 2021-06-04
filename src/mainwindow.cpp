@@ -315,7 +315,7 @@ void MainWindow::on_openConfigButton_clicked() {
     cameraIndex = 0;
   else if (ui->LOrRBoxP5->currentText() == QString("R"))
     cameraIndex = 1;
-  pathToCameraTxt = ui->pathToCameraLineP1->text().toStdString();
+  pathToCameraTxt = ui->pathToCameraLineP5->text().toStdString();
   camera = RsCamera(cameraIndex, pathToCameraTxt);
 
   img_viewer_.reset(new ImageViewer);
@@ -343,7 +343,7 @@ void MainWindow::on_finishButton_clicked() { closeImgAndPcViewers(); }
 
 void MainWindow::on_saveButton_clicked() {
   if (img_ && pc_) {
-    std::string dataPath = ui->gammaPathLineP1->text().toStdString();
+    std::string dataPath = ui->saveToLine->text().toStdString();
     static int index = 0;
     if (dataPath.back() != '/') dataPath += '/';
 
