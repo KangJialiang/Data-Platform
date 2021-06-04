@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 
-// #include <pcl/io/pcd_io.h>  //for debug only
+#include <pcl/io/pcd_io.h>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
@@ -309,6 +309,15 @@ void MainWindow::timerLoop() { ros::spinOnce(); }
 void MainWindow::on_openConfigButton_clicked() {
   readConfig();
 
+  int cameraIndex;
+  std::string pathToCameraTxt;
+  if (ui->LOrRBoxP5->currentText() == QString("L"))
+    cameraIndex = 0;
+  else if (ui->LOrRBoxP5->currentText() == QString("R"))
+    cameraIndex = 1;
+  pathToCameraTxt = ui->pathToCameraLineP1->text().toStdString();
+  camera = RsCamera(cameraIndex, pathToCameraTxt);
+
   img_viewer_.reset(new ImageViewer);
   img_viewer_->show();
   pc_viewer_.reset(new PointcloudViewer);
@@ -323,8 +332,7 @@ void MainWindow::on_openConfigButton_clicked() {
 }
 
 void MainWindow::on_refreshButton_clicked() {
-  img_ = std::make_shared<cv::Mat>(
-      cv::Mat(240, 320, CV_8UC3, cv::Scalar(175, 175, 255)));  // for test only
+  img_ = std::make_shared<cv::Mat>(cameraP->getFrame());
   pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
   *pc_ = pointCloud;
 
@@ -332,6 +340,28 @@ void MainWindow::on_refreshButton_clicked() {
 }
 
 void MainWindow::on_finishButton_clicked() { closeImgAndPcViewers(); }
+
+void MainWindow::on_saveButton_clicked() {
+  if (img_ && pc_) {
+    std::string dataPath = ui->gammaPathLineP1->text().toStdString();
+    static int index = 0;
+    if (dataPath.back() != '/') dataPath += '/';
+
+    if (index == 0) {
+      if (-1 == system(("mkdir -p " + dataPath + "image_orig/").c_str()))
+        throw std::invalid_argument("Cannot create dir " + dataPath +
+                                    "image_orig/");
+      if (-1 == system(("mkdir -p " + dataPath + "pointcloud/").c_str()))
+        throw std::invalid_argument("Cannot create dir " + dataPath +
+                                    "pointcloud/");
+    }
+    cv::imwrite(dataPath + "image_orig/" + std::to_string(index) + ".jpg",
+                *img_);
+    pcl::io::savePCDFile(
+        dataPath + "pointcloud/" + std::to_string(index) + ".pcd", *pc_);
+    ++index;
+  }
+}
 
 void MainWindow::on_tabWidget_currentChanged(int index) {
   closeImgAndPcViewers();
