@@ -260,7 +260,7 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
   bool optE = true;
   bool optG = true;
 
-  for (int it = 0; it < nits; it++, QCoreApplication::processEvents();) {
+  for (int it = 0; it < nits; it++, QCoreApplication::processEvents()) {
     if (optG) {
       // optimize log inverse response function.
       double* GSum = new double[256];
