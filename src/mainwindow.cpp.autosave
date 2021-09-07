@@ -949,3 +949,8 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(const QString &arg1)
         ui->leftorRightComboBox->setVisible(false);
     }
 }
+
+void MainWindow::on_mainStartButton_clicked()
+{
+    
+}
