@@ -42,6 +42,9 @@ class MainWindow : public QMainWindow {
   void closeEvent(QCloseEvent *);
 
 private slots:
+  void on_mainStartButton_clicked();
+
+private slots:
   void on_cameraComboBox_currentIndexChanged(const QString &arg1);
 
 private slots:

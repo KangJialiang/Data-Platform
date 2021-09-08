@@ -70,7 +70,6 @@ MainWindow::MainWindow(QWidget* parent)
 
   ui->leftorRight->setVisible(false);
   ui->leftorRightComboBox->setVisible(false);
-
 }
 
 MainWindow::~MainWindow() { delete ui; }
@@ -131,10 +130,14 @@ void MainWindow::on_startButtonP1_clicked() {
   int imgNum = 8;
 
   if (dataPath.back() != '/') dataPath += '/';
+
+  /*
   if (-1 == system(("mkdir -p " + dataPath).c_str()))
     throw std::invalid_argument("Cannot create dir " + dataPath);
+   */
   if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
     throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
+
   if (-1 ==
       system(
           ("cp -f " + pathToCameraTxt + " " + dataPath + "camera.txt").c_str()))
@@ -927,25 +930,47 @@ void MainWindow::closeImgAndPcViewers() {
   }
 }
 
-void MainWindow::on_savePathChooseButton_clicked()
-{
-    QString directory = QFileDialog::getExistingDirectory(this, tr("Save Path"),QDir::currentPath());
-    if(!directory.isEmpty()){
-        ui->savePathLine->setText(directory);
-
-    }
-
+void MainWindow::on_savePathChooseButton_clicked() {
+  QString directory = QFileDialog::getExistingDirectory(this, tr("Save Path"),
+                                                        QDir::currentPath());
+  if (!directory.isEmpty()) {
+    ui->savePathLine->setText(directory);
+  }
 }
 
-void MainWindow::on_cameraComboBox_currentIndexChanged(const QString &arg1)
-{
-    if(arg1=="realsense 435i"){
-        ui->leftorRight->setVisible(true);
-        ui->leftorRightComboBox->setVisible(true);
+void MainWindow::on_cameraComboBox_currentIndexChanged(const QString& arg1) {
+  if (arg1 == "realsense 435i") {
+    ui->leftorRight->setVisible(true);
+    ui->leftorRightComboBox->setVisible(true);
 
-    }
-    else{
-        ui->leftorRight->setVisible(false);
-        ui->leftorRightComboBox->setVisible(false);
-    }
+  } else {
+    ui->leftorRight->setVisible(false);
+    ui->leftorRightComboBox->setVisible(false);
+  }
+}
+
+void MainWindow::on_mainStartButton_clicked() {
+  std::string savePath = ui->savePathLine->text().toStdString();
+  std::string pathToCameraTxt = ui->pathToCameraLine->text().toStdString();
+
+  ui->pathToCameraLineP1->setEnabled(false);
+  ui->pathToCameraLineP1->setText(ui->pathToCameraLine->text());
+  ui->pathToCameraLineP3->setEnabled(false);
+  ui->pathToCameraLineP3->setText(ui->pathToCameraLine->text());
+  ui->pathToCameraLineP5->setEnabled(false);
+  ui->pathToCameraLineP5->setText(ui->pathToCameraLine->text());
+
+  ui->LOrRBoxP1->setCurrentText(ui->leftorRightComboBox->currentText());
+  ui->LOrRBoxP3->setCurrentText(ui->leftorRightComboBox->currentText());
+  ui->LOrRBoxP5->setCurrentText(ui->leftorRightComboBox->currentText());
+
+  if (savePath.back() != '/') savePath += '/';
+
+  if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
+
+  ui->gammaPathLineP1->setEnabled(false);
+  ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
+  ui->gammaPathLineP2->setEnabled(false);
+  ui->gammaPathLineP2->setText(ui->savePathLine->text() + "/gamma/");
 }

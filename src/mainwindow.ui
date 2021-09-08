@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -152,6 +152,12 @@
         </item>
         <item row="0" column="1">
          <widget class="QComboBox" name="LOrRBoxP1">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
           <item>
            <property name="text">
             <string>L</string>
@@ -430,6 +436,12 @@
         </item>
         <item row="0" column="5">
          <widget class="QComboBox" name="LOrRBoxP3">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
           <item>
            <property name="text">
             <string>L</string>
@@ -795,6 +807,9 @@
           </item>
           <item>
            <widget class="QComboBox" name="LOrRBoxP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <item>
              <property name="text">
               <string>L</string>
