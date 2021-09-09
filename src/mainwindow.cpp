@@ -74,6 +74,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() { delete ui; }
 
+/*
 void MainWindow::on_pathToCameraLineP1_editingFinished() {
   int cameraIndex;
   std::string pathToCameraTxt;
@@ -86,6 +87,7 @@ void MainWindow::on_pathToCameraLineP1_editingFinished() {
 
   camera = RsCamera(cameraIndex, pathToCameraTxt);
 }
+*/
 
 void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
   if (cameraP) {
@@ -186,6 +188,7 @@ void MainWindow::on_startButtonP1_clicked() {
   timesFile.close();
 }
 
+/*
 void MainWindow::on_pathToCameraLineP3_editingFinished() {
   int cameraIndex;
   std::string pathToCameraTxt;
@@ -198,6 +201,7 @@ void MainWindow::on_pathToCameraLineP3_editingFinished() {
 
   camera = RsCamera(cameraIndex, pathToCameraTxt);
 }
+*/
 
 void MainWindow::on_exposureSliderP3_valueChanged(int value) {
   if (cameraP) {
@@ -316,14 +320,16 @@ void MainWindow::timerLoop() { ros::spinOnce(); }
 void MainWindow::on_openConfigButton_clicked() {
   readConfig();
 
-  int cameraIndex;
-  std::string pathToCameraTxt;
-  if (ui->LOrRBoxP5->currentText() == QString("L"))
-    cameraIndex = 0;
-  else if (ui->LOrRBoxP5->currentText() == QString("R"))
-    cameraIndex = 1;
-  pathToCameraTxt = ui->pathToCameraLineP5->text().toStdString();
-  camera = RsCamera(cameraIndex, pathToCameraTxt);
+  /*
+    int cameraIndex;
+    std::string pathToCameraTxt;
+    if (ui->LOrRBoxP5->currentText() == QString("L"))
+      cameraIndex = 0;
+    else if (ui->LOrRBoxP5->currentText() == QString("R"))
+      cameraIndex = 1;
+    pathToCameraTxt = ui->pathToCameraLineP5->text().toStdString();
+    camera = RsCamera(cameraIndex, pathToCameraTxt);
+  */
 
   img_viewer_.reset(new ImageViewer);
   img_viewer_->show();
@@ -950,46 +956,61 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(const QString& arg1) {
 }
 
 void MainWindow::on_mainStartButton_clicked() {
-  std::string savePath = ui->savePathLine->text().toStdString();
-  std::string pathToCameraTxt = ui->pathToCameraLine->text().toStdString();
+  try {
+    int cameraIndex;
+    std::string savePath = ui->savePathLine->text().toStdString();
+    std::string pathToCameraTxt = ui->pathToCameraLine->text().toStdString();
 
-  ui->pathToCameraLineP1->setEnabled(false);
-  ui->pathToCameraLineP1->setText(ui->pathToCameraLine->text());
-  ui->pathToCameraLineP3->setEnabled(false);
-  ui->pathToCameraLineP3->setText(ui->pathToCameraLine->text());
-  ui->pathToCameraLineP5->setEnabled(false);
-  ui->pathToCameraLineP5->setText(ui->pathToCameraLine->text());
+    if (ui->leftorRightComboBox->currentText() == QString("L"))
+      cameraIndex = 0;
+    else if (ui->leftorRightComboBox->currentText() == QString("R"))
+      cameraIndex = 1;
 
-  ui->LOrRBoxP1->setCurrentText(ui->leftorRightComboBox->currentText());
-  ui->LOrRBoxP3->setCurrentText(ui->leftorRightComboBox->currentText());
-  ui->LOrRBoxP5->setCurrentText(ui->leftorRightComboBox->currentText());
+    ui->pathToCameraLineP1->setEnabled(false);
+    ui->pathToCameraLineP1->setText(ui->pathToCameraLine->text());
+    ui->pathToCameraLineP3->setEnabled(false);
+    ui->pathToCameraLineP3->setText(ui->pathToCameraLine->text());
+    ui->pathToCameraLineP5->setEnabled(false);
+    ui->pathToCameraLineP5->setText(ui->pathToCameraLine->text());
 
-  if (savePath.back() != '/') savePath += '/';
+    ui->LOrRBoxP1->setCurrentText(ui->leftorRightComboBox->currentText());
+    ui->LOrRBoxP3->setCurrentText(ui->leftorRightComboBox->currentText());
+    ui->LOrRBoxP5->setCurrentText(ui->leftorRightComboBox->currentText());
 
-  if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
-    throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
+    if (savePath.back() != '/') savePath += '/';
 
-  ui->gammaPathLineP1->setEnabled(false);
-  ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
-  ui->gammaPathLineP2->setEnabled(false);
-  ui->gammaPathLineP2->setText(ui->savePathLine->text() + "/gamma/");
-  ui->gammaPathLineP4->setEnabled(false);
-  ui->gammaPathLineP4->setText(ui->savePathLine->text() + "/gamma/");
+    if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
+      throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
 
-  if (-1 == system(("mkdir -p " + savePath + "vignette/").c_str()))
-    throw std::invalid_argument("Cannot create dir " + savePath + "vignette/");
+    ui->gammaPathLineP1->setEnabled(false);
+    ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
+    ui->gammaPathLineP2->setEnabled(false);
+    ui->gammaPathLineP2->setText(ui->savePathLine->text() + "/gamma/");
+    ui->gammaPathLineP4->setEnabled(false);
+    ui->gammaPathLineP4->setText(ui->savePathLine->text() + "/gamma/");
 
-  ui->vignettePathLineP3->setEnabled(false);
-  ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
-  ui->vignettePathLineP4->setEnabled(false);
-  ui->vignettePathLineP4->setText(ui->savePathLine->text() + "/vignette/");
+    if (-1 == system(("mkdir -p " + savePath + "vignette/").c_str()))
+      throw std::invalid_argument("Cannot create dir " + savePath +
+                                  "vignette/");
 
-  if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
-    throw std::invalid_argument("Cannot create dir " + savePath +
-                                "jointCalibration/");
+    ui->vignettePathLineP3->setEnabled(false);
+    ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
+    ui->vignettePathLineP4->setEnabled(false);
+    ui->vignettePathLineP4->setText(ui->savePathLine->text() + "/vignette/");
 
-  ui->saveToLine->setEnabled(false);
-  ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
+    if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
+      throw std::invalid_argument("Cannot create dir " + savePath +
+                                  "jointCalibration/");
 
+    ui->saveToLine->setEnabled(false);
+    ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
+
+    if (ui->cameraComboBox->currentText() == "realsense 435i") {
+      camera = RsCamera(cameraIndex, pathToCameraTxt);
+    }
+
+  } catch (std::invalid_argument& ia) {
+    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
+  }
   ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
 }

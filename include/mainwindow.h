@@ -41,16 +41,16 @@ class MainWindow : public QMainWindow {
  protected:
   void closeEvent(QCloseEvent *);
 
-private slots:
+ private slots:
   void on_mainStartButton_clicked();
 
-private slots:
+ private slots:
   void on_cameraComboBox_currentIndexChanged(const QString &arg1);
 
-private slots:
+ private slots:
   void on_savePathChooseButton_clicked();
 
-private:
+ private:
   Ui::MainWindow *ui;
 
   QPixmap cvMat2QPixmap(cv::Mat &inMat);
@@ -124,9 +124,9 @@ private:
 
   void on_startButtonP4_clicked();
 
-  void on_pathToCameraLineP1_editingFinished();
+  // void on_pathToCameraLineP1_editingFinished();
 
-  void on_pathToCameraLineP3_editingFinished();
+  // void on_pathToCameraLineP3_editingFinished();
 
   void on_startButtonP1_clicked();
 
