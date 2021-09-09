@@ -225,8 +225,8 @@ void MainWindow::on_startButtonP3_clicked() {
   int fps = ui->fpsSliderP3->value();
 
   if (dataPath.back() != '/') dataPath += '/';
-  if (-1 == system(("mkdir -p " + dataPath).c_str()))
-    throw std::invalid_argument("Cannot create dir " + dataPath);
+  // if (-1 == system(("mkdir -p " + dataPath).c_str()))
+  //   throw std::invalid_argument("Cannot create dir " + dataPath);
   if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
     throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
   if (-1 ==
@@ -973,4 +973,23 @@ void MainWindow::on_mainStartButton_clicked() {
   ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
   ui->gammaPathLineP2->setEnabled(false);
   ui->gammaPathLineP2->setText(ui->savePathLine->text() + "/gamma/");
+  ui->gammaPathLineP4->setEnabled(false);
+  ui->gammaPathLineP4->setText(ui->savePathLine->text() + "/gamma/");
+
+  if (-1 == system(("mkdir -p " + savePath + "vignette/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + savePath + "vignette/");
+
+  ui->vignettePathLineP3->setEnabled(false);
+  ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
+  ui->vignettePathLineP4->setEnabled(false);
+  ui->vignettePathLineP4->setText(ui->savePathLine->text() + "/vignette/");
+
+  if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + savePath +
+                                "jointCalibration/");
+
+  ui->saveToLine->setEnabled(false);
+  ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
+
+  ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
 }
