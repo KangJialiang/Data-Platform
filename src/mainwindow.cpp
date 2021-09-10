@@ -89,37 +89,105 @@ void MainWindow::on_pathToCameraLineP1_editingFinished() {
 }
 */
 
+void MainWindow::on_mainStartButton_clicked() {
+  try {
+    int cameraIndex;
+    std::string savePath = ui->savePathLine->text().toStdString();
+    std::string pathToCameraTxt = ui->pathToCameraLine->text().toStdString();
+
+    if (ui->leftorRightComboBox->currentText() == QString("L"))
+      cameraIndex = 0;
+    else if (ui->leftorRightComboBox->currentText() == QString("R"))
+      cameraIndex = 1;
+
+    ui->pathToCameraLineP1->setEnabled(false);
+    ui->pathToCameraLineP1->setText(ui->pathToCameraLine->text());
+    ui->pathToCameraLineP3->setEnabled(false);
+    ui->pathToCameraLineP3->setText(ui->pathToCameraLine->text());
+    ui->pathToCameraLineP5->setEnabled(false);
+    ui->pathToCameraLineP5->setText(ui->pathToCameraLine->text());
+
+    ui->LOrRBoxP1->setCurrentText(ui->leftorRightComboBox->currentText());
+    ui->LOrRBoxP3->setCurrentText(ui->leftorRightComboBox->currentText());
+    ui->LOrRBoxP5->setCurrentText(ui->leftorRightComboBox->currentText());
+
+    if (savePath.back() != '/') savePath += '/';
+
+    if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
+      throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
+
+    ui->gammaPathLineP1->setEnabled(false);
+    ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
+    ui->gammaPathLineP2->setEnabled(false);
+    ui->gammaPathLineP2->setText(ui->savePathLine->text() + "/gamma/");
+    ui->gammaPathLineP4->setEnabled(false);
+    ui->gammaPathLineP4->setText(ui->savePathLine->text() + "/gamma/");
+
+    if (-1 == system(("mkdir -p " + savePath + "vignette/").c_str()))
+      throw std::invalid_argument("Cannot create dir " + savePath +
+                                  "vignette/");
+
+    ui->vignettePathLineP3->setEnabled(false);
+    ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
+    ui->vignettePathLineP4->setEnabled(false);
+    ui->vignettePathLineP4->setText(ui->savePathLine->text() + "/vignette/");
+
+    if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
+      throw std::invalid_argument("Cannot create dir " + savePath +
+                                  "jointCalibration/");
+
+    ui->saveToLine->setEnabled(false);
+    ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
+
+    if (ui->cameraComboBox->currentText() == "realsense 435i") {
+      camera = RsCamera(cameraIndex, pathToCameraTxt);
+    }
+
+  } catch (std::invalid_argument& ia) {
+    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
+  }
+  ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
+}
+
 void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
-  if (cameraP) {
-    cv::Mat tmpMat = cameraP->getFrame(value);
-    QPixmap img = cvMat2QPixmap(tmpMat);
-    ui->picOutViewP1->resize(img.width(), img.height());
-    QGraphicsScene* camScene = new QGraphicsScene;
-    camScene->setSceneRect(0, 0, img.width(), img.height());
-    camScene->addPixmap(img);
-    ui->picOutViewP1->setScene(camScene);
-    ui->picOutViewP1->adjustSize();
-    ui->picOutViewP1->show();
-    // cv::Mat tmpMat = cameraP->getFrame(value);
-    // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-    // ui->picOutLabelP1->setPixmap(tmpPixMap);
+  try {
+    if (cameraP) {
+      cv::Mat tmpMat = cameraP->getFrame(value);
+      QPixmap img = cvMat2QPixmap(tmpMat);
+      ui->picOutViewP1->resize(img.width(), img.height());
+      QGraphicsScene* camScene = new QGraphicsScene;
+      camScene->setSceneRect(0, 0, img.width(), img.height());
+      camScene->addPixmap(img);
+      ui->picOutViewP1->setScene(camScene);
+      ui->picOutViewP1->adjustSize();
+      ui->picOutViewP1->show();
+      // cv::Mat tmpMat = cameraP->getFrame(value);
+      // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
+      // ui->picOutLabelP1->setPixmap(tmpPixMap);
+    }
+  } catch (std::invalid_argument& ia) {
+    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
   }
 }
 
 void MainWindow::on_minExposureSliderP1_valueChanged(int value) {
-  if (cameraP) {
-    cv::Mat tmpMat = cameraP->getFrame(value);
-    QPixmap img = cvMat2QPixmap(tmpMat);
-    ui->picOutViewP1->resize(img.width(), img.height());
-    QGraphicsScene* camScene = new QGraphicsScene;
-    camScene->setSceneRect(0, 0, img.width(), img.height());
-    camScene->addPixmap(img);
-    ui->picOutViewP1->setScene(camScene);
-    ui->picOutViewP1->adjustSize();
-    ui->picOutViewP1->show();
-    // cv::Mat tmpMat = cameraP->getFrame(value);
-    // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-    // ui->picOutLabelP1->setPixmap(tmpPixMap);
+  try {
+    if (cameraP) {
+      cv::Mat tmpMat = cameraP->getFrame(value);
+      QPixmap img = cvMat2QPixmap(tmpMat);
+      ui->picOutViewP1->resize(img.width(), img.height());
+      QGraphicsScene* camScene = new QGraphicsScene;
+      camScene->setSceneRect(0, 0, img.width(), img.height());
+      camScene->addPixmap(img);
+      ui->picOutViewP1->setScene(camScene);
+      ui->picOutViewP1->adjustSize();
+      ui->picOutViewP1->show();
+      // cv::Mat tmpMat = cameraP->getFrame(value);
+      // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
+      // ui->picOutLabelP1->setPixmap(tmpPixMap);
+    }
+  } catch (std::invalid_argument& ia) {
+    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
   }
 }
 
@@ -204,19 +272,23 @@ void MainWindow::on_pathToCameraLineP3_editingFinished() {
 */
 
 void MainWindow::on_exposureSliderP3_valueChanged(int value) {
-  if (cameraP) {
-    cv::Mat tmpMat = cameraP->getFrame(value);
-    QPixmap img = cvMat2QPixmap(tmpMat);
-    ui->picOutViewP3->resize(img.width(), img.height());
-    QGraphicsScene* currentScene = new QGraphicsScene;
-    currentScene->setSceneRect(0, 0, img.width(), img.height());
-    currentScene->addPixmap(img);
-    ui->picOutViewP3->setScene(currentScene);
-    ui->picOutViewP3->adjustSize();
-    ui->picOutViewP3->show();
-    // cv::Mat tmpMat = cameraP->getFrame(value);
-    // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-    // ui->picOutLabelP3->setPixmap(tmpPixMap);
+  try {
+    if (cameraP) {
+      cv::Mat tmpMat = cameraP->getFrame(value);
+      QPixmap img = cvMat2QPixmap(tmpMat);
+      ui->picOutViewP3->resize(img.width(), img.height());
+      QGraphicsScene* currentScene = new QGraphicsScene;
+      currentScene->setSceneRect(0, 0, img.width(), img.height());
+      currentScene->addPixmap(img);
+      ui->picOutViewP3->setScene(currentScene);
+      ui->picOutViewP3->adjustSize();
+      ui->picOutViewP3->show();
+      // cv::Mat tmpMat = cameraP->getFrame(value);
+      // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
+      // ui->picOutLabelP3->setPixmap(tmpPixMap);
+    }
+  } catch (std::invalid_argument& ia) {
+    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
   }
 }
 
@@ -953,64 +1025,4 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(const QString& arg1) {
     ui->leftorRight->setVisible(false);
     ui->leftorRightComboBox->setVisible(false);
   }
-}
-
-void MainWindow::on_mainStartButton_clicked() {
-  try {
-    int cameraIndex;
-    std::string savePath = ui->savePathLine->text().toStdString();
-    std::string pathToCameraTxt = ui->pathToCameraLine->text().toStdString();
-
-    if (ui->leftorRightComboBox->currentText() == QString("L"))
-      cameraIndex = 0;
-    else if (ui->leftorRightComboBox->currentText() == QString("R"))
-      cameraIndex = 1;
-
-    ui->pathToCameraLineP1->setEnabled(false);
-    ui->pathToCameraLineP1->setText(ui->pathToCameraLine->text());
-    ui->pathToCameraLineP3->setEnabled(false);
-    ui->pathToCameraLineP3->setText(ui->pathToCameraLine->text());
-    ui->pathToCameraLineP5->setEnabled(false);
-    ui->pathToCameraLineP5->setText(ui->pathToCameraLine->text());
-
-    ui->LOrRBoxP1->setCurrentText(ui->leftorRightComboBox->currentText());
-    ui->LOrRBoxP3->setCurrentText(ui->leftorRightComboBox->currentText());
-    ui->LOrRBoxP5->setCurrentText(ui->leftorRightComboBox->currentText());
-
-    if (savePath.back() != '/') savePath += '/';
-
-    if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
-      throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
-
-    ui->gammaPathLineP1->setEnabled(false);
-    ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
-    ui->gammaPathLineP2->setEnabled(false);
-    ui->gammaPathLineP2->setText(ui->savePathLine->text() + "/gamma/");
-    ui->gammaPathLineP4->setEnabled(false);
-    ui->gammaPathLineP4->setText(ui->savePathLine->text() + "/gamma/");
-
-    if (-1 == system(("mkdir -p " + savePath + "vignette/").c_str()))
-      throw std::invalid_argument("Cannot create dir " + savePath +
-                                  "vignette/");
-
-    ui->vignettePathLineP3->setEnabled(false);
-    ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
-    ui->vignettePathLineP4->setEnabled(false);
-    ui->vignettePathLineP4->setText(ui->savePathLine->text() + "/vignette/");
-
-    if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
-      throw std::invalid_argument("Cannot create dir " + savePath +
-                                  "jointCalibration/");
-
-    ui->saveToLine->setEnabled(false);
-    ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
-
-    if (ui->cameraComboBox->currentText() == "realsense 435i") {
-      camera = RsCamera(cameraIndex, pathToCameraTxt);
-    }
-
-  } catch (std::invalid_argument& ia) {
-    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
-  }
-  ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
 }
