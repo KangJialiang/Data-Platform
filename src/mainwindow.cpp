@@ -336,7 +336,6 @@ void MainWindow::on_startButtonP3_clicked() {
               << "\n";
 
     // show current frame on qt
-
     QPixmap img = cvMat2QPixmap(currentFrame);
     img = img.scaled(ui->picOutLabelP3->size(), Qt::KeepAspectRatio);
     ui->picOutLabelP3->setPixmap(img);
