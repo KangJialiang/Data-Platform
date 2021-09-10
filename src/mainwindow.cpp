@@ -68,6 +68,8 @@ MainWindow::MainWindow(QWidget* parent)
   connect(rosTimer, &QTimer::timeout, this, &MainWindow::timerLoop);
   rosTimer->start();
 
+  ui->tabWidget->setCurrentWidget(ui->mainTab);  // always show mainTab first
+
   ui->leftorRight->setVisible(false);
   ui->leftorRightComboBox->setVisible(false);
 }
