@@ -97,6 +97,15 @@ void MainWindow::on_savePathChooseButton_clicked() {
   }
 }
 
+void MainWindow::on_cameraPathChooseButton_clicked() {
+  QString pathToCamera = QFileDialog::getOpenFileName(
+      this, tr("Path to Camera Parameters"), QDir::homePath(),
+      tr("Plain text(*.txt);;All files(*.*)"));
+  if (!pathToCamera.isEmpty()) {
+    ui->pathToCameraLine->setText(pathToCamera);
+  }
+}
+
 void MainWindow::on_cameraComboBox_currentIndexChanged(const QString& arg1) {
   if (arg1 == "realsense 435i") {
     ui->leftorRight->setVisible(true);
