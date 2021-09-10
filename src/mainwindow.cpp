@@ -230,6 +230,9 @@ void MainWindow::on_startButtonP1_clicked() {
   int exposureNum = 150;
   int imgNum = 8;
 
+  ui->startButtonP1->setDisabled(true);
+  ui->nextButtonP1->setDisabled(true);
+
   if (dataPath.back() != '/') dataPath += '/';
 
   /*
@@ -283,8 +286,10 @@ void MainWindow::on_startButtonP1_clicked() {
     // QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
     // ui->picOutLabelP1->setPixmap(currentPixMap);
   }
-
   timesFile.close();
+
+  ui->startButtonP1->setEnabled(true);
+  ui->nextButtonP1->setEnabled(true);
 }
 
 /*
@@ -330,6 +335,9 @@ void MainWindow::on_startButtonP3_clicked() {
   int exposureTime = ui->exposureSliderP3->value();
   int imgNum = 800;
   int fps = ui->fpsSliderP3->value();
+
+  ui->startButtonP3->setDisabled(true);
+  ui->nextButtonP3->setDisabled(true);
 
   if (dataPath.back() != '/') dataPath += '/';
   // if (-1 == system(("mkdir -p " + dataPath).c_str()))
@@ -386,8 +394,10 @@ void MainWindow::on_startButtonP3_clicked() {
     // QPixmap pointsInRangePixMap = cvMat2QPixmap(pointsInRange);
     // ui->pointsInRangeOutLabelP3->setPixmap(pointsInRangePixMap);
   }
-
   timesFile.close();
+
+  ui->startButtonP3->setEnabled(true);
+  ui->nextButtonP3->setEnabled(true);
 }
 
 void MainWindow::on_nextButtonP1_clicked() {
@@ -403,14 +413,18 @@ void MainWindow::on_nextButtonP3_clicked() {
 }
 
 void MainWindow::on_startButtonP2_clicked() {
+  ui->startButtonP2->setDisabled(true);
   responseCalib(ui->gammaPathLineP2->text().toStdString(), ui->shellOutTextP2,
                 ui->picOutLabelP2);
+  ui->startButtonP2->setEnabled(true);
 }
 
 void MainWindow::on_startButtonP4_clicked() {
+  ui->startButtonP4->setDisabled(true);
   vignetteCalib(ui->vignettePathLineP4->text().toStdString(),
                 ui->shellOutTextP4, ui->gammaPathLineP4->text().toStdString(),
                 ui->picOutLabelP4);
+  ui->startButtonP4->setEnabled(true);
 }
 
 void MainWindow::pointCloudHandler(
