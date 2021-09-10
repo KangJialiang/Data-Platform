@@ -105,11 +105,11 @@ class MainWindow : public QMainWindow {
   void closeImgAndPcViewers();
 
  private slots:
-  void on_mainStartButton_clicked();
-
   void on_cameraComboBox_currentIndexChanged(const QString &arg1);
 
   void on_savePathChooseButton_clicked();
+
+  void on_mainStartButton_clicked();
 
   void on_nextButtonP1_clicked();
 
