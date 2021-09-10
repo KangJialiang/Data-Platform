@@ -18,7 +18,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="1" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="mouseTracking">
        <bool>false</bool>
@@ -43,6 +43,19 @@
         </item>
         <item row="0" column="1">
          <widget class="QLineEdit" name="savePathLine"/>
+        </item>
+        <item row="0" column="2">
+         <widget class="QToolButton" name="savePathChooseButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>浏览...</string>
+          </property>
+         </widget>
         </item>
         <item row="1" column="0">
          <widget class="QLabel" name="cameraChoose">
@@ -70,19 +83,30 @@
           </item>
          </widget>
         </item>
-        <item row="1" column="4">
-         <widget class="QComboBox" name="leftorRightComboBox">
+        <item row="1" column="2">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <property name="text">
-            <string>L</string>
-           </property>
+           <widget class="QLabel" name="leftorRight">
+            <property name="text">
+             <string>左右目选择</string>
+            </property>
+           </widget>
           </item>
           <item>
-           <property name="text">
-            <string>R</string>
-           </property>
+           <widget class="QComboBox" name="leftorRightComboBox">
+            <item>
+             <property name="text">
+              <string>L</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>R</string>
+             </property>
+            </item>
+           </widget>
           </item>
-         </widget>
+         </layout>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="cameraPath">
@@ -96,29 +120,21 @@
         </item>
         <item row="2" column="2">
          <widget class="QToolButton" name="cameraPathChooseButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="text">
-           <string>...</string>
+           <string>浏览...</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="3" column="2" alignment="Qt::AlignRight">
          <widget class="QPushButton" name="mainStartButton">
           <property name="text">
            <string>开始</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QToolButton" name="savePathChooseButton">
-          <property name="text">
-           <string>...</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLabel" name="leftorRight">
-          <property name="text">
-           <string>左右目选择</string>
           </property>
          </widget>
         </item>
@@ -129,33 +145,12 @@
         <string>响应函数数据采集</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="2" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="maxExposureLabelP1">
+        <item row="0" column="0">
+         <widget class="QLabel" name="LOrRLabelP1">
           <property name="text">
-           <string>最大曝光时间(μs)</string>
+           <string>左右目选择</string>
           </property>
          </widget>
-        </item>
-        <item row="3" column="1">
-         <layout class="QHBoxLayout" name="minExposureLayoutP1">
-          <item>
-           <widget class="QSlider" name="minExposureBoxP1">
-            <property name="maximum">
-             <number>165000</number>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="minExposureSliderP1">
-            <property name="maximum">
-             <number>165000</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </item>
         <item row="0" column="1">
          <widget class="QComboBox" name="LOrRBoxP1">
@@ -177,19 +172,15 @@
           </item>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="minExposureLabelP1">
+        <item row="1" column="0">
+         <widget class="QLabel" name="pathToCameraLabelP1">
           <property name="text">
-           <string>最小曝光时间(μs)</string>
+           <string>camera路径</string>
           </property>
          </widget>
         </item>
-        <item row="23" column="0">
-         <widget class="QLabel" name="pictureLabelP1">
-          <property name="text">
-           <string>图片</string>
-          </property>
-         </widget>
+        <item row="1" column="1">
+         <widget class="QLineEdit" name="pathToCameraLineP1"/>
         </item>
         <item row="2" column="1">
          <layout class="QHBoxLayout" name="maxExposureLayoutP1">
@@ -221,21 +212,69 @@
           </item>
          </layout>
         </item>
-        <item row="9" column="0">
+        <item row="4" column="0">
+         <widget class="QLabel" name="minExposureLabelP1">
+          <property name="text">
+           <string>最小曝光时间(μs)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <layout class="QHBoxLayout" name="minExposureLayoutP1">
+          <item>
+           <widget class="QSlider" name="minExposureBoxP1">
+            <property name="maximum">
+             <number>165000</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="minExposureSliderP1">
+            <property name="maximum">
+             <number>165000</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="5" column="0">
          <widget class="QLabel" name="outPathLabelP1">
           <property name="text">
            <string>响应数据路径</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="1">
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="gammaPathLineP1"/>
+        </item>
+        <item row="6" column="1">
          <widget class="QPushButton" name="startButtonP1">
           <property name="text">
            <string>开始</string>
           </property>
          </widget>
         </item>
-        <item row="28" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
+        <item row="7" column="0">
+         <widget class="QLabel" name="pictureLabelP1">
+          <property name="text">
+           <string>图片</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QLabel" name="picOutLabelP1">
+          <property name="text">
+           <string>输出图片</string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0" alignment="Qt::AlignLeft">
          <widget class="QPushButton" name="exitButtonP1">
           <property name="text">
            <string>退出</string>
@@ -251,35 +290,19 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="LOrRLabelP1">
+        <item row="2" column="0">
+         <widget class="QLabel" name="maxExposureLabelP1">
           <property name="text">
-           <string>左右目选择</string>
+           <string>最大曝光时间(μs)</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="pathToCameraLabelP1">
-          <property name="text">
-           <string>camera路径</string>
-          </property>
-         </widget>
-        </item>
-        <item row="28" column="1" alignment="Qt::AlignRight|Qt::AlignBottom">
+        <item row="8" column="1" alignment="Qt::AlignRight">
          <widget class="QPushButton" name="nextButtonP1">
           <property name="text">
            <string>下一步</string>
           </property>
          </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QLineEdit" name="gammaPathLineP1"/>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="pathToCameraLineP1"/>
-        </item>
-        <item row="24" column="1">
-         <widget class="QGraphicsView" name="picOutViewP1"/>
         </item>
        </layout>
       </widget>
@@ -288,36 +311,15 @@
         <string>响应函数标定</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_3">
-        <item row="8" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
-         <widget class="QPushButton" name="exitButtonP2">
-          <property name="text">
-           <string>退出</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLineEdit" name="gammaPathLineP2"/>
-        </item>
-        <item row="2" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="shellOutLabelP2">
-          <property name="text">
-           <string>shell输出</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+        <item row="0" column="0">
          <widget class="QLabel" name="gammaPathLabelP2">
           <property name="text">
            <string>响应数据路径</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="1" alignment="Qt::AlignRight|Qt::AlignBottom">
-         <widget class="QPushButton" name="nextButtonP2">
-          <property name="text">
-           <string>下一步</string>
-          </property>
-         </widget>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="gammaPathLineP2"/>
         </item>
         <item row="1" column="1">
          <widget class="QPushButton" name="startButtonP2">
@@ -326,20 +328,44 @@
           </property>
          </widget>
         </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="shellOutLabelP2">
+          <property name="text">
+           <string>shell输出</string>
+          </property>
+         </widget>
+        </item>
         <item row="2" column="1">
          <widget class="QTextBrowser" name="shellOutTextP2"/>
         </item>
-        <item row="4" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+        <item row="3" column="0">
          <widget class="QLabel" name="pictureLabelP2">
           <property name="text">
            <string>图片</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="3" column="1">
          <widget class="QLabel" name="picOutLabelP2">
           <property name="text">
            <string>输出图片</string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0" alignment="Qt::AlignLeft">
+         <widget class="QPushButton" name="exitButtonP2">
+          <property name="text">
+           <string>退出</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1" alignment="Qt::AlignRight">
+         <widget class="QPushButton" name="nextButtonP2">
+          <property name="text">
+           <string>下一步</string>
           </property>
          </widget>
         </item>
@@ -350,8 +376,62 @@
         <string>晕影函数数据采集</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="1" column="5">
-         <widget class="QLineEdit" name="pathToCameraLineP3"/>
+        <item row="1" column="0">
+         <widget class="QLabel" name="pathToCameraLabelP3">
+          <property name="text">
+           <string>camera路径</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0" alignment="Qt::AlignLeft">
+         <widget class="QPushButton" name="exitButtonP3">
+          <property name="text">
+           <string>退出</string>
+          </property>
+          <property name="autoDefault">
+           <bool>false</bool>
+          </property>
+          <property name="default">
+           <bool>false</bool>
+          </property>
+          <property name="flat">
+           <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <layout class="QHBoxLayout" name="exposureLayoutP3">
+          <item>
+           <widget class="QSlider" name="exposureSliderP3">
+            <property name="maximum">
+             <number>165000</number>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="exposureBoxP3">
+            <property name="maximum">
+             <number>165000</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="7" column="2">
+         <widget class="QLabel" name="picOutLabelP3">
+          <property name="text">
+           <string>输出图片</string>
+          </property>
+          <property name="scaledContents">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
+         <widget class="QLineEdit" name="vignettePathLineP3"/>
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="LOrRLabelP3">
@@ -360,10 +440,65 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="5">
-         <widget class="QLineEdit" name="vignettePathLineP3"/>
+        <item row="0" column="2">
+         <widget class="QComboBox" name="LOrRBoxP3">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <item>
+           <property name="text">
+            <string>L</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>R</string>
+           </property>
+          </item>
+         </widget>
         </item>
-        <item row="7" column="5">
+        <item row="5" column="0">
+         <widget class="QLabel" name="vignettePathLabelP3">
+          <property name="text">
+           <string>晕影数据路径</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="pathToCameraLineP3"/>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="pictureLabelP3">
+          <property name="text">
+           <string>图片</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="fpsLabelP3">
+          <property name="text">
+           <string>FPS</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QPushButton" name="startButtonP3">
+          <property name="text">
+           <string>开始</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="exposureLabelP3">
+          <property name="text">
+           <string>曝光时间(μs)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
          <layout class="QHBoxLayout" name="fpsLayout_P3">
           <item>
            <widget class="QSlider" name="fpsSliderP3">
@@ -390,124 +525,29 @@
           </item>
          </layout>
         </item>
-        <item row="12" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+        <item row="8" column="0">
          <widget class="QLabel" name="pointsInRangeLabelP3">
           <property name="text">
            <string>已覆盖范围</string>
           </property>
          </widget>
         </item>
-        <item row="14" column="0" alignment="Qt::AlignLeft|Qt::AlignBottom">
-         <widget class="QPushButton" name="exitButtonP3">
+        <item row="8" column="2">
+         <widget class="QLabel" name="pointsInRangeOutLabelP3">
           <property name="text">
-           <string>退出</string>
+           <string>输出图片</string>
           </property>
-          <property name="autoDefault">
-           <bool>false</bool>
-          </property>
-          <property name="default">
-           <bool>false</bool>
-          </property>
-          <property name="flat">
-           <bool>false</bool>
+          <property name="scaledContents">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
-        <item row="2" column="0" colspan="2">
-         <widget class="QLabel" name="exposureLabelP3">
-          <property name="text">
-           <string>曝光时间(μs)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="5">
-         <widget class="QPushButton" name="startButtonP3">
-          <property name="text">
-           <string>开始</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="pictureLabelP3">
-          <property name="text">
-           <string>图片</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="vignettePathLabelP3">
-          <property name="text">
-           <string>晕影数据路径</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="5">
-         <widget class="QComboBox" name="LOrRBoxP3">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="editable">
-           <bool>false</bool>
-          </property>
-          <item>
-           <property name="text">
-            <string>L</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>R</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="pathToCameraLabelP3">
-          <property name="text">
-           <string>camera路径</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="5">
-         <layout class="QHBoxLayout" name="exposureLayoutP3">
-          <item>
-           <widget class="QSlider" name="exposureSliderP3">
-            <property name="maximum">
-             <number>165000</number>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="exposureBoxP3">
-            <property name="maximum">
-             <number>165000</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="7" column="0" colspan="2" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="fpsLabelP3">
-          <property name="text">
-           <string>FPS</string>
-          </property>
-         </widget>
-        </item>
-        <item row="14" column="5" alignment="Qt::AlignRight|Qt::AlignBottom">
+        <item row="10" column="2" alignment="Qt::AlignRight">
          <widget class="QPushButton" name="nextButtonP3">
           <property name="text">
            <string>下一步</string>
           </property>
          </widget>
-        </item>
-        <item row="10" column="5" rowspan="2">
-         <widget class="QGraphicsView" name="picOutViewP3"/>
-        </item>
-        <item row="13" column="5">
-         <widget class="QGraphicsView" name="pointsInRangeOutViewP3"/>
         </item>
        </layout>
       </widget>
@@ -516,41 +556,17 @@
         <string>晕影函数标定</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
-        <item row="5" column="0">
-         <widget class="QLabel" name="shellOutLabelP4">
+        <item row="0" column="0">
+         <widget class="QLabel" name="gammaPathLabelP4">
           <property name="text">
-           <string>shell输出</string>
+           <string>响应数据路径</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="0" colspan="2" alignment="Qt::AlignLeft|Qt::AlignBottom">
-         <widget class="QPushButton" name="exitButtonP4">
-          <property name="text">
-           <string>退出</string>
-          </property>
-         </widget>
+        <item row="0" column="1">
+         <widget class="QLineEdit" name="gammaPathLineP4"/>
         </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="vignettePathLineP4"/>
-        </item>
-        <item row="6" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
-         <widget class="QLabel" name="pictureLabelP4">
-          <property name="text">
-           <string>图片</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QLabel" name="picOutLabelP4">
-          <property name="text">
-           <string>输出图片</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QTextBrowser" name="shellOutTextP4"/>
-        </item>
-        <item row="2" column="0" alignment="Qt::AlignLeft|Qt::AlignVCenter">
+        <item row="1" column="0">
          <widget class="QLabel" name="vignettePathLabelP4">
           <property name="text">
            <string>晕影数据路径</string>
@@ -558,19 +574,43 @@
          </widget>
         </item>
         <item row="1" column="1">
-         <widget class="QLineEdit" name="gammaPathLineP4"/>
+         <widget class="QLineEdit" name="vignettePathLineP4"/>
         </item>
-        <item row="3" column="1">
+        <item row="2" column="1">
          <widget class="QPushButton" name="startButtonP4">
           <property name="text">
            <string>开始</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="gammaPathLabelP4">
+        <item row="3" column="0">
+         <widget class="QLabel" name="shellOutLabelP4">
           <property name="text">
-           <string>响应数据路径</string>
+           <string>shell输出</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QTextBrowser" name="shellOutTextP4"/>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="pictureLabelP4">
+          <property name="text">
+           <string>图片</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QLabel" name="picOutLabelP4">
+          <property name="text">
+           <string>输出图片</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" alignment="Qt::AlignLeft">
+         <widget class="QPushButton" name="exitButtonP4">
+          <property name="text">
+           <string>退出</string>
           </property>
          </widget>
         </item>
@@ -1419,7 +1459,71 @@ color: rgb(239, 41, 41);
  <resources/>
  <connections>
   <connection>
-   <sender>exitButtonP2</sender>
+   <sender>minExposureBoxP1</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>minExposureSliderP1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>203</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>360</x>
+     <y>209</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>minExposureSliderP1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>minExposureBoxP1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>360</x>
+     <y>209</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>203</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxExposureSliderP1</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>maxExposureBoxP1</receiver>
+   <slot>setValue(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>275</x>
+     <y>146</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>360</x>
+     <y>153</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startButtonP4</sender>
+   <signal>clicked()</signal>
+   <receiver>shellOutTextP4</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>234</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>234</x>
+     <y>261</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exitButtonP1</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
    <slot>close()</slot>
@@ -1451,50 +1555,18 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
-   <sender>exitButtonP4</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
+   <sender>gammaPathLineP2</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>gammaPathLineP4</receiver>
+   <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>81</x>
-     <y>399</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>186</x>
-     <y>285</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>startButtonP4</sender>
-   <signal>clicked()</signal>
-   <receiver>shellOutTextP4</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>234</x>
-     <y>128</y>
+     <x>235</x>
+     <y>62</y>
     </hint>
     <hint type="destinationlabel">
      <x>234</x>
-     <y>261</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fpsBoxP3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>fpsSliderP3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>328</x>
-     <y>187</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>155</x>
-     <y>179</y>
+     <y>62</y>
     </hint>
    </hints>
   </connection>
@@ -1515,18 +1587,50 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
-   <sender>gammaPathLineP1</sender>
-   <signal>textChanged(QString)</signal>
-   <receiver>gammaPathLineP2</receiver>
-   <slot>setText(QString)</slot>
+   <sender>maxExposureBoxP1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>maxExposureSliderP1</receiver>
+   <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>320</x>
-     <y>254</y>
+     <x>360</x>
+     <y>153</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>275</x>
+     <y>146</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startButtonP2</sender>
+   <signal>clicked()</signal>
+   <receiver>shellOutTextP2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>235</x>
+     <y>95</y>
     </hint>
     <hint type="destinationlabel">
      <x>235</x>
-     <y>62</y>
+     <y>244</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>exitButtonP2</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>399</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>186</x>
+     <y>285</y>
     </hint>
    </hints>
   </connection>
@@ -1547,6 +1651,22 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
+   <sender>exitButtonP4</sender>
+   <signal>clicked()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>81</x>
+     <y>399</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>186</x>
+     <y>285</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>vignettePathLineP3</sender>
    <signal>textChanged(QString)</signal>
    <receiver>vignettePathLineP4</receiver>
@@ -1563,49 +1683,17 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
-   <sender>maxExposureSliderP1</sender>
-   <signal>sliderMoved(int)</signal>
-   <receiver>maxExposureBoxP1</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>275</x>
-     <y>146</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>360</x>
-     <y>153</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>maxExposureBoxP1</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>maxExposureSliderP1</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>360</x>
-     <y>153</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>275</x>
-     <y>146</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>gammaPathLineP2</sender>
+   <sender>gammaPathLineP1</sender>
    <signal>textChanged(QString)</signal>
-   <receiver>gammaPathLineP4</receiver>
+   <receiver>gammaPathLineP2</receiver>
    <slot>setText(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>235</x>
-     <y>62</y>
+     <x>320</x>
+     <y>254</y>
     </hint>
     <hint type="destinationlabel">
-     <x>234</x>
+     <x>235</x>
      <y>62</y>
     </hint>
    </hints>
@@ -1627,66 +1715,18 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
-   <sender>exitButtonP1</sender>
-   <signal>clicked()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>close()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>81</x>
-     <y>399</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>186</x>
-     <y>285</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>startButtonP2</sender>
-   <signal>clicked()</signal>
-   <receiver>shellOutTextP2</receiver>
-   <slot>clear()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>235</x>
-     <y>95</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>235</x>
-     <y>244</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>minExposureBoxP1</sender>
-   <signal>sliderMoved(int)</signal>
-   <receiver>minExposureSliderP1</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>275</x>
-     <y>203</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>360</x>
-     <y>209</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>minExposureSliderP1</sender>
+   <sender>fpsBoxP3</sender>
    <signal>valueChanged(int)</signal>
-   <receiver>minExposureBoxP1</receiver>
+   <receiver>fpsSliderP3</receiver>
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>360</x>
-     <y>209</y>
+     <x>328</x>
+     <y>187</y>
     </hint>
     <hint type="destinationlabel">
-     <x>275</x>
-     <y>203</y>
+     <x>155</x>
+     <y>179</y>
     </hint>
    </hints>
   </connection>

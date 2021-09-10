@@ -185,16 +185,8 @@ void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
     if (cameraP) {
       cv::Mat tmpMat = cameraP->getFrame(value);
       QPixmap img = cvMat2QPixmap(tmpMat);
-      ui->picOutViewP1->resize(img.width(), img.height());
-      QGraphicsScene* camScene = new QGraphicsScene;
-      camScene->setSceneRect(0, 0, img.width(), img.height());
-      camScene->addPixmap(img);
-      ui->picOutViewP1->setScene(camScene);
-      ui->picOutViewP1->adjustSize();
-      ui->picOutViewP1->show();
-      // cv::Mat tmpMat = cameraP->getFrame(value);
-      // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-      // ui->picOutLabelP1->setPixmap(tmpPixMap);
+      img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
+      ui->picOutLabelP1->setPixmap(img);
     }
   } catch (std::invalid_argument& ia) {
     QMessageBox::warning(this, tr("Error"), tr(ia.what()));
@@ -206,16 +198,8 @@ void MainWindow::on_minExposureSliderP1_valueChanged(int value) {
     if (cameraP) {
       cv::Mat tmpMat = cameraP->getFrame(value);
       QPixmap img = cvMat2QPixmap(tmpMat);
-      ui->picOutViewP1->resize(img.width(), img.height());
-      QGraphicsScene* camScene = new QGraphicsScene;
-      camScene->setSceneRect(0, 0, img.width(), img.height());
-      camScene->addPixmap(img);
-      ui->picOutViewP1->setScene(camScene);
-      ui->picOutViewP1->adjustSize();
-      ui->picOutViewP1->show();
-      // cv::Mat tmpMat = cameraP->getFrame(value);
-      // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-      // ui->picOutLabelP1->setPixmap(tmpPixMap);
+      img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
+      ui->picOutLabelP1->setPixmap(img);
     }
   } catch (std::invalid_argument& ia) {
     QMessageBox::warning(this, tr("Error"), tr(ia.what()));
@@ -274,17 +258,10 @@ void MainWindow::on_startButtonP1_clicked() {
 
     // show frame on qt
     QPixmap img = cvMat2QPixmap(currentFrame);
-    ui->picOutViewP1->resize(img.width(), img.height());
-    QGraphicsScene* currentScene = new QGraphicsScene;
-    currentScene->setSceneRect(0, 0, img.width(), img.height());
-    currentScene->addPixmap(img);
-    ui->picOutViewP1->setScene(currentScene);
-    ui->picOutViewP1->adjustSize();
-    ui->picOutViewP1->show();
+    img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
+    ui->picOutLabelP1->setPixmap(img);
     QCoreApplication::processEvents();  // visualizing code ever after, needn't
                                         // care
-    // QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
-    // ui->picOutLabelP1->setPixmap(currentPixMap);
   }
   timesFile.close();
 
@@ -312,16 +289,8 @@ void MainWindow::on_exposureSliderP3_valueChanged(int value) {
     if (cameraP) {
       cv::Mat tmpMat = cameraP->getFrame(value);
       QPixmap img = cvMat2QPixmap(tmpMat);
-      ui->picOutViewP3->resize(img.width(), img.height());
-      QGraphicsScene* currentScene = new QGraphicsScene;
-      currentScene->setSceneRect(0, 0, img.width(), img.height());
-      currentScene->addPixmap(img);
-      ui->picOutViewP3->setScene(currentScene);
-      ui->picOutViewP3->adjustSize();
-      ui->picOutViewP3->show();
-      // cv::Mat tmpMat = cameraP->getFrame(value);
-      // QPixmap tmpPixMap = cvMat2QPixmap(tmpMat);
-      // ui->picOutLabelP3->setPixmap(tmpPixMap);
+      img = img.scaled(ui->picOutLabelP3->size(), Qt::KeepAspectRatio);
+      ui->picOutLabelP3->setPixmap(img);
     }
   } catch (std::invalid_argument& ia) {
     QMessageBox::warning(this, tr("Error"), tr(ia.what()));
@@ -369,30 +338,18 @@ void MainWindow::on_startButtonP3_clicked() {
     // show current frame on qt
 
     QPixmap img = cvMat2QPixmap(currentFrame);
-    ui->picOutViewP3->resize(img.width(), img.height());
-    QGraphicsScene* camScene = new QGraphicsScene;
-    camScene->setSceneRect(0, 0, img.width(), img.height());
-    camScene->addPixmap(img);
-    ui->picOutViewP3->setScene(camScene);
-    ui->picOutViewP3->adjustSize();
-    ui->picOutViewP3->show();
-    // QPixmap currentPixMap = cvMat2QPixmap(currentFrame);
-    // ui->picOutLabelP3->setPixmap(currentPixMap);
+    img = img.scaled(ui->picOutLabelP3->size(), Qt::KeepAspectRatio);
+    ui->picOutLabelP3->setPixmap(img);
 
     findPointsInRange(currentFrame, pointsInRange, pathToCameraTxt);
 
     // show covered range on qt
     QPixmap img2 = cvMat2QPixmap(pointsInRange);
-    QGraphicsScene* pointsInRangeScene = new QGraphicsScene;
-    pointsInRangeScene->setSceneRect(0, 0, img2.width(), img2.height());
-    pointsInRangeScene->addPixmap(img2);
-    ui->pointsInRangeOutViewP3->setScene(pointsInRangeScene);
-    ui->pointsInRangeOutViewP3->adjustSize();
-    ui->pointsInRangeOutViewP3->show();
+    img2 =
+        img2.scaled(ui->pointsInRangeOutLabelP3->size(), Qt::KeepAspectRatio);
+    ui->pointsInRangeOutLabelP3->setPixmap(img);
     QCoreApplication::processEvents();  // visualizing code ever after, needn't
                                         // care
-    // QPixmap pointsInRangePixMap = cvMat2QPixmap(pointsInRange);
-    // ui->pointsInRangeOutLabelP3->setPixmap(pointsInRangePixMap);
   }
   timesFile.close();
 
