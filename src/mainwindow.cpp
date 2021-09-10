@@ -89,6 +89,25 @@ void MainWindow::on_pathToCameraLineP1_editingFinished() {
 }
 */
 
+void MainWindow::on_savePathChooseButton_clicked() {
+  QString directory = QFileDialog::getExistingDirectory(this, tr("Save Path"),
+                                                        QDir::currentPath());
+  if (!directory.isEmpty()) {
+    ui->savePathLine->setText(directory);
+  }
+}
+
+void MainWindow::on_cameraComboBox_currentIndexChanged(const QString& arg1) {
+  if (arg1 == "realsense 435i") {
+    ui->leftorRight->setVisible(true);
+    ui->leftorRightComboBox->setVisible(true);
+
+  } else {
+    ui->leftorRight->setVisible(false);
+    ui->leftorRightComboBox->setVisible(false);
+  }
+}
+
 void MainWindow::on_mainStartButton_clicked() {
   try {
     int cameraIndex;
@@ -1006,24 +1025,5 @@ void MainWindow::closeImgAndPcViewers() {
   if (pc_viewer_) {
     pc_viewer_->close();
     img_viewer_.release();
-  }
-}
-
-void MainWindow::on_savePathChooseButton_clicked() {
-  QString directory = QFileDialog::getExistingDirectory(this, tr("Save Path"),
-                                                        QDir::currentPath());
-  if (!directory.isEmpty()) {
-    ui->savePathLine->setText(directory);
-  }
-}
-
-void MainWindow::on_cameraComboBox_currentIndexChanged(const QString& arg1) {
-  if (arg1 == "realsense 435i") {
-    ui->leftorRight->setVisible(true);
-    ui->leftorRightComboBox->setVisible(true);
-
-  } else {
-    ui->leftorRight->setVisible(false);
-    ui->leftorRightComboBox->setVisible(false);
   }
 }
