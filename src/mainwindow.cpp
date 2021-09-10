@@ -91,7 +91,7 @@ void MainWindow::on_pathToCameraLineP1_editingFinished() {
 
 void MainWindow::on_savePathChooseButton_clicked() {
   QString directory = QFileDialog::getExistingDirectory(this, tr("Save Path"),
-                                                        QDir::currentPath());
+                                                        QDir::homePath());
   if (!directory.isEmpty()) {
     ui->savePathLine->setText(directory);
   }
