@@ -143,10 +143,11 @@ void MainWindow::on_mainStartButton_clicked() {
       camera = RsCamera(cameraIndex, pathToCameraTxt);
     }
 
+    ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
+
   } catch (std::invalid_argument& ia) {
     QMessageBox::warning(this, tr("Error"), tr(ia.what()));
   }
-  ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
 }
 
 void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
