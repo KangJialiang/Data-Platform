@@ -346,7 +346,7 @@ void MainWindow::on_startButtonP3_clicked() {
     QPixmap img2 = cvMat2QPixmap(pointsInRange);
     img2 =
         img2.scaled(ui->pointsInRangeOutLabelP3->size(), Qt::KeepAspectRatio);
-    ui->pointsInRangeOutLabelP3->setPixmap(img);
+    ui->pointsInRangeOutLabelP3->setPixmap(img2);
     QCoreApplication::processEvents();  // visualizing code ever after, needn't
                                         // care
   }
@@ -370,9 +370,11 @@ void MainWindow::on_nextButtonP3_clicked() {
 
 void MainWindow::on_startButtonP2_clicked() {
   ui->startButtonP2->setDisabled(true);
+  ui->nextButtonP2->setDisabled(true);
   responseCalib(ui->gammaPathLineP2->text().toStdString(), ui->shellOutTextP2,
                 ui->picOutLabelP2);
   ui->startButtonP2->setEnabled(true);
+  ui->nextButtonP2->setEnabled(true);
 }
 
 void MainWindow::on_startButtonP4_clicked() {
