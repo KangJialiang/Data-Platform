@@ -7,7 +7,7 @@
 
 class RsCamera {
  public:
-  RsCamera();
+  RsCamera() = default;
   RsCamera(int index, std::string pathToCameraTxt, int frameRate = 0);
   ~RsCamera();
 

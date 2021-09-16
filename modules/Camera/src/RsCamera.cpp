@@ -34,7 +34,7 @@ rs2::frame RsCamera::getRawFrame() {
 
   return rsFrame;
 }
-RsCamera::RsCamera() {}
+
 RsCamera::RsCamera(int index, std::string pathToCameraTxt, int frameRate) {
   /* 0 means left infrared, 1 means right infrared*/
 
