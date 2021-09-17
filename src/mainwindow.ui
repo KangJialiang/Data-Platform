@@ -73,7 +73,7 @@
           </item>
           <item>
            <property name="text">
-            <string>realsense 435i</string>
+            <string>realsense</string>
            </property>
           </item>
           <item>
@@ -83,59 +83,46 @@
           </item>
          </widget>
         </item>
-        <item row="1" column="2">
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
-          <item>
-           <widget class="QLabel" name="leftorRight">
-            <property name="text">
-             <string>左右目选择</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="leftorRightComboBox">
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="cameraPath">
-          <property name="text">
-           <string>camera路径</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QLineEdit" name="pathToCameraLine"/>
-        </item>
-        <item row="2" column="2">
-         <widget class="QToolButton" name="cameraPathChooseButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>浏览...</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2" alignment="Qt::AlignRight">
+        <item row="5" column="2" alignment="Qt::AlignRight">
          <widget class="QPushButton" name="mainStartButton">
           <property name="text">
            <string>开始</string>
           </property>
+         </widget>
+        </item>
+        <item row="2" column="0" colspan="3">
+         <widget class="QGroupBox" name="rsParamsBoxPmain">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>realsense 参数选择</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_12">
+           <item row="0" column="1">
+            <widget class="QComboBox" name="streamNameBoxPmain"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="streamNameLabelPmain">
+             <property name="text">
+              <string>流</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="resFPSLabelPmain">
+             <property name="text">
+              <string>分辨率和帧率</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QComboBox" name="resFPSBoxPmain"/>
+           </item>
+          </layout>
          </widget>
         </item>
        </layout>
@@ -146,43 +133,16 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
-         <widget class="QLabel" name="LOrRLabelP1">
-          <property name="text">
-           <string>左右目选择</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="LOrRBoxP1">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="editable">
-           <bool>false</bool>
-          </property>
-          <item>
-           <property name="text">
-            <string>L</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>R</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="1" column="0">
          <widget class="QLabel" name="pathToCameraLabelP1">
           <property name="text">
            <string>camera路径</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="0" column="1">
          <widget class="QLineEdit" name="pathToCameraLineP1"/>
         </item>
-        <item row="2" column="1">
+        <item row="1" column="1">
          <layout class="QHBoxLayout" name="maxExposureLayoutP1">
           <item>
            <widget class="QSlider" name="maxExposureSliderP1">
@@ -212,14 +172,14 @@
           </item>
          </layout>
         </item>
-        <item row="4" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="minExposureLabelP1">
           <property name="text">
            <string>最小曝光时间(μs)</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
+        <item row="3" column="1">
          <layout class="QHBoxLayout" name="minExposureLayoutP1">
           <item>
            <widget class="QSlider" name="minExposureBoxP1">
@@ -240,31 +200,31 @@
           </item>
          </layout>
         </item>
-        <item row="5" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="outPathLabelP1">
           <property name="text">
            <string>响应数据路径</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item row="4" column="1">
          <widget class="QLineEdit" name="gammaPathLineP1"/>
         </item>
-        <item row="6" column="1">
+        <item row="5" column="1">
          <widget class="QPushButton" name="startButtonP1">
           <property name="text">
            <string>开始</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="0">
+        <item row="6" column="0">
          <widget class="QLabel" name="pictureLabelP1">
           <property name="text">
            <string>图片</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
+        <item row="6" column="1">
          <widget class="QLabel" name="picOutLabelP1">
           <property name="text">
            <string>输出图片</string>
@@ -274,7 +234,7 @@
           </property>
          </widget>
         </item>
-        <item row="8" column="0" alignment="Qt::AlignLeft">
+        <item row="7" column="0" alignment="Qt::AlignLeft">
          <widget class="QPushButton" name="exitButtonP1">
           <property name="text">
            <string>退出</string>
@@ -290,14 +250,14 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="1" column="0">
          <widget class="QLabel" name="maxExposureLabelP1">
           <property name="text">
            <string>最大曝光时间(μs)</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="1" alignment="Qt::AlignRight">
+        <item row="7" column="1" alignment="Qt::AlignRight">
          <widget class="QPushButton" name="nextButtonP1">
           <property name="text">
            <string>下一步</string>
@@ -376,14 +336,14 @@
         <string>晕影函数数据采集</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_4">
-        <item row="1" column="0">
+        <item row="0" column="0">
          <widget class="QLabel" name="pathToCameraLabelP3">
           <property name="text">
            <string>camera路径</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="0" alignment="Qt::AlignLeft">
+        <item row="8" column="0" alignment="Qt::AlignLeft">
          <widget class="QPushButton" name="exitButtonP3">
           <property name="text">
            <string>退出</string>
@@ -399,7 +359,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
+        <item row="1" column="2">
          <layout class="QHBoxLayout" name="exposureLayoutP3">
           <item>
            <widget class="QSlider" name="exposureSliderP3">
@@ -420,7 +380,7 @@
           </item>
          </layout>
         </item>
-        <item row="7" column="2">
+        <item row="5" column="2">
          <widget class="QLabel" name="picOutLabelP3">
           <property name="text">
            <string>输出图片</string>
@@ -430,109 +390,48 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="2">
+        <item row="3" column="2">
          <widget class="QLineEdit" name="vignettePathLineP3"/>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="LOrRLabelP3">
-          <property name="text">
-           <string>左右目选择</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QComboBox" name="LOrRBoxP3">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
-          <property name="editable">
-           <bool>false</bool>
-          </property>
-          <item>
-           <property name="text">
-            <string>L</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>R</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="5" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="vignettePathLabelP3">
           <property name="text">
            <string>晕影数据路径</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="2">
+        <item row="0" column="2">
          <widget class="QLineEdit" name="pathToCameraLineP3"/>
         </item>
-        <item row="7" column="0">
+        <item row="5" column="0">
          <widget class="QLabel" name="pictureLabelP3">
           <property name="text">
            <string>图片</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="fpsLabelP3">
-          <property name="text">
-           <string>FPS</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
+        <item row="4" column="2">
          <widget class="QPushButton" name="startButtonP3">
           <property name="text">
            <string>开始</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="1" column="0">
          <widget class="QLabel" name="exposureLabelP3">
           <property name="text">
            <string>曝光时间(μs)</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="2">
-         <layout class="QHBoxLayout" name="fpsLayout_P3">
-          <item>
-           <widget class="QSlider" name="fpsSliderP3">
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>30</number>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="fpsBoxP3">
-            <property name="minimum">
-             <number>1</number>
-            </property>
-            <property name="maximum">
-             <number>30</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="8" column="0">
+        <item row="6" column="0">
          <widget class="QLabel" name="pointsInRangeLabelP3">
           <property name="text">
            <string>已覆盖范围</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="2">
+        <item row="6" column="2">
          <widget class="QLabel" name="pointsInRangeOutLabelP3">
           <property name="text">
            <string>输出图片</string>
@@ -542,7 +441,7 @@
           </property>
          </widget>
         </item>
-        <item row="10" column="2" alignment="Qt::AlignRight">
+        <item row="8" column="2" alignment="Qt::AlignRight">
          <widget class="QPushButton" name="nextButtonP3">
           <property name="text">
            <string>下一步</string>
@@ -884,6 +783,138 @@
         <string>相机和激光雷达外参标定</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_6">
+        <item row="8" column="0">
+         <widget class="QGroupBox" name="pointcloud_group">
+          <property name="title">
+           <string>PointCloud Control</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_8">
+           <property name="leftMargin">
+            <number>10</number>
+           </property>
+           <property name="rightMargin">
+            <number>10</number>
+           </property>
+           <item row="0" column="3">
+            <widget class="QLabel" name="angle_start_text">
+             <property name="text">
+              <string>000</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="angle_start_label">
+             <property name="text">
+              <string>Angle Start</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QSlider" name="angle_start_slide">
+             <property name="maximum">
+              <number>360</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="3">
+            <widget class="QLabel" name="angle_size_text">
+             <property name="text">
+              <string>000</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="3">
+            <widget class="QLabel" name="distance_text">
+             <property name="text">
+              <string>00.0</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="3">
+            <widget class="QLabel" name="floor_gap_text">
+             <property name="text">
+              <string>0.0</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QSlider" name="angle_size_slide">
+             <property name="maximum">
+              <number>360</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="QSlider" name="distance_slide">
+             <property name="maximum">
+              <number>100</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="1">
+            <widget class="QSlider" name="floor_gap_slide">
+             <property name="maximum">
+              <number>100</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="angle_start_label_2">
+             <property name="text">
+              <string>Distance</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="0">
+            <widget class="QLabel" name="floor_gap_label">
+             <property name="text">
+              <string>Floor Gap</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="angle_size_label">
+             <property name="text">
+              <string>Angle Size</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item row="0" column="0">
          <widget class="QPushButton" name="Open_Config_Button">
           <property name="enabled">
@@ -920,12 +951,6 @@
              <property name="enabled">
               <bool>true</bool>
              </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
              <property name="text">
               <string>Start Selection</string>
              </property>
@@ -935,12 +960,6 @@
             <widget class="QPushButton" name="pick_points_quit">
              <property name="enabled">
               <bool>true</bool>
-             </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
              </property>
              <property name="text">
               <string>Quit Selection</string>
@@ -952,257 +971,8 @@
              <property name="enabled">
               <bool>true</bool>
              </property>
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
              <property name="text">
               <string>Finish Selection</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QGroupBox" name="pointcloud_group">
-          <property name="title">
-           <string>PointCloud Control</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_8" rowstretch="1,0,0,0,0" columnstretch="1,0,0,0">
-           <property name="leftMargin">
-            <number>10</number>
-           </property>
-           <property name="rightMargin">
-            <number>10</number>
-           </property>
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="angle_start_label">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Angle Start</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="3">
-            <widget class="QLabel" name="distance_text">
-             <property name="minimumSize">
-              <size>
-               <width>35</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>40</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>00.0</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="3">
-            <widget class="QLabel" name="floor_gap_text">
-             <property name="text">
-              <string>0.0</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QSlider" name="distance_slide">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="angle_start_label_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Distance</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="floor_gap_label">
-             <property name="text">
-              <string>Floor Gap</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="2">
-            <widget class="QSlider" name="floor_gap_slide">
-             <property name="maximum">
-              <number>100</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QSlider" name="angle_start_slide">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximum">
-              <number>360</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QLabel" name="angle_start_text">
-             <property name="minimumSize">
-              <size>
-               <width>35</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>40</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>000</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="angle_size_label">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>100</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>100</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>Angle Size</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QSlider" name="angle_size_slide">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximum">
-              <number>360</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="3">
-            <widget class="QLabel" name="angle_size_text">
-             <property name="minimumSize">
-              <size>
-               <width>35</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>40</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>000</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -1363,7 +1133,7 @@ color: rgb(239, 41, 41);
           </item>
          </layout>
         </item>
-        <item row="7" column="0">
+        <item row="9" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_9">
           <property name="spacing">
            <number>40</number>
@@ -1386,7 +1156,7 @@ color: rgb(239, 41, 41);
              <bool>true</bool>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -1399,7 +1169,7 @@ color: rgb(239, 41, 41);
           <item>
            <widget class="QPushButton" name="quick_next_pose">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -1415,7 +1185,7 @@ color: rgb(239, 41, 41);
              <bool>true</bool>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -1431,7 +1201,7 @@ color: rgb(239, 41, 41);
              <bool>true</bool>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Expanding">
+             <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -1635,22 +1405,6 @@ color: rgb(239, 41, 41);
    </hints>
   </connection>
   <connection>
-   <sender>fpsSliderP3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>fpsBoxP3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>209</x>
-     <y>179</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>336</x>
-     <y>178</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>exitButtonP4</sender>
    <signal>clicked()</signal>
    <receiver>MainWindow</receiver>
@@ -1711,22 +1465,6 @@ color: rgb(239, 41, 41);
     <hint type="destinationlabel">
      <x>360</x>
      <y>147</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>fpsBoxP3</sender>
-   <signal>valueChanged(int)</signal>
-   <receiver>fpsSliderP3</receiver>
-   <slot>setValue(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>328</x>
-     <y>187</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>155</x>
-     <y>179</y>
     </hint>
    </hints>
   </connection>

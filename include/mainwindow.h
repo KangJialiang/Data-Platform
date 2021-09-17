@@ -12,6 +12,7 @@
 #include <memory>
 #include <opencv2/opencv.hpp>
 
+#include "RsCamera.h"
 #include "calibrator.h"
 #include "data_reader.h"
 #include "imageviewer.h"
@@ -45,6 +46,8 @@ class MainWindow : public QMainWindow {
   Ui::MainWindow *ui;
 
   QPixmap cvMat2QPixmap(cv::Mat &inMat);
+
+  std::unique_ptr<RsCamera> cameraP;
 
   ros::NodeHandle nh;
   ros::Subscriber subPointCloud;
@@ -105,11 +108,11 @@ class MainWindow : public QMainWindow {
   void closeImgAndPcViewers();
 
  private slots:
-  void on_cameraComboBox_currentIndexChanged(const QString &arg1);
+  void on_cameraComboBox_currentIndexChanged(const QString &);
+
+  void on_streamNameBoxPmain_currentIndexChanged(const QString &);
 
   void on_savePathChooseButton_clicked();
-
-  void on_cameraPathChooseButton_clicked();
 
   void on_mainStartButton_clicked();
 

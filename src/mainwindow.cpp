@@ -24,16 +24,15 @@
 #include <QThread>
 #include <QTimer>
 #include <fstream>
+#include <memory>
 #include <string>
 
-#include "RsCamera.h"
 #include "findPointsInRange.h"
 #include "responseCalib.h"
 #include "ui_mainwindow.h"
 #include "vignetteCalib.h"
 
-RsCamera camera;
-RsCamera* cameraP = &camera;
+std::unique_ptr<RsCamera> rsCameraP;
 
 QPixmap MainWindow::cvMat2QPixmap(cv::Mat& inMat) {
   cv::Mat rgb;
@@ -70,26 +69,12 @@ MainWindow::MainWindow(QWidget* parent)
 
   ui->tabWidget->setCurrentWidget(ui->mainTab);  // always show mainTab first
 
-  ui->leftorRight->setVisible(false);
-  ui->leftorRightComboBox->setVisible(false);
+  // ui->leftorRight->setVisible(false);
+  // ui->leftorRightComboBox->setVisible(false);
+  ui->rsParamsBoxPmain->setVisible(false);
 }
 
 MainWindow::~MainWindow() { delete ui; }
-
-/*
-void MainWindow::on_pathToCameraLineP1_editingFinished() {
-  int cameraIndex;
-  std::string pathToCameraTxt;
-
-  if (ui->LOrRBoxP1->currentText() == QString("L"))
-    cameraIndex = 0;
-  else if (ui->LOrRBoxP1->currentText() == QString("R"))
-    cameraIndex = 1;
-  pathToCameraTxt = ui->pathToCameraLineP1->text().toStdString();
-
-  camera = RsCamera(cameraIndex, pathToCameraTxt);
-}
-*/
 
 void MainWindow::on_savePathChooseButton_clicked() {
   QString directory = QFileDialog::getExistingDirectory(this, tr("Save Path"),
@@ -99,59 +84,89 @@ void MainWindow::on_savePathChooseButton_clicked() {
   }
 }
 
-void MainWindow::on_cameraPathChooseButton_clicked() {
-  QString pathToCamera = QFileDialog::getOpenFileName(
-      this, tr("Path to Camera Parameters"), QDir::homePath(),
-      tr("Plain text(*.txt);;All files(*.*)"));
-  if (!pathToCamera.isEmpty()) {
-    ui->pathToCameraLine->setText(pathToCamera);
+// void MainWindow::on_cameraPathChooseButton_clicked() {
+//   QString pathToCamera = QFileDialog::getOpenFileName(
+//       this, tr("Path to Camera Parameters"), QDir::homePath(),
+//       tr("Plain text(*.txt);;All files(*.*)"));
+//   if (!pathToCamera.isEmpty()) {
+//     ui->pathToCameraLine->setText(pathToCamera);
+//   }
+// }
+
+void MainWindow::on_cameraComboBox_currentIndexChanged(
+    const QString& camSelected) {
+  if (camSelected == tr("realsense")) {
+    try {
+      rsCameraP.reset(new RsCamera());
+      ui->rsParamsBoxPmain->setVisible(true);
+      ui->streamNameBoxPmain->clear();
+      auto streamNames = rsCameraP->getSupportedStreamNames();
+      for (auto streamName : streamNames)
+        ui->streamNameBoxPmain->addItem(QString::fromStdString(streamName));
+
+    } catch (const std::exception& e) {
+      QMessageBox::warning(this, tr("Error"), tr(e.what()));
+    }
+  } else {
+    ui->rsParamsBoxPmain->setVisible(false);
+    rsCameraP = nullptr;
   }
 }
 
-void MainWindow::on_cameraComboBox_currentIndexChanged(const QString& arg1) {
-  if (arg1 == "realsense 435i") {
-    ui->leftorRight->setVisible(true);
-    ui->leftorRightComboBox->setVisible(true);
-
-  } else {
-    ui->leftorRight->setVisible(false);
-    ui->leftorRightComboBox->setVisible(false);
-  }
+void MainWindow::on_streamNameBoxPmain_currentIndexChanged(
+    const QString& streamNameSelected) {
+  ui->resFPSBoxPmain->clear();
+  auto profiles = rsCameraP->getProfiles(streamNameSelected.toStdString());
+  for (const auto& profile : profiles)
+    ui->resFPSBoxPmain->addItem(QString::fromStdString(profile));
 }
 
 void MainWindow::on_mainStartButton_clicked() {
   try {
-    int cameraIndex;
-    std::string savePath = ui->savePathLine->text().toStdString();
-    std::string pathToCameraTxt = ui->pathToCameraLine->text().toStdString();
+    if (rsCameraP) {
+      rsCameraP->selectProfile(
+          ui->streamNameBoxPmain->currentText().toStdString(),
+          ui->resFPSBoxPmain->currentText().toStdString());
 
-    if (ui->leftorRightComboBox->currentText() == QString("L"))
-      cameraIndex = 0;
-    else if (ui->leftorRightComboBox->currentText() == QString("R"))
-      cameraIndex = 1;
+      int minExp = rsCameraP->getMinExposure();
+      int maxExp = rsCameraP->getMaxExposure();
+      ui->maxExposureSliderP1->setMinimum(minExp);
+      ui->maxExposureSliderP1->setMaximum(maxExp);
+      ui->maxExposureBoxP1->setMinimum(minExp);
+      ui->maxExposureBoxP1->setMaximum(maxExp);
+      ui->minExposureSliderP1->setMinimum(minExp);
+      ui->minExposureSliderP1->setMaximum(maxExp);
+      ui->minExposureBoxP1->setMinimum(minExp);
+      ui->minExposureBoxP1->setMaximum(maxExp);
+      ui->exposureSliderP3->setMinimum(minExp);
+      ui->exposureSliderP3->setMaximum(maxExp);
+      ui->exposureBoxP3->setMinimum(minExp);
+      ui->exposureBoxP3->setMaximum(maxExp);
+
+      cameraP.reset(rsCameraP.release());
+    } else {
+      ;
+    }
+
+    std::string savePath = ui->savePathLine->text().toStdString();
+    if (savePath.back() != '/') savePath += '/';
+    std::string cameraPath = savePath + "camera.txt";
 
     ui->pathToCameraLineP1->setEnabled(false);
-    ui->pathToCameraLineP1->setText(ui->pathToCameraLine->text());
+    ui->pathToCameraLineP1->setText(QString::fromStdString(cameraPath));
     ui->pathToCameraLineP3->setEnabled(false);
-    ui->pathToCameraLineP3->setText(ui->pathToCameraLine->text());
+    ui->pathToCameraLineP3->setText(QString::fromStdString(cameraPath));
     ui->pathToCameraLineP5->setEnabled(false);
-    ui->pathToCameraLineP5->setText(ui->pathToCameraLine->text());
-
-    ui->LOrRBoxP1->setCurrentText(ui->leftorRightComboBox->currentText());
-    ui->LOrRBoxP3->setCurrentText(ui->leftorRightComboBox->currentText());
-    ui->LOrRBoxP5->setCurrentText(ui->leftorRightComboBox->currentText());
-
-    if (savePath.back() != '/') savePath += '/';
+    ui->pathToCameraLineP5->setText(QString::fromStdString(cameraPath));
 
     if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
       throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
 
     ui->gammaPathLineP1->setEnabled(false);
     ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
+    // P2 and P4 are automatically changed
     ui->gammaPathLineP2->setEnabled(false);
-    ui->gammaPathLineP2->setText(ui->savePathLine->text() + "/gamma/");
     ui->gammaPathLineP4->setEnabled(false);
-    ui->gammaPathLineP4->setText(ui->savePathLine->text() + "/gamma/");
 
     if (-1 == system(("mkdir -p " + savePath + "vignette/").c_str()))
       throw std::invalid_argument("Cannot create dir " + savePath +
@@ -159,8 +174,8 @@ void MainWindow::on_mainStartButton_clicked() {
 
     ui->vignettePathLineP3->setEnabled(false);
     ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
+    // P4 is automatically changed
     ui->vignettePathLineP4->setEnabled(false);
-    ui->vignettePathLineP4->setText(ui->savePathLine->text() + "/vignette/");
 
     if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
       throw std::invalid_argument("Cannot create dir " + savePath +
@@ -169,14 +184,26 @@ void MainWindow::on_mainStartButton_clicked() {
     ui->saveToLine->setEnabled(false);
     ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
 
-    if (ui->cameraComboBox->currentText() == "realsense 435i") {
-      camera = RsCamera(cameraIndex, pathToCameraTxt);
-    }
+    std::ofstream camParamsFile(cameraPath);
+    int width, height;
+    cameraP->getResolution(width, height);
+    auto intrinsic = cameraP->getIntrinsic();
+    float fx, fy, cx, cy;
+    fx = intrinsic[0] / width;
+    fy = intrinsic[1] / height;
+    cx = (intrinsic[2] + 0.5) / width;
+    cy = (intrinsic[3] + 0.5) / height;
+    camParamsFile << fx << " " << fy << " " << cx << " " << cy << " "
+                  << "0" << std::endl;
+    camParamsFile << width << " " << height << std::endl;
+    camParamsFile << "crop" << std::endl;
+    camParamsFile << width / 2 << " " << height / 2 << std::endl;
+    camParamsFile.close();
 
     ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
 
-  } catch (std::invalid_argument& ia) {
-    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
+  } catch (std::exception& e) {
+    QMessageBox::warning(this, tr("Error"), tr(e.what()));
   }
 }
 
@@ -219,10 +246,6 @@ void MainWindow::on_startButtonP1_clicked() {
 
   if (dataPath.back() != '/') dataPath += '/';
 
-  /*
-  if (-1 == system(("mkdir -p " + dataPath).c_str()))
-    throw std::invalid_argument("Cannot create dir " + dataPath);
-   */
   if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
     throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
 
@@ -260,8 +283,8 @@ void MainWindow::on_startButtonP1_clicked() {
     QPixmap img = cvMat2QPixmap(currentFrame);
     img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
     ui->picOutLabelP1->setPixmap(img);
-    QCoreApplication::processEvents();  // visualizing code ever after, needn't
-                                        // care
+    QCoreApplication::processEvents();  // visualizing code ever after,
+                                        // needn't care
   }
   timesFile.close();
 
@@ -303,7 +326,7 @@ void MainWindow::on_startButtonP3_clicked() {
   std::string pathToCameraTxt = ui->pathToCameraLineP3->text().toStdString();
   int exposureTime = ui->exposureSliderP3->value();
   int imgNum = 800;
-  int fps = ui->fpsSliderP3->value();
+  // int fps = ui->fpsSliderP3->value();
 
   ui->startButtonP3->setDisabled(true);
   ui->nextButtonP3->setDisabled(true);
@@ -324,7 +347,7 @@ void MainWindow::on_startButtonP3_clicked() {
   cv::Mat tmpMat = cameraP->getFrame();
   cv::Mat pointsInRange = cv::Mat::zeros(tmpMat.size(), CV_8UC1);
 
-  for (int i = 0; i < imgNum; i++, cv::waitKey(1 / fps)) {
+  for (int i = 0; i < imgNum; i++) {
     int timeOfArrival;
     char imgId[100];
     snprintf(imgId, 100, "%05d", i);
@@ -347,8 +370,8 @@ void MainWindow::on_startButtonP3_clicked() {
     img2 =
         img2.scaled(ui->pointsInRangeOutLabelP3->size(), Qt::KeepAspectRatio);
     ui->pointsInRangeOutLabelP3->setPixmap(img2);
-    QCoreApplication::processEvents();  // visualizing code ever after, needn't
-                                        // care
+    QCoreApplication::processEvents();  // visualizing code ever after,
+                                        // needn't care
   }
   timesFile.close();
 
@@ -841,8 +864,8 @@ bool MainWindow::processData(bool is_check) {
 }
 
 void MainWindow::setEnabledAll(bool status) {
-  // QList<QPushButton*> btns = ui->centralWidget->findChildren<QPushButton*>();
-  // for (auto& it : btns) {
+  // QList<QPushButton*> btns =
+  // ui->centralWidget->findChildren<QPushButton*>(); for (auto& it : btns) {
   //   it->setEnabled(status);
   // }
 
