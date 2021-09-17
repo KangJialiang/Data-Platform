@@ -11,13 +11,16 @@
 
 class RsCamera {
  public:
-  typedef std::array<float, 9>
-      intrinsicT;  // fx, fy, cx, cy, k1, k2, p1, p2, k3
+  typedef struct {
+    float fx;
+    float fy;
+    float cx;
+    float cy;
+    float coeffs[5];  // Order for Brown-Conrady: [k1, k2, p1, p2, k3].
+  } intrinsicT;
 
  public:
   RsCamera();
-  // RsCamera(int index);
-  RsCamera(int index, std::string pathToCameraTxt, int frameRate = 0){};
   ~RsCamera() = default;
 
   int getMinExposure();

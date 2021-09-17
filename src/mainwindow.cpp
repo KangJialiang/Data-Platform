@@ -189,10 +189,10 @@ void MainWindow::on_mainStartButton_clicked() {
     cameraP->getResolution(width, height);
     auto intrinsic = cameraP->getIntrinsic();
     float fx, fy, cx, cy;
-    fx = intrinsic[0] / width;
-    fy = intrinsic[1] / height;
-    cx = (intrinsic[2] + 0.5) / width;
-    cy = (intrinsic[3] + 0.5) / height;
+    fx = intrinsic.fx / width;
+    fy = intrinsic.fy / height;
+    cx = (intrinsic.cx + 0.5) / width;
+    cy = (intrinsic.cy + 0.5) / height;
     camParamsFile << fx << " " << fy << " " << cx << " " << cy << " "
                   << "0" << std::endl;
     camParamsFile << width << " " << height << std::endl;

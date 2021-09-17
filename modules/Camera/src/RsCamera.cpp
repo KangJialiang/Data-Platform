@@ -52,19 +52,16 @@ RsCamera::RsCamera() {
         } else
           throw std::runtime_error("Do not support variable exposure time.");
 
-        intrinsicT intrinsics;
         try {
           rs2_intrinsics rsIntrinsics =
               video.get_intrinsics();  // may throw an exception
           if (rsIntrinsics.model == RS2_DISTORTION_BROWN_CONRADY ||
               rsIntrinsics.model == RS2_DISTORTION_INVERSE_BROWN_CONRADY ||
               rsIntrinsics.model == RS2_DISTORTION_MODIFIED_BROWN_CONRADY) {
-            intrinsics[0] = rsIntrinsics.fx;
-            intrinsics[1] = rsIntrinsics.fy;
-            intrinsics[2] = rsIntrinsics.ppx;
-            intrinsics[3] = rsIntrinsics.ppy;
+            intrinsicT intrinsics{rsIntrinsics.fx, rsIntrinsics.fy,
+                                  rsIntrinsics.ppx, rsIntrinsics.ppy};
             std::copy(std::begin(rsIntrinsics.coeffs),
-                      std::end(rsIntrinsics.coeffs), intrinsics.begin() + 4);
+                      std::end(rsIntrinsics.coeffs), intrinsics.coeffs);
             profIntrinsicMap.insert({profile, intrinsics});
           }
         } catch (...) {
