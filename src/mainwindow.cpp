@@ -208,28 +208,20 @@ void MainWindow::on_mainStartButton_clicked() {
 }
 
 void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
-  try {
-    if (cameraP) {
-      cv::Mat tmpMat = cameraP->getFrame(value);
-      QPixmap img = cvMat2QPixmap(tmpMat);
-      img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
-      ui->picOutLabelP1->setPixmap(img);
-    }
-  } catch (std::invalid_argument& ia) {
-    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
+  if (cameraP) {
+    cv::Mat tmpMat = cameraP->getFrame(value);
+    QPixmap img = cvMat2QPixmap(tmpMat);
+    img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
+    ui->picOutLabelP1->setPixmap(img);
   }
 }
 
 void MainWindow::on_minExposureSliderP1_valueChanged(int value) {
-  try {
-    if (cameraP) {
-      cv::Mat tmpMat = cameraP->getFrame(value);
-      QPixmap img = cvMat2QPixmap(tmpMat);
-      img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
-      ui->picOutLabelP1->setPixmap(img);
-    }
-  } catch (std::invalid_argument& ia) {
-    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
+  if (cameraP) {
+    cv::Mat tmpMat = cameraP->getFrame(value);
+    QPixmap img = cvMat2QPixmap(tmpMat);
+    img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
+    ui->picOutLabelP1->setPixmap(img);
   }
 }
 
@@ -307,15 +299,11 @@ void MainWindow::on_pathToCameraLineP3_editingFinished() {
 */
 
 void MainWindow::on_exposureSliderP3_valueChanged(int value) {
-  try {
-    if (cameraP) {
-      cv::Mat tmpMat = cameraP->getFrame(value);
-      QPixmap img = cvMat2QPixmap(tmpMat);
-      img = img.scaled(ui->picOutLabelP3->size(), Qt::KeepAspectRatio);
-      ui->picOutLabelP3->setPixmap(img);
-    }
-  } catch (std::invalid_argument& ia) {
-    QMessageBox::warning(this, tr("Error"), tr(ia.what()));
+  if (cameraP) {
+    cv::Mat tmpMat = cameraP->getFrame(value);
+    QPixmap img = cvMat2QPixmap(tmpMat);
+    img = img.scaled(ui->picOutLabelP3->size(), Qt::KeepAspectRatio);
+    ui->picOutLabelP3->setPixmap(img);
   }
 }
 
