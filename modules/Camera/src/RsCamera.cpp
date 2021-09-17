@@ -167,7 +167,7 @@ cv::Mat RsCamera::getFrame(int exposureTime) {
   return this->getFrame();
 }
 
-cv::Mat RsCamera::getFrame(int exposureTime, int &timeOfArrival) {
+cv::Mat RsCamera::getFrame(int exposureTime, long long &timeOfArrival) {
   this->setExposureTime(sensorSelected, exposureTime);
 
   rs2::frame rsFrame = this->getRawFrame();

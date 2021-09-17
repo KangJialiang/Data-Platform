@@ -28,7 +28,7 @@ class RsCamera {
 
   cv::Mat getFrame();
   cv::Mat getFrame(int exposureTime);
-  cv::Mat getFrame(int exposureTime, int& timeOfArrival);
+  cv::Mat getFrame(int exposureTime, long long& timeOfArrival);
 
   std::set<std::string> getSupportedStreamNames() { return streamNames; }
   std::set<std::string> getProfiles(const std::string& streamName) {

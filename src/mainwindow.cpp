@@ -268,7 +268,7 @@ void MainWindow::on_startButtonP1_clicked() {
   timesFile.open(dataPath + "times.txt", std::ios::out | std::ios::trunc);
 
   for (int i = 0; i < exposureTimes.size(); i++) {
-    int timeOfArrival = 0;
+    long long timeOfArrival = 0;
     auto exposureTime = exposureTimes[i];
     char imgId[100];
     snprintf(imgId, 100, "%05d", i);
@@ -348,7 +348,7 @@ void MainWindow::on_startButtonP3_clicked() {
   cv::Mat pointsInRange = cv::Mat::zeros(tmpMat.size(), CV_8UC1);
 
   for (int i = 0; i < imgNum; i++) {
-    int timeOfArrival;
+    long long timeOfArrival;
     char imgId[100];
     snprintf(imgId, 100, "%05d", i);
     char imgName[100];
