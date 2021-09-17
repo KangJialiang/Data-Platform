@@ -255,14 +255,13 @@ void MainWindow::on_startButtonP1_clicked() {
     throw std::invalid_argument("Cannot copy " + dataPath);
 
   std::vector<int> exposureTimes;
-  float exposureTimeGap =
+  double exposureTimeGap =
       pow(maxExposureTime / minExposureTime, 1.0 / exposureNum);
 
-  for (size_t i = 0, tempExposureTime = minExposureTime; i < exposureNum; i++) {
+  for (double tempExposureTime = minExposureTime;
+       tempExposureTime < maxExposureTime; tempExposureTime *= exposureTimeGap)
     for (size_t j = 0; j < imgNum; j++)
       exposureTimes.push_back(tempExposureTime);
-    tempExposureTime *= exposureTimeGap;
-  }
 
   std::fstream timesFile;
   timesFile.open(dataPath + "times.txt", std::ios::out | std::ios::trunc);
