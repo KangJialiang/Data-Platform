@@ -117,14 +117,25 @@ std::string RsCamera::parseProf(const rs2::stream_profile &profile) {
          std::to_string(FPS) + "Hz";
 }
 
-rs2::frame RsCamera::getRawFrame() {
+/*do not set exposureTime to enable auto exposure*/
+rs2::frame RsCamera::getRawFrame(int exposureTime = 0) {
+  if (exposureTime) {
+    if (exposureTime < getMinExposure() || exposureTime > getMaxExposure())
+      throw std::invalid_argument("Invalid exposure time!");
+    sensorSelected.set_option(RS2_OPTION_EXPOSURE, exposureTime);
+  } else
+    sensorSelected.set_option(RS2_OPTION_ENABLE_AUTO_EXPOSURE, 1);
+
   rs2::frameset rsFrameSet = this->pipe.wait_for_frames();
   rs2::frame rsFrame;
-
   if (profSelected.stream_type() == RS2_STREAM_INFRARED)
     rsFrame = rsFrameSet.get_infrared_frame(profSelected.stream_index());
   else if ((profSelected.stream_type() == RS2_STREAM_COLOR))
     rsFrame = rsFrameSet.get_color_frame();
+
+  if (exposureTime && rsFrame.get_frame_metadata(
+                          RS2_FRAME_METADATA_ACTUAL_EXPOSURE) != exposureTime)
+    rsFrame = getRawFrame(exposureTime);
 
   return rsFrame;
 }
@@ -140,19 +151,6 @@ void RsCamera::selectProfile(const std::string &streamName,
   }
 }
 
-void RsCamera::setExposureTime(rs2::sensor sensor, int exposureTime) {
-  // set and (check) exposure time
-  int rsActureExposureTime;
-  do {
-    if (exposureTime < getMinExposure() || exposureTime > getMaxExposure())
-      throw std::invalid_argument("Invalid exposure time!");
-    sensor.set_option(RS2_OPTION_EXPOSURE, exposureTime);
-    rs2::frame rsTmpFrame = getRawFrame();
-    rsActureExposureTime =
-        rsTmpFrame.get_frame_metadata(RS2_FRAME_METADATA_ACTUAL_EXPOSURE);
-  } while (exposureTime != rsActureExposureTime);
-}
-
 int RsCamera::getMinExposure() {
   return sensorMinMaxExposureMap.find(sensorSelected)->second.first;
 }
@@ -162,31 +160,23 @@ int RsCamera::getMaxExposure() {
 }
 
 cv::Mat RsCamera::getFrame(int exposureTime) {
-  this->setExposureTime(sensorSelected, exposureTime);
+  rs2::frame rsFrame = this->getRawFrame(exposureTime);
+  cv::Mat frameMat(
+      cv::Size(profSelected.as<rs2::video_stream_profile>().width(),
+               profSelected.as<rs2::video_stream_profile>().height()),
+      CV_8U, (void *)rsFrame.get_data(), cv::Mat::AUTO_STEP);
 
-  return this->getFrame();
+  return frameMat.clone();
 }
 
 cv::Mat RsCamera::getFrame(int exposureTime, long long &timeOfArrival) {
-  this->setExposureTime(sensorSelected, exposureTime);
-
-  rs2::frame rsFrame = this->getRawFrame();
+  rs2::frame rsFrame = this->getRawFrame(exposureTime);
   cv::Mat frameMat(
       cv::Size(profSelected.as<rs2::video_stream_profile>().width(),
                profSelected.as<rs2::video_stream_profile>().height()),
       CV_8U, (void *)rsFrame.get_data(), cv::Mat::AUTO_STEP);
   timeOfArrival =
       rsFrame.get_frame_metadata(RS2_FRAME_METADATA_TIME_OF_ARRIVAL);
-
-  return frameMat.clone();
-}
-
-cv::Mat RsCamera::getFrame() {
-  rs2::frame rsFrame = this->getRawFrame();
-  cv::Mat frameMat(
-      cv::Size(profSelected.as<rs2::video_stream_profile>().width(),
-               profSelected.as<rs2::video_stream_profile>().height()),
-      CV_8U, (void *)rsFrame.get_data(), cv::Mat::AUTO_STEP);
 
   return frameMat.clone();
 }

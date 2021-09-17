@@ -26,8 +26,8 @@ class RsCamera {
   int getMinExposure();
   int getMaxExposure();
 
-  cv::Mat getFrame();
-  cv::Mat getFrame(int exposureTime);
+  // do not set exposureTime to enable auto exposure
+  cv::Mat getFrame(int exposureTime = 0);
   cv::Mat getFrame(int exposureTime, long long& timeOfArrival);
 
   std::set<std::string> getSupportedStreamNames() { return streamNames; }
@@ -42,9 +42,7 @@ class RsCamera {
     width = profSelected.as<rs2::video_stream_profile>().width();
     height = profSelected.as<rs2::video_stream_profile>().height();
   }
-  /**
-   * fx, fy, cx, cy, k1, k2, p1, p2, k3
-   */
+
   intrinsicT getIntrinsic() {
     return profIntrinsicMap.find(profSelected)->second;
   }
@@ -59,8 +57,7 @@ class RsCamera {
   std::multimap<std::string, rs2::stream_profile> streamNameProfMap;
   std::map<rs2::stream_profile, intrinsicT> profIntrinsicMap;
 
-  void setExposureTime(rs2::sensor sensor, int exposureTime);
-  rs2::frame getRawFrame();
+  rs2::frame getRawFrame(int exposureTime);
   std::vector<rs2::stream_profile> getRawProfiles(
       const std::string& streamName);
   void selectRawProfile(rs2::stream_profile profile);
