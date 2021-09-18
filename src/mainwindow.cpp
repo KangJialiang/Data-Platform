@@ -23,6 +23,7 @@
 #include <QStringList>
 #include <QThread>
 #include <QTimer>
+#include <algorithm>
 #include <fstream>
 #include <memory>
 #include <string>
@@ -235,8 +236,15 @@ void MainWindow::on_minExposureSliderP1_valueChanged(int value) {
 void MainWindow::on_startButtonP1_clicked() {
   if (ui->startButtonP1->text() == tr("开始")) {
     stopResponseData = false;
+
     ui->startButtonP1->setText("取消");
-    ui->nextButtonP1->setDisabled(true);
+    auto allWidgets = ui->gammaCalibData->findChildren<QWidget*>();
+    std::vector<QWidget*> widgetsStatusChanged;
+    std::copy_if(allWidgets.constBegin(), allWidgets.constEnd(),
+                 std::back_inserter(widgetsStatusChanged), [&](QWidget* w) {
+                   return w->isEnabled() && w != ui->startButtonP1;
+                 });
+    for (auto w : widgetsStatusChanged) w->setDisabled(true);
 
     std::string dataPath = ui->gammaPathLineP1->text().toStdString();
     std::string pathToCameraTxt = ui->pathToCameraLineP1->text().toStdString();
@@ -290,7 +298,7 @@ void MainWindow::on_startButtonP1_clicked() {
     timesFile.close();
 
     ui->startButtonP1->setText("开始");
-    ui->nextButtonP1->setEnabled(true);
+    for (auto w : widgetsStatusChanged) w->setEnabled(true);
 
   } else if (ui->startButtonP1->text() == tr("取消"))
     stopResponseData = true;
@@ -323,8 +331,15 @@ void MainWindow::on_exposureSliderP3_valueChanged(int value) {
 void MainWindow::on_startButtonP3_clicked() {
   if (ui->startButtonP3->text() == tr("开始")) {
     stopVignetteData = false;
+
     ui->startButtonP3->setText("取消");
-    ui->nextButtonP3->setDisabled(true);
+    auto allWidgets = ui->vignetteCalibData->findChildren<QWidget*>();
+    std::vector<QWidget*> widgetsStatusChanged;
+    std::copy_if(allWidgets.constBegin(), allWidgets.constEnd(),
+                 std::back_inserter(widgetsStatusChanged), [&](QWidget* w) {
+                   return w->isEnabled() && w != ui->startButtonP3;
+                 });
+    for (auto w : widgetsStatusChanged) w->setDisabled(true);
 
     // RsCamera* cameraP = cameraP;
     std::string dataPath = ui->vignettePathLineP3->text().toStdString();
@@ -378,7 +393,7 @@ void MainWindow::on_startButtonP3_clicked() {
     timesFile.close();
 
     ui->startButtonP3->setText("开始");
-    ui->nextButtonP3->setEnabled(true);
+    for (auto w : widgetsStatusChanged) w->setEnabled(true);
 
   } else if (ui->startButtonP3->text() == tr("取消"))
     stopVignetteData = true;
@@ -399,12 +414,22 @@ void MainWindow::on_nextButtonP3_clicked() {
 void MainWindow::on_startButtonP2_clicked() {
   if (ui->startButtonP2->text() == tr("开始")) {
     stopResponseCalib = false;
+
     ui->startButtonP2->setText("取消");
-    ui->nextButtonP2->setDisabled(true);
+    auto allWidgets = ui->gammaCalib->findChildren<QWidget*>();
+    std::vector<QWidget*> widgetsStatusChanged;
+    std::copy_if(allWidgets.constBegin(), allWidgets.constEnd(),
+                 std::back_inserter(widgetsStatusChanged), [&](QWidget* w) {
+                   return w->isEnabled() && w != ui->startButtonP2;
+                 });
+    for (auto w : widgetsStatusChanged) w->setDisabled(true);
+
     responseCalib(ui->gammaPathLineP2->text().toStdString(), ui->shellOutTextP2,
                   ui->picOutLabelP2, stopResponseCalib);
+
     ui->startButtonP2->setText("开始");
-    ui->nextButtonP2->setEnabled(true);
+    for (auto w : widgetsStatusChanged) w->setEnabled(true);
+
   } else if (ui->startButtonP2->text() == tr("取消"))
     stopResponseCalib = true;
 }
@@ -412,13 +437,23 @@ void MainWindow::on_startButtonP2_clicked() {
 void MainWindow::on_startButtonP4_clicked() {
   if (ui->startButtonP4->text() == tr("开始")) {
     stopVignetteCalib = false;
+
     ui->startButtonP4->setText("取消");
-    // ui->nextButtonP4->setDisabled(true);
+    auto allWidgets = ui->vignetteCalib->findChildren<QWidget*>();
+    std::vector<QWidget*> widgetsStatusChanged;
+    std::copy_if(allWidgets.constBegin(), allWidgets.constEnd(),
+                 std::back_inserter(widgetsStatusChanged), [&](QWidget* w) {
+                   return w->isEnabled() && w != ui->startButtonP4;
+                 });
+    for (auto w : widgetsStatusChanged) w->setDisabled(true);
+
     vignetteCalib(ui->vignettePathLineP4->text().toStdString(),
                   ui->shellOutTextP4, ui->gammaPathLineP4->text().toStdString(),
                   ui->picOutLabelP4, stopVignetteCalib);
+
     ui->startButtonP4->setText("开始");
-    // ui->nextButtonP4->setEnabled(true);
+    for (auto w : widgetsStatusChanged) w->setEnabled(true);
+
   } else if (ui->startButtonP4->text() == tr("取消"))
     stopVignetteCalib = true;
 }
