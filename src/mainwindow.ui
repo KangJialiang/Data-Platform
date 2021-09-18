@@ -307,6 +307,12 @@
         </item>
         <item row="3" column="1">
          <widget class="QLabel" name="picOutLabelP2">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>200</height>
+           </size>
+          </property>
           <property name="text">
            <string>输出图片</string>
           </property>
@@ -513,6 +519,12 @@
         </item>
         <item row="4" column="1">
          <widget class="QLabel" name="picOutLabelP4">
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>200</height>
+           </size>
+          </property>
           <property name="text">
            <string>输出图片</string>
           </property>
