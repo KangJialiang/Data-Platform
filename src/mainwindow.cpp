@@ -74,7 +74,11 @@ MainWindow::MainWindow(QWidget* parent)
   ui->rsParamsBoxPmain->setVisible(false);
 }
 
-MainWindow::~MainWindow() { delete ui; }
+MainWindow::~MainWindow() {
+  stopResponseCalib = true;
+
+  delete ui;
+}
 
 void MainWindow::on_savePathChooseButton_clicked() {
   QString directory = QFileDialog::getExistingDirectory(this, tr("Save Path"),
@@ -379,12 +383,16 @@ void MainWindow::on_nextButtonP3_clicked() {
 }
 
 void MainWindow::on_startButtonP2_clicked() {
-  ui->startButtonP2->setDisabled(true);
+  if (ui->startButtonP2->text() == tr("开始")) {
+    stopResponseCalib = false;
+    ui->startButtonP2->setText("取消");
   ui->nextButtonP2->setDisabled(true);
   responseCalib(ui->gammaPathLineP2->text().toStdString(), ui->shellOutTextP2,
-                ui->picOutLabelP2);
-  ui->startButtonP2->setEnabled(true);
+                  ui->picOutLabelP2, stopResponseCalib);
+    ui->startButtonP2->setText("开始");
   ui->nextButtonP2->setEnabled(true);
+  } else if (ui->startButtonP2->text() == tr("取消"))
+    stopResponseCalib = true;
 }
 
 void MainWindow::on_startButtonP4_clicked() {

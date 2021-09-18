@@ -49,6 +49,8 @@ class MainWindow : public QMainWindow {
 
   std::unique_ptr<RsCamera> cameraP;
 
+  bool stopResponseCalib;
+
   ros::NodeHandle nh;
   ros::Subscriber subPointCloud;
   void timerLoop();

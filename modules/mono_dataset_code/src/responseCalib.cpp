@@ -165,8 +165,8 @@ void parseArgument(char* arg) {
 }
 */
 
-void responseCalib(std::string folder, QTextBrowser* textBrowser,
-                   QLabel* label) {
+void responseCalib(std::string folder, QTextBrowser* textBrowser, QLabel* label,
+                   const bool& stopResponseCalib) {
   // parse arguments
   // for (int i = 2; i < argc; i++) parseArgument(argv[i]);
 
@@ -260,7 +260,8 @@ void responseCalib(std::string folder, QTextBrowser* textBrowser,
   bool optE = true;
   bool optG = true;
 
-  for (int it = 0; it < nits; it++, QCoreApplication::processEvents()) {
+  for (int it = 0; it < nits && !stopResponseCalib;
+       it++, QCoreApplication::processEvents()) {
     if (optG) {
       // optimize log inverse response function.
       double* GSum = new double[256];
