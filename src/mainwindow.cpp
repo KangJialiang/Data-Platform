@@ -242,7 +242,8 @@ void MainWindow::on_startButtonP1_clicked() {
     std::vector<QWidget*> widgetsStatusChanged;
     std::copy_if(allWidgets.constBegin(), allWidgets.constEnd(),
                  std::back_inserter(widgetsStatusChanged), [&](QWidget* w) {
-                   return w->isEnabled() && w != ui->startButtonP1;
+                   return w->isEnabled() && w->focusPolicy() != Qt::NoFocus &&
+                          w != ui->startButtonP1;
                  });
     for (auto w : widgetsStatusChanged) w->setDisabled(true);
 
@@ -337,7 +338,8 @@ void MainWindow::on_startButtonP3_clicked() {
     std::vector<QWidget*> widgetsStatusChanged;
     std::copy_if(allWidgets.constBegin(), allWidgets.constEnd(),
                  std::back_inserter(widgetsStatusChanged), [&](QWidget* w) {
-                   return w->isEnabled() && w != ui->startButtonP3;
+                   return w->isEnabled() && w->focusPolicy() != Qt::NoFocus &&
+                          w != ui->startButtonP3;
                  });
     for (auto w : widgetsStatusChanged) w->setDisabled(true);
 
@@ -420,7 +422,8 @@ void MainWindow::on_startButtonP2_clicked() {
     std::vector<QWidget*> widgetsStatusChanged;
     std::copy_if(allWidgets.constBegin(), allWidgets.constEnd(),
                  std::back_inserter(widgetsStatusChanged), [&](QWidget* w) {
-                   return w->isEnabled() && w != ui->startButtonP2;
+                   return w->isEnabled() && w->focusPolicy() != Qt::NoFocus &&
+                          w != ui->startButtonP2;
                  });
     for (auto w : widgetsStatusChanged) w->setDisabled(true);
 
@@ -443,7 +446,8 @@ void MainWindow::on_startButtonP4_clicked() {
     std::vector<QWidget*> widgetsStatusChanged;
     std::copy_if(allWidgets.constBegin(), allWidgets.constEnd(),
                  std::back_inserter(widgetsStatusChanged), [&](QWidget* w) {
-                   return w->isEnabled() && w != ui->startButtonP4;
+                   return w->isEnabled() && w->focusPolicy() != Qt::NoFocus &&
+                          w != ui->startButtonP4;
                  });
     for (auto w : widgetsStatusChanged) w->setDisabled(true);
 
