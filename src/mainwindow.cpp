@@ -75,6 +75,8 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 MainWindow::~MainWindow() {
+  stopResponseData = true;
+  stopVignetteData = true;
   stopResponseCalib = true;
   stopVignetteCalib = true;
 
@@ -231,61 +233,67 @@ void MainWindow::on_minExposureSliderP1_valueChanged(int value) {
 }
 
 void MainWindow::on_startButtonP1_clicked() {
-  std::string dataPath = ui->gammaPathLineP1->text().toStdString();
-  std::string pathToCameraTxt = ui->pathToCameraLineP1->text().toStdString();
-  int minExposureTime = ui->minExposureSliderP1->value();
-  int maxExposureTime = ui->maxExposureSliderP1->value();
-  int exposureNum = 150;
-  int imgNum = 8;
+  if (ui->startButtonP1->text() == tr("开始")) {
+    stopResponseData = false;
+    ui->startButtonP1->setText("取消");
+    ui->nextButtonP1->setDisabled(true);
 
-  ui->startButtonP1->setDisabled(true);
-  ui->nextButtonP1->setDisabled(true);
+    std::string dataPath = ui->gammaPathLineP1->text().toStdString();
+    std::string pathToCameraTxt = ui->pathToCameraLineP1->text().toStdString();
+    int minExposureTime = ui->minExposureSliderP1->value();
+    int maxExposureTime = ui->maxExposureSliderP1->value();
+    int exposureNum = 150;
+    int imgNum = 8;
 
-  if (dataPath.back() != '/') dataPath += '/';
+    if (dataPath.back() != '/') dataPath += '/';
 
-  if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
-    throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
+    if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
+      throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
 
-  if (-1 ==
-      system(
-          ("cp -f " + pathToCameraTxt + " " + dataPath + "camera.txt").c_str()))
-    throw std::invalid_argument("Cannot copy " + dataPath);
+    if (-1 ==
+        system(("cp -f " + pathToCameraTxt + " " + dataPath + "camera.txt")
+                   .c_str()))
+      throw std::invalid_argument("Cannot copy " + dataPath);
 
-  std::vector<int> exposureTimes;
-  double exposureTimeGap =
-      pow(maxExposureTime / minExposureTime, 1.0 / exposureNum);
+    std::vector<int> exposureTimes;
+    double exposureTimeGap =
+        pow(maxExposureTime / minExposureTime, 1.0 / exposureNum);
 
-  for (double tempExposureTime = minExposureTime;
-       tempExposureTime < maxExposureTime; tempExposureTime *= exposureTimeGap)
-    for (size_t j = 0; j < imgNum; j++)
-      exposureTimes.push_back(tempExposureTime);
+    for (double tempExposureTime = minExposureTime;
+         tempExposureTime < maxExposureTime;
+         tempExposureTime *= exposureTimeGap)
+      for (size_t j = 0; j < imgNum; j++)
+        exposureTimes.push_back(tempExposureTime);
 
-  std::fstream timesFile;
-  timesFile.open(dataPath + "times.txt", std::ios::out | std::ios::trunc);
+    std::fstream timesFile;
+    timesFile.open(dataPath + "times.txt", std::ios::out | std::ios::trunc);
 
-  for (int i = 0; i < exposureTimes.size(); i++) {
-    long long timeOfArrival = 0;
-    auto exposureTime = exposureTimes[i];
-    char imgId[100];
-    snprintf(imgId, 100, "%05d", i);
-    char imgName[100];
-    snprintf(imgName, 100, "images/%05d.png", i);
-    cv::Mat currentFrame = cameraP->getFrame(exposureTime, timeOfArrival);
-    cv::imwrite((dataPath + imgName).c_str(), currentFrame);
-    timesFile << imgId << " " << timeOfArrival << " " << exposureTime / 1000.0
-              << "\n";
+    for (int i = 0; i < exposureTimes.size() && !stopResponseData; i++) {
+      long long timeOfArrival = 0;
+      auto exposureTime = exposureTimes[i];
+      char imgId[100];
+      snprintf(imgId, 100, "%05d", i);
+      char imgName[100];
+      snprintf(imgName, 100, "images/%05d.png", i);
+      cv::Mat currentFrame = cameraP->getFrame(exposureTime, timeOfArrival);
+      cv::imwrite((dataPath + imgName).c_str(), currentFrame);
+      timesFile << imgId << " " << timeOfArrival << " " << exposureTime / 1000.0
+                << "\n";
 
-    // show frame on qt
-    QPixmap img = cvMat2QPixmap(currentFrame);
-    img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
-    ui->picOutLabelP1->setPixmap(img);
-    QCoreApplication::processEvents();  // visualizing code ever after,
-                                        // needn't care
-  }
-  timesFile.close();
+      // show frame on qt
+      QPixmap img = cvMat2QPixmap(currentFrame);
+      img = img.scaled(ui->picOutLabelP1->size(), Qt::KeepAspectRatio);
+      ui->picOutLabelP1->setPixmap(img);
+      QCoreApplication::processEvents();  // visualizing code ever after,
+                                          // needn't care
+    }
+    timesFile.close();
 
-  ui->startButtonP1->setEnabled(true);
-  ui->nextButtonP1->setEnabled(true);
+    ui->startButtonP1->setText("开始");
+    ui->nextButtonP1->setEnabled(true);
+
+  } else if (ui->startButtonP1->text() == tr("取消"))
+    stopResponseData = true;
 }
 
 /*
@@ -313,62 +321,67 @@ void MainWindow::on_exposureSliderP3_valueChanged(int value) {
 }
 
 void MainWindow::on_startButtonP3_clicked() {
-  // RsCamera* cameraP = cameraP;
-  std::string dataPath = ui->vignettePathLineP3->text().toStdString();
-  std::string pathToCameraTxt = ui->pathToCameraLineP3->text().toStdString();
-  int exposureTime = ui->exposureSliderP3->value();
-  int imgNum = 800;
-  // int fps = ui->fpsSliderP3->value();
+  if (ui->startButtonP3->text() == tr("开始")) {
+    stopVignetteData = false;
+    ui->startButtonP3->setText("取消");
+    ui->nextButtonP3->setDisabled(true);
 
-  ui->startButtonP3->setDisabled(true);
-  ui->nextButtonP3->setDisabled(true);
+    // RsCamera* cameraP = cameraP;
+    std::string dataPath = ui->vignettePathLineP3->text().toStdString();
+    std::string pathToCameraTxt = ui->pathToCameraLineP3->text().toStdString();
+    int exposureTime = ui->exposureSliderP3->value();
+    int imgNum = 800;
+    // int fps = ui->fpsSliderP3->value();
 
-  if (dataPath.back() != '/') dataPath += '/';
-  // if (-1 == system(("mkdir -p " + dataPath).c_str()))
-  //   throw std::invalid_argument("Cannot create dir " + dataPath);
-  if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
-    throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
-  if (-1 ==
-      system(
-          ("cp -f " + pathToCameraTxt + " " + dataPath + "camera.txt").c_str()))
-    throw std::invalid_argument("Cannot copy " + dataPath);
+    if (dataPath.back() != '/') dataPath += '/';
+    // if (-1 == system(("mkdir -p " + dataPath).c_str()))
+    //   throw std::invalid_argument("Cannot create dir " + dataPath);
+    if (-1 == system(("mkdir -p " + dataPath + "images/").c_str()))
+      throw std::invalid_argument("Cannot create dir " + dataPath + "images/");
+    if (-1 ==
+        system(("cp -f " + pathToCameraTxt + " " + dataPath + "camera.txt")
+                   .c_str()))
+      throw std::invalid_argument("Cannot copy " + dataPath);
 
-  std::fstream timesFile;
-  timesFile.open(dataPath + "times.txt", std::ios::out | std::ios::trunc);
+    std::fstream timesFile;
+    timesFile.open(dataPath + "times.txt", std::ios::out | std::ios::trunc);
 
-  cv::Mat tmpMat = cameraP->getFrame();
-  cv::Mat pointsInRange = cv::Mat::zeros(tmpMat.size(), CV_8UC1);
+    cv::Mat tmpMat = cameraP->getFrame();
+    cv::Mat pointsInRange = cv::Mat::zeros(tmpMat.size(), CV_8UC1);
 
-  for (int i = 0; i < imgNum; i++) {
-    long long timeOfArrival;
-    char imgId[100];
-    snprintf(imgId, 100, "%05d", i);
-    char imgName[100];
-    snprintf(imgName, 100, "images/%05d.png", i);
-    cv::Mat currentFrame = cameraP->getFrame(exposureTime, timeOfArrival);
-    cv::imwrite((dataPath + imgName).c_str(), currentFrame);
-    timesFile << imgId << " " << timeOfArrival << " " << exposureTime / 1000.0
-              << "\n";
+    for (int i = 0; i < imgNum && !stopVignetteData; i++) {
+      long long timeOfArrival;
+      char imgId[100];
+      snprintf(imgId, 100, "%05d", i);
+      char imgName[100];
+      snprintf(imgName, 100, "images/%05d.png", i);
+      cv::Mat currentFrame = cameraP->getFrame(exposureTime, timeOfArrival);
+      cv::imwrite((dataPath + imgName).c_str(), currentFrame);
+      timesFile << imgId << " " << timeOfArrival << " " << exposureTime / 1000.0
+                << "\n";
 
-    // show current frame on qt
-    QPixmap img = cvMat2QPixmap(currentFrame);
-    img = img.scaled(ui->picOutLabelP3->size(), Qt::KeepAspectRatio);
-    ui->picOutLabelP3->setPixmap(img);
+      // show current frame on qt
+      QPixmap img = cvMat2QPixmap(currentFrame);
+      img = img.scaled(ui->picOutLabelP3->size(), Qt::KeepAspectRatio);
+      ui->picOutLabelP3->setPixmap(img);
 
-    findPointsInRange(currentFrame, pointsInRange, pathToCameraTxt);
+      findPointsInRange(currentFrame, pointsInRange, pathToCameraTxt);
 
-    // show covered range on qt
-    QPixmap img2 = cvMat2QPixmap(pointsInRange);
-    img2 =
-        img2.scaled(ui->pointsInRangeOutLabelP3->size(), Qt::KeepAspectRatio);
-    ui->pointsInRangeOutLabelP3->setPixmap(img2);
-    QCoreApplication::processEvents();  // visualizing code ever after,
-                                        // needn't care
-  }
-  timesFile.close();
+      // show covered range on qt
+      QPixmap img2 = cvMat2QPixmap(pointsInRange);
+      img2 =
+          img2.scaled(ui->pointsInRangeOutLabelP3->size(), Qt::KeepAspectRatio);
+      ui->pointsInRangeOutLabelP3->setPixmap(img2);
+      QCoreApplication::processEvents();  // visualizing code ever after,
+                                          // needn't care
+    }
+    timesFile.close();
 
-  ui->startButtonP3->setEnabled(true);
-  ui->nextButtonP3->setEnabled(true);
+    ui->startButtonP3->setText("开始");
+    ui->nextButtonP3->setEnabled(true);
+
+  } else if (ui->startButtonP3->text() == tr("取消"))
+    stopVignetteData = true;
 }
 
 void MainWindow::on_nextButtonP1_clicked() {
