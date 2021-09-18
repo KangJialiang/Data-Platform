@@ -532,7 +532,7 @@
         <string>激光雷达数据采集</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_10">
-        <item row="4" column="0">
+        <item row="3" column="0">
          <layout class="QHBoxLayout" name="saveToGroup">
           <item>
            <widget class="QLabel" name="saveToLabel">
@@ -546,7 +546,7 @@
           </item>
          </layout>
         </item>
-        <item row="3" column="0">
+        <item row="2" column="0">
          <widget class="QGroupBox" name="translationGroup">
           <property name="title">
            <string>Translation</string>
@@ -627,7 +627,7 @@
           </layout>
          </widget>
         </item>
-        <item row="6" column="0" colspan="2">
+        <item row="5" column="0" colspan="2">
          <layout class="QHBoxLayout" name="buttonGroup">
           <item>
            <widget class="QPushButton" name="openConfigButton">
@@ -659,7 +659,7 @@
           </item>
          </layout>
         </item>
-        <item row="2" column="0">
+        <item row="1" column="0">
          <widget class="QGroupBox" name="rotationGroup">
           <property name="title">
            <string>Rotation</string>
@@ -751,34 +751,6 @@
           </item>
           <item>
            <widget class="QLineEdit" name="pathToCameraLineP5"/>
-          </item>
-         </layout>
-        </item>
-        <item row="1" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLabel" name="LOrRLabelP5">
-            <property name="text">
-             <string>左右目选择</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="LOrRBoxP5">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <item>
-             <property name="text">
-              <string>L</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>R</string>
-             </property>
-            </item>
-           </widget>
           </item>
          </layout>
         </item>
