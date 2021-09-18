@@ -50,6 +50,7 @@ class MainWindow : public QMainWindow {
   std::unique_ptr<RsCamera> cameraP;
 
   bool stopResponseCalib;
+  bool stopVignetteCalib;
 
   ros::NodeHandle nh;
   ros::Subscriber subPointCloud;

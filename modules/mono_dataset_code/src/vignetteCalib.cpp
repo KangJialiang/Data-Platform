@@ -169,7 +169,8 @@ void parseArgument(char* arg) {
 }
 */
 void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
-                   std::string folderforResponseCalib, QLabel* label) {
+                   std::string folderforResponseCalib, QLabel* label,
+                   const bool& stopVignetteCalib) {
   // for (int i = 2; i < argc; i++) parseArgument(argv[i]);
   setTextTest = textBrowser;
   if (folder.back() != '/') folder += '/';
@@ -220,7 +221,7 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
 
   if (meanExposure == 0) meanExposure = 1;
 
-  for (int i = 0; i < reader->getNumImages();
+  for (int i = 0; i < reader->getNumImages() && !stopVignetteCalib;
        i += imageSkip, QCoreApplication::processEvents()) {
     // std::vector<aruco::Marker> Markers;
     std::vector<int> markerIds;
@@ -393,7 +394,7 @@ void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
 
   double E = 0;
   double R = 0;
-  for (int it = 0; it < maxIterations;
+  for (int it = 0; it < maxIterations && !stopVignetteCalib;
        it++, QCoreApplication::processEvents()) {
     int oth2 = outlierTh * outlierTh;
     if (it < maxIterations / 2) oth2 = 10000 * 10000;

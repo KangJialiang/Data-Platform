@@ -76,6 +76,7 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() {
   stopResponseCalib = true;
+  stopVignetteCalib = true;
 
   delete ui;
 }
@@ -386,21 +387,27 @@ void MainWindow::on_startButtonP2_clicked() {
   if (ui->startButtonP2->text() == tr("开始")) {
     stopResponseCalib = false;
     ui->startButtonP2->setText("取消");
-  ui->nextButtonP2->setDisabled(true);
-  responseCalib(ui->gammaPathLineP2->text().toStdString(), ui->shellOutTextP2,
+    ui->nextButtonP2->setDisabled(true);
+    responseCalib(ui->gammaPathLineP2->text().toStdString(), ui->shellOutTextP2,
                   ui->picOutLabelP2, stopResponseCalib);
     ui->startButtonP2->setText("开始");
-  ui->nextButtonP2->setEnabled(true);
+    ui->nextButtonP2->setEnabled(true);
   } else if (ui->startButtonP2->text() == tr("取消"))
     stopResponseCalib = true;
 }
 
 void MainWindow::on_startButtonP4_clicked() {
-  ui->startButtonP4->setDisabled(true);
-  vignetteCalib(ui->vignettePathLineP4->text().toStdString(),
-                ui->shellOutTextP4, ui->gammaPathLineP4->text().toStdString(),
-                ui->picOutLabelP4);
-  ui->startButtonP4->setEnabled(true);
+  if (ui->startButtonP4->text() == tr("开始")) {
+    stopVignetteCalib = false;
+    ui->startButtonP4->setText("取消");
+    // ui->nextButtonP4->setDisabled(true);
+    vignetteCalib(ui->vignettePathLineP4->text().toStdString(),
+                  ui->shellOutTextP4, ui->gammaPathLineP4->text().toStdString(),
+                  ui->picOutLabelP4, stopVignetteCalib);
+    ui->startButtonP4->setText("开始");
+    // ui->nextButtonP4->setEnabled(true);
+  } else if (ui->startButtonP4->text() == tr("取消"))
+    stopVignetteCalib = true;
 }
 
 void MainWindow::pointCloudHandler(

@@ -4,5 +4,6 @@
 #include <QtWidgets/QTextBrowser>
 #include <string>
 void vignetteCalib(std::string folder, QTextBrowser* textBrowser,
-                   std::string folderforResponseCalib, QLabel* label);
+                   std::string folderforResponseCalib, QLabel* label,
+                   const bool& stopVignetteCalib);
 #endif
