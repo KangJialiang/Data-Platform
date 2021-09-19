@@ -85,6 +85,7 @@ MainWindow::~MainWindow() {
   stopVignetteCalib = true;
 
   rosSpinner.stop();
+  system("killall -9 roscore && killall -9 rosmaster");  // stop roscore
 
   delete ui;
 }
