@@ -8,7 +8,6 @@
 
 #include <QImage>
 #include <QMainWindow>
-#include <QTimer>
 #include <memory>
 #include <opencv2/opencv.hpp>
 
