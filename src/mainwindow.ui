@@ -1464,5 +1464,37 @@ color: rgb(239, 41, 41);
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>startButtonP2</sender>
+   <signal>clicked()</signal>
+   <receiver>picOutLabelP2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>403</x>
+     <y>111</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>403</x>
+     <y>533</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>startButtonP4</sender>
+   <signal>clicked()</signal>
+   <receiver>picOutLabelP4</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>403</x>
+     <y>147</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>238</x>
+     <y>533</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
 </ui>
