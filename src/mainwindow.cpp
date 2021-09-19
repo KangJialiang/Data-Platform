@@ -6,6 +6,7 @@
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl_ros/point_cloud.h>
 #include <ros/ros.h>
+#include <ros/spinner.h>
 #include <sensor_msgs/PointCloud2.h>
 
 #include <QAction>
@@ -22,7 +23,6 @@
 #include <QPushButton>
 #include <QStringList>
 #include <QThread>
-#include <QTimer>
 #include <algorithm>
 #include <fstream>
 #include <memory>
@@ -53,6 +53,8 @@ MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent),
       ui(new Ui::MainWindow),
 
+      rosSpinner(1),  // use 1 thread
+
       sid_(INT_MAX),
       is_calibrated_(false),
       data_reader_(nullptr),
@@ -61,12 +63,13 @@ MainWindow::MainWindow(QWidget* parent)
   ui->setupUi(this);
   this->resize(QSize(1000, 800));
 
+  rosSpinner.start();
   subPointCloud = nh.subscribe<sensor_msgs::PointCloud2>(
       "velodyne_points", 2, &MainWindow::pointCloudHandler, this);
-  rosTimer = new QTimer(this);
-  rosTimer->setInterval(20);  // 单位毫秒
-  connect(rosTimer, &QTimer::timeout, this, &ros::spinOnce);
-  rosTimer->start();
+  // rosTimer = new QTimer(this);
+  // rosTimer->setInterval(20);  // 单位毫秒
+  // connect(rosTimer, &QTimer::timeout, this, &ros::spinOnce);
+  // rosTimer->start();
 
   ui->tabWidget->setCurrentWidget(ui->mainTab);  // always show mainTab first
 
@@ -80,6 +83,8 @@ MainWindow::~MainWindow() {
   stopVignetteData = true;
   stopResponseCalib = true;
   stopVignetteCalib = true;
+
+  rosSpinner.stop();
 
   delete ui;
 }

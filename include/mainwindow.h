@@ -54,10 +54,11 @@ class MainWindow : public QMainWindow {
   bool stopResponseCalib;
   bool stopVignetteCalib;
 
+  ros::AsyncSpinner rosSpinner;
   ros::NodeHandle nh;
   ros::Subscriber subPointCloud;
   void pointCloudHandler(const sensor_msgs::PointCloud2ConstPtr &msg);
-  QTimer *rosTimer;
+  // QTimer *rosTimer;
   pcl::PointCloud<pcl::PointXYZI> pointCloud;
 
   struct SensorData {
