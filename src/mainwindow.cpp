@@ -138,18 +138,12 @@ void MainWindow::on_mainStartButton_clicked() {
 
       int minExp = rsCameraP->getMinExposure();
       int maxExp = rsCameraP->getMaxExposure();
-      ui->maxExposureSliderP1->setMinimum(minExp);
-      ui->maxExposureSliderP1->setMaximum(maxExp);
-      ui->maxExposureBoxP1->setMinimum(minExp);
-      ui->maxExposureBoxP1->setMaximum(maxExp);
-      ui->minExposureSliderP1->setMinimum(minExp);
-      ui->minExposureSliderP1->setMaximum(maxExp);
-      ui->minExposureBoxP1->setMinimum(minExp);
-      ui->minExposureBoxP1->setMaximum(maxExp);
-      ui->exposureSliderP3->setMinimum(minExp);
-      ui->exposureSliderP3->setMaximum(maxExp);
-      ui->exposureBoxP3->setMinimum(minExp);
-      ui->exposureBoxP3->setMaximum(maxExp);
+      ui->maxExposureSliderP1->setRange(minExp, maxExp);
+      ui->maxExposureBoxP1->setRange(minExp, maxExp);
+      ui->minExposureSliderP1->setRange(minExp, maxExp);
+      ui->minExposureBoxP1->setRange(minExp, maxExp);
+      ui->exposureSliderP3->setRange(minExp, maxExp);
+      ui->exposureBoxP3->setRange(minExp, maxExp);
 
       cameraP.reset(rsCameraP.release());
     } else {
