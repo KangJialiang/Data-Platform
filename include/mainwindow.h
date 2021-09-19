@@ -56,7 +56,6 @@ class MainWindow : public QMainWindow {
 
   ros::NodeHandle nh;
   ros::Subscriber subPointCloud;
-  void timerLoop();
   void pointCloudHandler(const sensor_msgs::PointCloud2ConstPtr &msg);
   QTimer *rosTimer;
   pcl::PointCloud<pcl::PointXYZI> pointCloud;

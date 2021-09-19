@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget* parent)
       "velodyne_points", 2, &MainWindow::pointCloudHandler, this);
   rosTimer = new QTimer(this);
   rosTimer->setInterval(20);  // 单位毫秒
-  connect(rosTimer, &QTimer::timeout, this, &MainWindow::timerLoop);
+  connect(rosTimer, &QTimer::timeout, this, &ros::spinOnce);
   rosTimer->start();
 
   ui->tabWidget->setCurrentWidget(ui->mainTab);  // always show mainTab first
@@ -460,8 +460,6 @@ void MainWindow::pointCloudHandler(
     const sensor_msgs::PointCloud2ConstPtr& msg) {
   pcl::fromROSMsg(*msg, pointCloud);
 }
-
-void MainWindow::timerLoop() { ros::spinOnce(); }
 
 void MainWindow::on_openConfigButton_clicked() {
   readConfig();
