@@ -9,15 +9,17 @@
 #include <string>
 #include <utility>
 
-class RsCamera {
- public:
-  typedef struct {
-    float fx;
-    float fy;
-    float cx;
-    float cy;
-    float coeffs[5];  // Order for Brown-Conrady: [k1, k2, p1, p2, k3].
-  } intrinsicT;
+#include "Camera.h"
+
+class RsCamera : public Camera {
+  //  public:
+  //   typedef struct {
+  //     float fx;
+  //     float fy;
+  //     float cx;
+  //     float cy;
+  //     float coeffs[5];  // Order for Brown-Conrady: [k1, k2, p1, p2, k3].
+  //   } intrinsicT;
 
  public:
   RsCamera();
@@ -27,8 +29,9 @@ class RsCamera {
   int getMaxExposure();
 
   // do not set exposureTime to enable auto exposure
-  cv::Mat getFrame(int exposureTime = 0);
-  cv::Mat getFrame(int exposureTime, long long& timeOfArrival);
+  cv::Mat getFrame() override;
+  cv::Mat getFrame(int exposureTime) override;
+  cv::Mat getFrame(int exposureTime, long long& timeOfArrival) override;
 
   std::set<std::string> getSupportedStreamNames() { return streamNames; }
   std::set<std::string> getProfiles(const std::string& streamName) {
@@ -38,14 +41,10 @@ class RsCamera {
     return result;
   }
   void selectProfile(const std::string& streamName, const std::string& resFPS);
-  void getResolution(int& width, int& height) {
-    width = profSelected.as<rs2::video_stream_profile>().width();
-    height = profSelected.as<rs2::video_stream_profile>().height();
-  }
 
-  intrinsicT getIntrinsic() {
-    return profIntrinsicMap.find(profSelected)->second;
-  }
+  void getResolution(int& width, int& height) override;
+
+  intrinsicT getIntrinsic() override;
 
  private:
   std::string deviceName, serialNumber, firmwareVersion;

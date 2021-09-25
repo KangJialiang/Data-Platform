@@ -118,7 +118,7 @@ std::string RsCamera::parseProf(const rs2::stream_profile &profile) {
 }
 
 /*do not set exposureTime to enable auto exposure*/
-rs2::frame RsCamera::getRawFrame(int exposureTime = 0) {
+rs2::frame RsCamera::getRawFrame(int exposureTime) {
   if (exposureTime) {
     if (exposureTime < getMinExposure() || exposureTime > getMaxExposure())
       throw std::invalid_argument("Invalid exposure time!");
@@ -158,6 +158,15 @@ int RsCamera::getMinExposure() {
 int RsCamera::getMaxExposure() {
   return sensorMinMaxExposureMap.find(sensorSelected)->second.second;
 }
+cv::Mat RsCamera::getFrame() {
+  rs2::frame rsFrame = this->getRawFrame(0);
+  cv::Mat frameMat(
+      cv::Size(profSelected.as<rs2::video_stream_profile>().width(),
+               profSelected.as<rs2::video_stream_profile>().height()),
+      CV_8U, (void *)rsFrame.get_data(), cv::Mat::AUTO_STEP);
+
+  return frameMat.clone();
+}
 
 cv::Mat RsCamera::getFrame(int exposureTime) {
   rs2::frame rsFrame = this->getRawFrame(exposureTime);
@@ -179,4 +188,13 @@ cv::Mat RsCamera::getFrame(int exposureTime, long long &timeOfArrival) {
       rsFrame.get_frame_metadata(RS2_FRAME_METADATA_TIME_OF_ARRIVAL);
 
   return frameMat.clone();
+}
+
+void RsCamera::getResolution(int &width, int &height) {
+  width = profSelected.as<rs2::video_stream_profile>().width();
+  height = profSelected.as<rs2::video_stream_profile>().height();
+}
+
+Camera::intrinsicT RsCamera::getIntrinsic() {
+  return profIntrinsicMap.find(profSelected)->second;
 }

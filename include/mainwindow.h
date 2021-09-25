@@ -46,7 +46,7 @@ class MainWindow : public QMainWindow {
 
   QPixmap cvMat2QPixmap(cv::Mat &inMat);
 
-  std::unique_ptr<RsCamera> cameraP;
+  std::unique_ptr<Camera> cameraP;
 
   bool stopResponseData;
   bool stopVignetteData;
