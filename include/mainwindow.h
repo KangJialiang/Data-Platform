@@ -12,6 +12,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "RsCamera.h"
+#include "USBCamera.h"
 #include "calibrator.h"
 #include "data_reader.h"
 #include "imageviewer.h"

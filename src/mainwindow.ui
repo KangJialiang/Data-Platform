@@ -44,49 +44,10 @@
         <item row="0" column="1">
          <widget class="QLineEdit" name="savePathLine"/>
         </item>
-        <item row="0" column="2">
-         <widget class="QToolButton" name="savePathChooseButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>浏览...</string>
-          </property>
-         </widget>
-        </item>
         <item row="1" column="0">
          <widget class="QLabel" name="cameraChoose">
           <property name="text">
            <string>相机选择</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QComboBox" name="cameraComboBox">
-          <item>
-           <property name="text">
-            <string/>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>realsense</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>usb</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="5" column="2" alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="mainStartButton">
-          <property name="text">
-           <string>开始</string>
           </property>
          </widget>
         </item>
@@ -121,6 +82,170 @@
            </item>
            <item row="0" column="3">
             <widget class="QComboBox" name="resFPSBoxPmain"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="cameraComboBox">
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>realsense</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>usb</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QToolButton" name="savePathChooseButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>浏览...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2" alignment="Qt::AlignRight">
+         <widget class="QPushButton" name="mainStartButton">
+          <property name="text">
+           <string>开始</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0" colspan="3">
+         <widget class="QGroupBox" name="usbParamsBoxPmain">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>USBCamera内参</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_13">
+           <item row="0" column="3">
+            <widget class="QLineEdit" name="fyLinePmain"/>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLineEdit" name="k1LinePmain">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="cxLabelPmain">
+             <property name="text">
+              <string>cx</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="fyLabelPmain">
+             <property name="text">
+              <string>fy</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QLineEdit" name="cyLinePmain"/>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLabel" name="p1LabelPmain">
+             <property name="text">
+              <string>p1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="k3LabelPmain">
+             <property name="text">
+              <string>k3</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="cyLabelPmain">
+             <property name="text">
+              <string>cy</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="cxLinePmain"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="fxLabelPmain">
+             <property name="text">
+              <string>fx</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="fxLinePmain"/>
+           </item>
+           <item row="3" column="3">
+            <widget class="QLineEdit" name="p1LinePmain">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="k2LabelPmain">
+             <property name="text">
+              <string>k2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="k3LinePmain">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="k1LabelPmain">
+             <property name="text">
+              <string>k1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="3">
+            <widget class="QLineEdit" name="k2LinePmain">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="p2LabelPmain">
+             <property name="text">
+              <string>p2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="p2LinePmain">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </widget>

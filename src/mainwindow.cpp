@@ -34,6 +34,7 @@
 #include "vignetteCalib.h"
 
 std::unique_ptr<RsCamera> rsCameraP;
+std::unique_ptr<USBCamera> usbCameraP;
 
 QPixmap MainWindow::cvMat2QPixmap(cv::Mat& inMat) {
   cv::Mat rgb;
@@ -76,6 +77,7 @@ MainWindow::MainWindow(QWidget* parent)
   // ui->leftorRight->setVisible(false);
   // ui->leftorRightComboBox->setVisible(false);
   ui->rsParamsBoxPmain->setVisible(false);
+  ui->usbParamsBoxPmain->setVisible(false);
 }
 
 MainWindow::~MainWindow() {
@@ -117,13 +119,23 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(
       auto streamNames = rsCameraP->getSupportedStreamNames();
       for (auto streamName : streamNames)
         ui->streamNameBoxPmain->addItem(QString::fromStdString(streamName));
+      ui->usbParamsBoxPmain->setVisible(false);
+      usbCameraP = nullptr;
 
     } catch (const std::exception& e) {
       QMessageBox::warning(this, tr("Error"), tr(e.what()));
     }
+  } else if (camSelected == tr("usb")) {
+    usbCameraP.reset(new USBCamera());
+    ui->usbParamsBoxPmain->setVisible(true);
+    ui->rsParamsBoxPmain->setVisible(false);
+    rsCameraP = nullptr;
+
   } else {
     ui->rsParamsBoxPmain->setVisible(false);
     rsCameraP = nullptr;
+    ui->usbParamsBoxPmain->setVisible(false);
+    usbCameraP = nullptr;
   }
 }
 
@@ -136,6 +148,7 @@ void MainWindow::on_streamNameBoxPmain_currentIndexChanged(
 }
 
 void MainWindow::on_mainStartButton_clicked() {
+  int width, height;
   try {
     if (rsCameraP) {
       rsCameraP->selectProfile(
@@ -152,6 +165,23 @@ void MainWindow::on_mainStartButton_clicked() {
       ui->exposureBoxP3->setRange(minExp, maxExp);
 
       cameraP.reset(rsCameraP.release());
+    } else if (usbCameraP) {
+      float fx = ui->fxLinePmain->text().toFloat();
+      float fy = ui->fyLinePmain->text().toFloat();
+      float cx = ui->cxLinePmain->text().toFloat();
+      float cy = ui->cyLinePmain->text().toFloat();
+      float k1 = ui->k1LinePmain->text().toFloat();
+      float k2 = ui->k2LinePmain->text().toFloat();
+      float k3 = ui->k3LinePmain->text().toFloat();
+      float p1 = ui->p1LinePmain->text().toFloat();
+      float p2 = ui->p2LinePmain->text().toFloat();
+      usbCameraP->getResolution(width, height);
+      if (fx > 0 && fy > 0 && cx > 0 && cy > 0 && cx < width && cy < height) {
+        usbCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
+      } else {
+        throw std::invalid_argument("Invalid fx fy cx or cy!");
+      }
+      cameraP.reset(usbCameraP.release());
     } else {
       ;
     }
@@ -193,7 +223,7 @@ void MainWindow::on_mainStartButton_clicked() {
     ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
 
     std::ofstream camParamsFile(cameraPath);
-    int width, height;
+    // int width, height;
     cameraP->getResolution(width, height);
     auto intrinsic = cameraP->getIntrinsic();
     float fx, fy, cx, cy;
