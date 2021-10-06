@@ -120,6 +120,7 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(
       for (auto streamName : streamNames)
         ui->streamNameBoxPmain->addItem(QString::fromStdString(streamName));
       ui->usbParamsBoxPmain->setVisible(false);
+      ui->mainStartButton->setEnabled(true);
       usbCameraP = nullptr;
 
     } catch (const std::exception& e) {
@@ -129,9 +130,11 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(
     usbCameraP.reset(new USBCamera());
     ui->usbParamsBoxPmain->setVisible(true);
     ui->rsParamsBoxPmain->setVisible(false);
+    ui->mainStartButton->setEnabled(false);
     rsCameraP = nullptr;
 
   } else {
+    ui->mainStartButton->setEnabled(true);
     ui->rsParamsBoxPmain->setVisible(false);
     rsCameraP = nullptr;
     ui->usbParamsBoxPmain->setVisible(false);
@@ -146,105 +149,113 @@ void MainWindow::on_streamNameBoxPmain_currentIndexChanged(
   for (const auto& profile : profiles)
     ui->resFPSBoxPmain->addItem(QString::fromStdString(profile));
 }
-
-void MainWindow::on_mainStartButton_clicked() {
+void MainWindow::settingfinished() {
   int width, height;
-  try {
-    if (rsCameraP) {
-      rsCameraP->selectProfile(
-          ui->streamNameBoxPmain->currentText().toStdString(),
-          ui->resFPSBoxPmain->currentText().toStdString());
+  if (rsCameraP) {
+    rsCameraP->selectProfile(
+        ui->streamNameBoxPmain->currentText().toStdString(),
+        ui->resFPSBoxPmain->currentText().toStdString());
 
-      int minExp = rsCameraP->getMinExposure();
-      int maxExp = rsCameraP->getMaxExposure();
-      ui->maxExposureSliderP1->setRange(minExp, maxExp);
-      ui->maxExposureBoxP1->setRange(minExp, maxExp);
-      ui->minExposureSliderP1->setRange(minExp, maxExp);
-      ui->minExposureBoxP1->setRange(minExp, maxExp);
-      ui->exposureSliderP3->setRange(minExp, maxExp);
-      ui->exposureBoxP3->setRange(minExp, maxExp);
+    int minExp = rsCameraP->getMinExposure();
+    int maxExp = rsCameraP->getMaxExposure();
+    ui->maxExposureSliderP1->setRange(minExp, maxExp);
+    ui->maxExposureBoxP1->setRange(minExp, maxExp);
+    ui->minExposureSliderP1->setRange(minExp, maxExp);
+    ui->minExposureBoxP1->setRange(minExp, maxExp);
+    ui->exposureSliderP3->setRange(minExp, maxExp);
+    ui->exposureBoxP3->setRange(minExp, maxExp);
 
-      cameraP.reset(rsCameraP.release());
-    } else if (usbCameraP) {
-      float fx = ui->fxLinePmain->text().toFloat();
-      float fy = ui->fyLinePmain->text().toFloat();
-      float cx = ui->cxLinePmain->text().toFloat();
-      float cy = ui->cyLinePmain->text().toFloat();
-      float k1 = ui->k1LinePmain->text().toFloat();
-      float k2 = ui->k2LinePmain->text().toFloat();
-      float k3 = ui->k3LinePmain->text().toFloat();
-      float p1 = ui->p1LinePmain->text().toFloat();
-      float p2 = ui->p2LinePmain->text().toFloat();
-      usbCameraP->getResolution(width, height);
-      if (fx > 0 && fy > 0 && cx > 0 && cy > 0 && cx < width && cy < height) {
-        usbCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
-      } else {
-        throw std::invalid_argument("Invalid fx fy cx or cy!");
-      }
-      cameraP.reset(usbCameraP.release());
+    cameraP.reset(rsCameraP.release());
+  } else if (usbCameraP) {
+    float fx = ui->fxLinePmain->text().toFloat();
+    float fy = ui->fyLinePmain->text().toFloat();
+    float cx = ui->cxLinePmain->text().toFloat();
+    float cy = ui->cyLinePmain->text().toFloat();
+    float k1 = ui->k1LinePmain->text().toFloat();
+    float k2 = ui->k2LinePmain->text().toFloat();
+    float k3 = ui->k3LinePmain->text().toFloat();
+    float p1 = ui->p1LinePmain->text().toFloat();
+    float p2 = ui->p2LinePmain->text().toFloat();
+    usbCameraP->getResolution(width, height);
+    if (fx > 0 && fy > 0 && cx > 0 && cy > 0 && cx < width && cy < height) {
+      usbCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
     } else {
-      ;
+      throw std::invalid_argument("Invalid fx fy cx or cy!");
     }
+    cameraP.reset(usbCameraP.release());
+  } else {
+    ;
+  }
 
-    std::string savePath = ui->savePathLine->text().toStdString();
-    if (savePath.back() != '/') savePath += '/';
-    std::string cameraPath = savePath + "camera.txt";
+  std::string savePath = ui->savePathLine->text().toStdString();
+  if (savePath.back() != '/') savePath += '/';
+  std::string cameraPath = savePath + "camera.txt";
 
-    ui->pathToCameraLineP1->setEnabled(false);
-    ui->pathToCameraLineP1->setText(QString::fromStdString(cameraPath));
-    ui->pathToCameraLineP3->setEnabled(false);
-    ui->pathToCameraLineP3->setText(QString::fromStdString(cameraPath));
-    ui->pathToCameraLineP5->setEnabled(false);
-    ui->pathToCameraLineP5->setText(QString::fromStdString(cameraPath));
+  ui->pathToCameraLineP1->setEnabled(false);
+  ui->pathToCameraLineP1->setText(QString::fromStdString(cameraPath));
+  ui->pathToCameraLineP3->setEnabled(false);
+  ui->pathToCameraLineP3->setText(QString::fromStdString(cameraPath));
+  ui->pathToCameraLineP5->setEnabled(false);
+  ui->pathToCameraLineP5->setText(QString::fromStdString(cameraPath));
 
-    if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
-      throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
+  if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
 
-    ui->gammaPathLineP1->setEnabled(false);
-    ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
-    // P2 and P4 are automatically changed
-    ui->gammaPathLineP2->setEnabled(false);
-    ui->gammaPathLineP4->setEnabled(false);
+  ui->gammaPathLineP1->setEnabled(false);
+  ui->gammaPathLineP1->setText(ui->savePathLine->text() + "/gamma/");
+  // P2 and P4 are automatically changed
+  ui->gammaPathLineP2->setEnabled(false);
+  ui->gammaPathLineP4->setEnabled(false);
 
-    if (-1 == system(("mkdir -p " + savePath + "vignette/").c_str()))
-      throw std::invalid_argument("Cannot create dir " + savePath +
-                                  "vignette/");
+  if (-1 == system(("mkdir -p " + savePath + "vignette/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + savePath + "vignette/");
 
-    ui->vignettePathLineP3->setEnabled(false);
-    ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
-    // P4 is automatically changed
-    ui->vignettePathLineP4->setEnabled(false);
+  ui->vignettePathLineP3->setEnabled(false);
+  ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
+  // P4 is automatically changed
+  ui->vignettePathLineP4->setEnabled(false);
 
-    if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
-      throw std::invalid_argument("Cannot create dir " + savePath +
-                                  "jointCalibration/");
+  if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + savePath +
+                                "jointCalibration/");
 
-    ui->saveToLine->setEnabled(false);
-    ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
+  ui->saveToLine->setEnabled(false);
+  ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
 
-    std::ofstream camParamsFile(cameraPath);
-    // int width, height;
-    cameraP->getResolution(width, height);
-    auto intrinsic = cameraP->getIntrinsic();
-    float fx, fy, cx, cy;
-    fx = intrinsic.fx / width;
-    fy = intrinsic.fy / height;
-    cx = (intrinsic.cx + 0.5) / width;
-    cy = (intrinsic.cy + 0.5) / height;
-    camParamsFile << fx << " " << fy << " " << cx << " " << cy << " "
-                  << "0" << std::endl;
-    camParamsFile << width << " " << height << std::endl;
-    camParamsFile << "crop" << std::endl;
-    camParamsFile << width / 2 << " " << height / 2 << std::endl;
-    camParamsFile.close();
-
+  std::ofstream camParamsFile(cameraPath);
+  // int width, height;
+  cameraP->getResolution(width, height);
+  auto intrinsic = cameraP->getIntrinsic();
+  float fx, fy, cx, cy;
+  fx = intrinsic.fx / width;
+  fy = intrinsic.fy / height;
+  cx = (intrinsic.cx + 0.5) / width;
+  cy = (intrinsic.cy + 0.5) / height;
+  camParamsFile << fx << " " << fy << " " << cx << " " << cy << " "
+                << "0" << std::endl;
+  camParamsFile << width << " " << height << std::endl;
+  camParamsFile << "crop" << std::endl;
+  camParamsFile << width / 2 << " " << height / 2 << std::endl;
+  camParamsFile.close();
+}
+void MainWindow::on_mainStartButton_clicked() {
+  try {
+    settingfinished();
     ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
 
   } catch (std::exception& e) {
     QMessageBox::warning(this, tr("Error"), tr(e.what()));
   }
 }
+void MainWindow::on_mainStartLidarCalibButton_clicked() {
+  try {
+    settingfinished();
+    ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
 
+  } catch (std::exception& e) {
+    QMessageBox::warning(this, tr("Error"), tr(e.what()));
+  }
+}
 void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
   if (cameraP) {
     cv::Mat tmpMat = cameraP->getFrame(value);

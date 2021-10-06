@@ -42,6 +42,9 @@ class MainWindow : public QMainWindow {
  protected:
   void closeEvent(QCloseEvent *);
 
+ private slots:
+  void on_mainStartLidarCalibButton_clicked();
+
  private:
   Ui::MainWindow *ui;
 
@@ -172,5 +175,7 @@ class MainWindow : public QMainWindow {
   void on_saveButton_clicked();
 
   void on_finishButton_clicked();
+
+  void settingfinished();
 };
 #endif  // MAINWINDOW_H
