@@ -1,7 +1,7 @@
 #include "USBCamera.h"
 
-USBCamera::USBCamera() {
-  cv::VideoCapture cap(0);
+USBCamera::USBCamera() : cap(0) {
+  // cv::VideoCapture cap(0);
   widthOfFrame = cap.get(CV_CAP_PROP_FRAME_WIDTH);
   heightOfFrame = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
 }
