@@ -1,12 +1,23 @@
 #include "USBCamera.h"
 
 USBCamera::USBCamera()
-    : cap(0), readThread(std::bind(&USBCamera::readFrame, this)) {
+    : cap(0),
+      startFlag(true),
+      readThread(std::bind(&USBCamera::readFrame, this)) {
   // cv::VideoCapture cap(0);
   widthOfFrame = cap.get(CV_CAP_PROP_FRAME_WIDTH);
   heightOfFrame = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
 }
-cv::Mat USBCamera::getFrame() { return currentFrame; }
+USBCamera::~USBCamera() {
+  startFlag = false;
+  readThread.join();
+}
+cv::Mat USBCamera::getFrame() {
+  m.lock();
+  cv::Mat tempFrame = currentFrame;
+  m.unlock();
+  return tempFrame;
+}
 void USBCamera::getResolution(int& width, int& height) {
   width = widthOfFrame;
   height = heightOfFrame;
@@ -28,9 +39,9 @@ void USBCamera::setIntrinsic(float fx, float fy, float cx, float cy, float k1,
 }
 
 void USBCamera::readFrame() {
-  cv::Mat frame;
-  cap >> frame;
-  m.lock();
-  currentFrame = frame;
-  m.unlock();
+  while (startFlag) {
+    m.lock();
+    cap >> currentFrame;
+    m.unlock();
+  }
 }

@@ -1,6 +1,7 @@
 #ifndef USBCAMERA_H
 #define USBCAMERA_H
 
+#include <atomic>
 #include <functional>
 #include <mutex>
 #include <thread>
@@ -10,7 +11,7 @@
 class USBCamera : public Camera {
  public:
   USBCamera();
-  ~USBCamera() = default;
+  ~USBCamera();
   cv::Mat getFrame() override;
   void getResolution(int& width, int& height) override;
   intrinsicT getIntrinsic() override;
@@ -26,6 +27,7 @@ class USBCamera : public Camera {
   cv::Mat currentFrame;
   std::mutex m;
   std::thread readThread;
+  std::atomic_bool startFlag;
   void readFrame();
 };
 #endif

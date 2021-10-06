@@ -15,11 +15,13 @@ class Camera {
 
  public:
   Camera() = default;
-  ~Camera() = default;
+  virtual ~Camera() = default;
 
   virtual cv::Mat getFrame() = 0;
-  virtual cv::Mat getFrame(int exposureTime){};
-  virtual cv::Mat getFrame(int exposureTime, long long& timeOfArrival){};
+  virtual cv::Mat getFrame(int exposureTime) { return cv::Mat(); }
+  virtual cv::Mat getFrame(int exposureTime, long long& timeOfArrival) {
+    return cv::Mat();
+  }
   virtual void getResolution(int& width, int& height) = 0;
   virtual intrinsicT getIntrinsic() = 0;
 };
