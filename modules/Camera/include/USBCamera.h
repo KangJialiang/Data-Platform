@@ -1,6 +1,10 @@
 #ifndef USBCAMERA_H
 #define USBCAMERA_H
 
+#include <functional>
+#include <mutex>
+#include <thread>
+
 #include "Camera.h"
 
 class USBCamera : public Camera {
@@ -18,5 +22,10 @@ class USBCamera : public Camera {
   int widthOfFrame;
   int heightOfFrame;
   intrinsicT intrinsic;
+
+  cv::Mat currentFrame;
+  std::mutex m;
+  std::thread readThread;
+  void readFrame();
 };
 #endif
