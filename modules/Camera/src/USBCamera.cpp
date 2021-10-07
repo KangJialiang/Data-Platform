@@ -1,17 +1,23 @@
 #include "USBCamera.h"
 
-USBCamera::USBCamera()
-    : cap(0),
-      startFlag(true),
-      readThread(std::bind(&USBCamera::readFrame, this)) {
+USBCamera::USBCamera() : cap(0), startFlag(true) {
   // cv::VideoCapture cap(0);
   widthOfFrame = cap.get(CV_CAP_PROP_FRAME_WIDTH);
   heightOfFrame = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
   pthread_spin_init(&frameLock, PTHREAD_PROCESS_PRIVATE);
+  pthread_create(
+      &readThread, 0,
+      [](void* arg) {
+        USBCamera* a = (USBCamera*)arg;
+        a->readFrame();
+        return (void*)0;
+      },
+      this);
 }
 USBCamera::~USBCamera() {
   startFlag = false;
-  readThread.join();
+  // readThread.join();
+  pthread_join(readThread, NULL);
   pthread_spin_destroy(&frameLock);
 }
 cv::Mat USBCamera::getFrame() {

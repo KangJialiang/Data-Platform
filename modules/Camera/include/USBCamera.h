@@ -27,7 +27,7 @@ class USBCamera : public Camera {
   cv::Mat currentFrame;
   // std::mutex m;
   pthread_spinlock_t frameLock;
-  std::thread readThread;
+  pthread_t readThread;
   std::atomic_bool startFlag;
   void readFrame();
 };
