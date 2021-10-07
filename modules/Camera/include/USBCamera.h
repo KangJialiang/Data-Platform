@@ -3,7 +3,7 @@
 
 #include <atomic>
 #include <functional>
-#include <mutex>
+//#include <mutex>
 #include <thread>
 
 #include "Camera.h"
@@ -25,7 +25,8 @@ class USBCamera : public Camera {
   intrinsicT intrinsic;
 
   cv::Mat currentFrame;
-  std::mutex m;
+  // std::mutex m;
+  pthread_spinlock_t frameLock;
   std::thread readThread;
   std::atomic_bool startFlag;
   void readFrame();

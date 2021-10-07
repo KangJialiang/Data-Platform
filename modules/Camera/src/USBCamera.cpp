@@ -7,15 +7,19 @@ USBCamera::USBCamera()
   // cv::VideoCapture cap(0);
   widthOfFrame = cap.get(CV_CAP_PROP_FRAME_WIDTH);
   heightOfFrame = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
+  pthread_spin_init(&frameLock, PTHREAD_PROCESS_PRIVATE);
 }
 USBCamera::~USBCamera() {
   startFlag = false;
   readThread.join();
+  pthread_spin_destroy(&frameLock);
 }
 cv::Mat USBCamera::getFrame() {
-  m.lock();
+  // m.lock();
+  pthread_spin_lock(&frameLock);
   cv::Mat tempFrame = currentFrame;
-  m.unlock();
+  // m.unlock();
+  pthread_spin_unlock(&frameLock);
   return tempFrame;
 }
 void USBCamera::getResolution(int& width, int& height) {
@@ -40,8 +44,10 @@ void USBCamera::setIntrinsic(float fx, float fy, float cx, float cy, float k1,
 
 void USBCamera::readFrame() {
   while (startFlag) {
-    m.lock();
+    // m.lock();
+    pthread_spin_lock(&frameLock);
     cap >> currentFrame;
-    m.unlock();
+    // m.unlock();
+    pthread_spin_lock(&frameLock);
   }
 }
