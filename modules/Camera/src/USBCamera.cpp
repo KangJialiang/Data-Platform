@@ -1,7 +1,6 @@
 #include "USBCamera.h"
 
 USBCamera::USBCamera() : cap(0), startFlag(true) {
-  // cv::VideoCapture cap(0);
   widthOfFrame = cap.get(CV_CAP_PROP_FRAME_WIDTH);
   heightOfFrame = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
   pthread_spin_init(&frameLock, PTHREAD_PROCESS_PRIVATE);
@@ -14,20 +13,21 @@ USBCamera::USBCamera() : cap(0), startFlag(true) {
       },
       this);
 }
+
 USBCamera::~USBCamera() {
   startFlag = false;
-  // readThread.join();
   pthread_join(readThread, NULL);
   pthread_spin_destroy(&frameLock);
+  cap.release();
 }
+
 cv::Mat USBCamera::getFrame() {
-  // m.lock();
   pthread_spin_lock(&frameLock);
   cv::Mat tempFrame = currentFrame;
-  // m.unlock();
   pthread_spin_unlock(&frameLock);
   return tempFrame;
 }
+
 void USBCamera::getResolution(int& width, int& height) {
   width = widthOfFrame;
   height = heightOfFrame;
@@ -50,10 +50,8 @@ void USBCamera::setIntrinsic(float fx, float fy, float cx, float cy, float k1,
 
 void USBCamera::readFrame() {
   while (startFlag) {
-    // m.lock();
     pthread_spin_lock(&frameLock);
     cap >> currentFrame;
-    // m.unlock();
     pthread_spin_unlock(&frameLock);
   }
 }
