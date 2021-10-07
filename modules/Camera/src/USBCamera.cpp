@@ -54,6 +54,6 @@ void USBCamera::readFrame() {
     pthread_spin_lock(&frameLock);
     cap >> currentFrame;
     // m.unlock();
-    pthread_spin_lock(&frameLock);
+    pthread_spin_unlock(&frameLock);
   }
 }
