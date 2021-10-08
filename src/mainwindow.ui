@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -250,7 +250,7 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="2">
+        <item row="5" column="2" alignment="Qt::AlignRight">
          <widget class="QPushButton" name="mainStartButton">
           <property name="text">
            <string>开始相机响应函数晕影函数标定</string>
@@ -605,51 +605,10 @@
         <string>晕影函数标定</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
-        <item row="0" column="0">
-         <widget class="QLabel" name="gammaPathLabelP4">
-          <property name="text">
-           <string>响应数据路径</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
+        <item row="0" column="2">
          <widget class="QLineEdit" name="gammaPathLineP4"/>
         </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="vignettePathLabelP4">
-          <property name="text">
-           <string>晕影数据路径</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QLineEdit" name="vignettePathLineP4"/>
-        </item>
-        <item row="2" column="1">
-         <widget class="QPushButton" name="startButtonP4">
-          <property name="text">
-           <string>开始</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="shellOutLabelP4">
-          <property name="text">
-           <string>shell输出</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QTextBrowser" name="shellOutTextP4"/>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="pictureLabelP4">
-          <property name="text">
-           <string>图片</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
+        <item row="4" column="2">
          <widget class="QLabel" name="picOutLabelP4">
           <property name="maximumSize">
            <size>
@@ -662,10 +621,58 @@
           </property>
          </widget>
         </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="gammaPathLabelP4">
+          <property name="text">
+           <string>响应数据路径</string>
+          </property>
+         </widget>
+        </item>
         <item row="5" column="0" alignment="Qt::AlignLeft">
          <widget class="QPushButton" name="exitButtonP4">
           <property name="text">
            <string>退出</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="pictureLabelP4">
+          <property name="text">
+           <string>图片</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QTextBrowser" name="shellOutTextP4"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="vignettePathLabelP4">
+          <property name="text">
+           <string>晕影数据路径</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QPushButton" name="startButtonP4">
+          <property name="text">
+           <string>开始</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="vignettePathLineP4"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="shellOutLabelP4">
+          <property name="text">
+           <string>shell输出</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2" alignment="Qt::AlignRight">
+         <widget class="QPushButton" name="nextButtonP4">
+          <property name="text">
+           <string>下一步</string>
           </property>
          </widget>
         </item>
@@ -911,7 +918,119 @@
         <string>相机和激光雷达外参标定</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_6">
-        <item row="8" column="0">
+        <item row="5" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="current_data_id_label">
+            <property name="text">
+             <string>Current Data ID</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="current_data_id">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: rgb(115, 210, 22);
+	background-color: #ccc;
+}</string>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="processed_data_num_label">
+            <property name="text">
+             <string>Processed Data Num</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="processed_data_num">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: rgb(115, 210, 22);
+	background-color: #ccc;
+}</string>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="total_data_num_label">
+            <property name="text">
+             <string>Total Data Num</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="total_data_num">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+color: rgb(239, 41, 41);
+	background-color: #ccc;
+}</string>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="9" column="0">
          <widget class="QGroupBox" name="pointcloud_group">
           <property name="title">
            <string>PointCloud Control</string>
@@ -1043,17 +1162,49 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="Open_Config_Button">
-          <property name="enabled">
-           <bool>true</bool>
-          </property>
-          <property name="text">
-           <string>Open Config</string>
-          </property>
-         </widget>
+        <item row="2" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <item>
+           <widget class="QPushButton" name="Save_Config_Button">
+            <property name="text">
+             <string>Save Config</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Save_Result_Button">
+            <property name="text">
+             <string>Save Result</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Set_K_Button">
+            <property name="text">
+             <string>Set K</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Set_D_Button">
+            <property name="text">
+             <string>Set D</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Open_Dataset_Button">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Open Dataset</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
-        <item row="5" column="0">
+        <item row="6" column="0">
          <widget class="QGroupBox" name="image_group">
           <property name="title">
            <string>Image Control</string>
@@ -1107,161 +1258,7 @@
           </layout>
          </widget>
         </item>
-        <item row="1" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QPushButton" name="Save_Config_Button">
-            <property name="text">
-             <string>Save Config</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="Save_Result_Button">
-            <property name="text">
-             <string>Save Result</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="Set_K_Button">
-            <property name="text">
-             <string>Set K</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="Set_D_Button">
-            <property name="text">
-             <string>Set D</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="Open_Dataset_Button">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Open Dataset</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="4" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <property name="topMargin">
-           <number>6</number>
-          </property>
-          <property name="bottomMargin">
-           <number>6</number>
-          </property>
-          <item>
-           <widget class="QLabel" name="current_data_id_label">
-            <property name="text">
-             <string>Current Data ID</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="current_data_id">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QLabel{
-	color: rgb(115, 210, 22);
-	background-color: #ccc;
-}</string>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="processed_data_num_label">
-            <property name="text">
-             <string>Processed Data Num</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="processed_data_num">
-            <property name="font">
-             <font>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QLabel{
-	color: rgb(115, 210, 22);
-	background-color: #ccc;
-}</string>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="total_data_num_label">
-            <property name="text">
-             <string>Total Data Num</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="total_data_num">
-            <property name="font">
-             <font>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QLabel{
-color: rgb(239, 41, 41);
-	background-color: #ccc;
-}</string>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="9" column="0">
+        <item row="10" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_9">
           <property name="spacing">
            <number>40</number>
@@ -1342,6 +1339,23 @@ color: rgb(239, 41, 41);
             </property>
             <property name="text">
              <string>Calibrate</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLineEdit" name="configPath"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Open_Config_Button">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Open Config</string>
             </property>
            </widget>
           </item>

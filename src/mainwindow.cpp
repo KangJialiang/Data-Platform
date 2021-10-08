@@ -149,7 +149,7 @@ void MainWindow::on_streamNameBoxPmain_currentIndexChanged(
   for (const auto& profile : profiles)
     ui->resFPSBoxPmain->addItem(QString::fromStdString(profile));
 }
-void MainWindow::settingfinished() {
+void MainWindow::settingFinished() {
   int width, height;
   if (rsCameraP) {
     rsCameraP->selectProfile(
@@ -221,6 +221,7 @@ void MainWindow::settingfinished() {
 
   ui->saveToLine->setEnabled(false);
   ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
+  ui->configPath->setText(ui->savePathLine->text() + "/jointCalibration/");
 
   std::ofstream camParamsFile(cameraPath);
   // int width, height;
@@ -240,7 +241,7 @@ void MainWindow::settingfinished() {
 }
 void MainWindow::on_mainStartButton_clicked() {
   try {
-    settingfinished();
+    settingFinished();
     ui->tabWidget->setCurrentWidget(ui->gammaCalibData);
 
   } catch (std::exception& e) {
@@ -249,7 +250,7 @@ void MainWindow::on_mainStartButton_clicked() {
 }
 void MainWindow::on_mainStartLidarCalibButton_clicked() {
   try {
-    settingfinished();
+    settingFinished();
     ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
 
   } catch (std::exception& e) {
@@ -696,7 +697,7 @@ void MainWindow::on_Open_Dataset_Button_clicked() {
   QString dir = QFileDialog::getExistingDirectory(
       this, tr("Open Directory"), QDir::homePath(), QFileDialog::ShowDirsOnly);
   if (!dir.isEmpty()) {
-    data_reader_.reset(new DataReader(dir));
+    data_reader_.reset(new DataReader(dir));  // to reserve
     if (!data_reader_->isValid()) {
       data_reader_ = nullptr;
       QMessageBox::warning(this, tr("Warn"), tr("The directory is invalid"));
@@ -1125,4 +1126,64 @@ void MainWindow::closeImgAndPcViewers() {
     pc_viewer_->close();
     img_viewer_.release();
   }
+}
+
+void MainWindow::on_nextButtonP4_clicked() {
+  QString fp = ui->saveToLine->text() + QDir::separator() + "config.json";
+  std::ofstream f(fp.toStdString());
+  if (!f.good()) {
+    QMessageBox::warning(this, tr("Error"), tr("Fail to open config ") + fp);
+    return;
+  }
+  auto intrinsic = cameraP->getIntrinsic();
+  nlohmann::json js = {
+      {"cam",
+       {{"D",
+         {intrinsic.coeffs[0], intrinsic.coeffs[1], intrinsic.coeffs[2],
+          intrinsic.coeffs[3], intrinsic.coeffs[4]}},
+        {"K",
+         {{intrinsic.fx, 0.0, intrinsic.cx},
+          {0.0, intrinsic.fy, intrinsic.cy},
+          {0.0, 0.0, 1.0}}}}},
+      {"img",
+       {{"edlines",
+         {{"anchorThreshold", 10},
+          {"gradientThreshold", 80},
+          {"ksize", 3},
+          {"lineFitErrThreshold", 2},
+          {"minLineLen", 30},
+          {"scanIntervals", 1},
+          {"sigma", 1}}},
+        {"feature", {{"offset", 3}, {"size", 8}, {"threshold", 0.8}}},
+        {"filter",
+         {{"line_angle_threshold", 8},
+          {"point_center_factor", 0.4},
+          {"point_line_threshold", 80}}},
+        {"init",
+         {{1200.8, 273.6}, {1509.6, 420.0}, {1589.6, 775.2}, {888.0, 645.6}}},
+        {"merge",
+         {{"angle_threshold", 2},
+          {"distance_threshold", 35},
+          {"endpoint_distance_threshold", 80}}}}},
+      {"pc",
+       {{"angle_resolution", 1.5},
+        {"edge", {{"distance_threshold", 0.05}, {"point_num_min", 5}}},
+        {"filter",
+         {{"angle_size", 73.0},
+          {"angle_start", 327.0},
+          {"distance", 5.3},
+          {"floor_gap", 1.2}}},
+        {"plane", {{"distance_threshold", 0.06}, {"point_num_min", 20}}},
+        {"ring", {{"endpoint_num", 2}, {"point_num_min", 7}}}}},
+      {"size", 4},
+      {"tf",
+       {{-0.0587731866433256, -0.997313988353226, 0.0437095088827632,
+         0.0584119503362388},
+        {0.0680705634344673, -0.0476870940689982, -0.996540184565063,
+         -0.104226321432097},
+        {0.995947845484644, -0.0555945113679224, 0.0706904475884742, 0.0},
+        {0.0, 0.0, 0.0, 1.0}}},
+      {"track_error_threshold", 30}};
+  f << js.dump(4);
+  f.close();
 }
