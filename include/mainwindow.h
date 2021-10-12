@@ -153,7 +153,7 @@ class MainWindow : public QMainWindow {
 
   void on_Open_Config_Button_clicked();
 
-  void on_Open_Dataset_Button_clicked();
+  void on_startButtonP6_clicked();
   // void on_Set_K_Button_clicked();
   // void on_Set_D_Button_clicked();
   void on_Save_Result_Button_clicked();

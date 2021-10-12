@@ -1350,12 +1350,12 @@ color: rgb(239, 41, 41);
            <widget class="QLineEdit" name="datasetPathP6"/>
           </item>
           <item>
-           <widget class="QPushButton" name="Open_Dataset_Button">
+           <widget class="QPushButton" name="startButtonP6">
             <property name="enabled">
              <bool>true</bool>
             </property>
             <property name="text">
-             <string>Open Dataset</string>
+             <string>       Start        </string>
             </property>
            </widget>
           </item>

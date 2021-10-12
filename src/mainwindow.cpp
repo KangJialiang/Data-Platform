@@ -742,7 +742,7 @@ void MainWindow::on_Set_D_Button_clicked() {
   QMessageBox::warning(this, tr("Error"), tr("Invalid parameters"));
 }
 */
-void MainWindow::on_Open_Dataset_Button_clicked() {
+void MainWindow::on_startButtonP6_clicked() {
   QString dir = QFileDialog::getExistingDirectory(
       this, tr("Open Directory"), QDir::homePath(), QFileDialog::ShowDirsOnly);
   if (!dir.isEmpty()) {
