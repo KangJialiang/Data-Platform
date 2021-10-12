@@ -781,13 +781,6 @@
         <item row="5" column="0" colspan="2">
          <layout class="QHBoxLayout" name="buttonGroup">
           <item>
-           <widget class="QPushButton" name="openConfigButton">
-            <property name="text">
-             <string>Open Config</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="refreshButton">
             <property name="text">
              <string>Refresh</string>

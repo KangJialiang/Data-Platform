@@ -515,32 +515,34 @@ void MainWindow::pointCloudHandler(
   pcl::fromROSMsg(*msg, pointCloud);
 }
 
-void MainWindow::on_openConfigButton_clicked() {
-  readConfig();
+// void MainWindow::on_openConfigButton_clicked() {
+//   readConfig();
 
-  /*
-    int cameraIndex;
-    std::string pathToCameraTxt;
-    if (ui->LOrRBoxP5->currentText() == QString("L"))
-      cameraIndex = 0;
-    else if (ui->LOrRBoxP5->currentText() == QString("R"))
-      cameraIndex = 1;
-    pathToCameraTxt = ui->pathToCameraLineP5->text().toStdString();
-    camera = RsCamera(cameraIndex, pathToCameraTxt);
-  */
+//   /*
+//     int cameraIndex;
+//     std::string pathToCameraTxt;
+//     if (ui->LOrRBoxP5->currentText() == QString("L"))
+//       cameraIndex = 0;
+//     else if (ui->LOrRBoxP5->currentText() == QString("R"))
+//       cameraIndex = 1;
+//     pathToCameraTxt = ui->pathToCameraLineP5->text().toStdString();
+//     camera = RsCamera(cameraIndex, pathToCameraTxt);
+//   */
 
-  img_viewer_.reset(new ImageViewer);
-  img_viewer_->show();
-  pc_viewer_.reset(new PointcloudViewer);
-  pc_viewer_->show();
+//   img_viewer_.reset(new ImageViewer);
+//   img_viewer_->show();
+//   pc_viewer_.reset(new PointcloudViewer);
+//   pc_viewer_->show();
 
-  connect(ui->rx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->ry_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->rz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-  connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
-}
+//   connect(ui->rx_slide, &QSlider::valueChanged, this,
+//   &MainWindow::tfProcess); connect(ui->ry_slide, &QSlider::valueChanged,
+//   this, &MainWindow::tfProcess); connect(ui->rz_slide,
+//   &QSlider::valueChanged, this, &MainWindow::tfProcess);
+//   connect(ui->tx_slide, &QSlider::valueChanged, this,
+//   &MainWindow::tfProcess); connect(ui->ty_slide, &QSlider::valueChanged,
+//   this, &MainWindow::tfProcess); connect(ui->tz_slide,
+//   &QSlider::valueChanged, this, &MainWindow::tfProcess);
+// }
 
 void MainWindow::on_refreshButton_clicked() {
   img_ = std::make_shared<cv::Mat>(cameraP->getFrame());

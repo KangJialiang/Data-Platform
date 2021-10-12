@@ -171,7 +171,7 @@ class MainWindow : public QMainWindow {
 
   void on_tabWidget_currentChanged(int index);
 
-  void on_openConfigButton_clicked();
+  // void on_openConfigButton_clicked();
 
   void on_refreshButton_clicked();
 
