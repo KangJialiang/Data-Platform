@@ -677,7 +677,7 @@ void MainWindow::closeEvent(QCloseEvent* event) {
 
   event->accept();
 }
-
+/*
 void MainWindow::on_Set_K_Button_clicked() {
   bool ok = false;
   QString last;
@@ -741,7 +741,7 @@ void MainWindow::on_Set_D_Button_clicked() {
   }
   QMessageBox::warning(this, tr("Error"), tr("Invalid parameters"));
 }
-
+*/
 void MainWindow::on_Open_Dataset_Button_clicked() {
   QString dir = QFileDialog::getExistingDirectory(
       this, tr("Open Directory"), QDir::homePath(), QFileDialog::ShowDirsOnly);
