@@ -194,8 +194,18 @@ void MainWindow::settingFinished() {
   ui->pathToCameraLineP1->setText(QString::fromStdString(cameraPath));
   ui->pathToCameraLineP3->setEnabled(false);
   ui->pathToCameraLineP3->setText(QString::fromStdString(cameraPath));
-  ui->pathToCameraLineP5->setEnabled(false);
-  ui->pathToCameraLineP5->setText(QString::fromStdString(cameraPath));
+
+  if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
+    throw std::invalid_argument("Cannot create dir " + savePath +
+                                "jointCalibration/");
+
+  ui->saveToLine->setEnabled(false);
+  ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
+  ui->configPath->setText(ui->savePathLine->text() + "/jointCalibration/");
+
+  ui->pathToConfigLineP5->setEnabled(false);
+  ui->pathToConfigLineP5->setText(
+      QString::fromStdString(savePath + "jointCalibration/"));
 
   if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
     throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
@@ -213,14 +223,6 @@ void MainWindow::settingFinished() {
   ui->vignettePathLineP3->setText(ui->savePathLine->text() + "/vignette/");
   // P4 is automatically changed
   ui->vignettePathLineP4->setEnabled(false);
-
-  if (-1 == system(("mkdir -p " + savePath + "jointCalibration/").c_str()))
-    throw std::invalid_argument("Cannot create dir " + savePath +
-                                "jointCalibration/");
-
-  ui->saveToLine->setEnabled(false);
-  ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
-  ui->configPath->setText(ui->savePathLine->text() + "/jointCalibration/");
 
   std::ofstream camParamsFile(cameraPath);
   // int width, height;
@@ -869,13 +871,13 @@ void MainWindow::on_pick_points_end_clicked() {
 }
 
 void MainWindow::readConfig() {
-  config_path_ = QFileDialog::getOpenFileName(this, tr("Open File"), ".",
-                                              tr("Config JSON Files(*.json)"));
+  config_path_ = ui->pathToConfigLineP5->text();
   if (config_path_.isEmpty()) {
     QMessageBox::warning(this, tr("Error"), tr("Config file is empty"));
     return;
   }
-  std::ifstream f(config_path_.toStdString());
+  std::ifstream f(config_path_.toStdString() + "config.json");
+  std::cout << config_path_.toStdString() + "config.json" << std::endl;
   if (!f.good()) {
     f.close();
     QMessageBox::warning(this, tr("Error"), tr("Failed to read config file"));
@@ -1188,4 +1190,19 @@ void MainWindow::on_nextButtonP4_clicked() {
       {"track_error_threshold", 30}};
   f << js.dump(4);
   f.close();
+
+  ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
+  readConfig();
+
+  img_viewer_.reset(new ImageViewer);
+  img_viewer_->show();
+  pc_viewer_.reset(new PointcloudViewer);
+  pc_viewer_->show();
+
+  connect(ui->rx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->ry_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->rz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
 }

@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -894,14 +894,14 @@
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_2">
           <item>
-           <widget class="QLabel" name="pathToCameraLabelP5">
+           <widget class="QLabel" name="pathToConfigLabelP5">
             <property name="text">
-             <string>camera路径</string>
+             <string>config 路径</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="pathToCameraLineP5"/>
+           <widget class="QLineEdit" name="pathToConfigLineP5"/>
           </item>
          </layout>
         </item>
