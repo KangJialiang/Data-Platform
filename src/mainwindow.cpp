@@ -205,7 +205,7 @@ void MainWindow::settingFinished() {
   ui->configPathP6->setText(ui->savePathLine->text() +
                             "/jointCalibration/config.json");
   ui->datasetPathP6->setEnabled(false);
-  ui->datasetPathP6->setText(ui->savePathLine->text() + "/jointCalibration/");
+  ui->datasetPathP6->setText(ui->savePathLine->text() + "/jointCalibration");
 
   ui->pathToConfigLineP5->setEnabled(false);
   ui->pathToConfigLineP5->setText(
@@ -559,30 +559,6 @@ void MainWindow::on_refreshButton_clicked() {
 void MainWindow::on_finishButton_clicked() {
   closeImgAndPcViewers();
   ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
-
-  readConfig();
-
-  auto& flt = js_["pc"]["filter"];
-  ui->angle_start_slide->setValue(static_cast<int>(flt["angle_start"]));
-  ui->angle_size_slide->setValue(static_cast<int>(flt["angle_size"]));
-  ui->distance_slide->setValue(
-      static_cast<int>(10 * flt["distance"].get<double>()));
-  ui->floor_gap_slide->setValue(
-      static_cast<int>(10 * flt["floor_gap"].get<double>()));
-
-  img_viewer_.reset(new ImageViewer);
-  img_viewer_->show();
-  pc_viewer_.reset(new PointcloudViewer);
-  pc_viewer_->show();
-
-  connect(ui->angle_start_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->angle_size_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->distance_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
 }
 
 void MainWindow::on_saveButton_clicked() {
@@ -743,33 +719,61 @@ void MainWindow::on_Set_D_Button_clicked() {
 }
 */
 void MainWindow::on_startButtonP6_clicked() {
-  QString dir = QFileDialog::getExistingDirectory(
-      this, tr("Open Directory"), QDir::homePath(), QFileDialog::ShowDirsOnly);
-  if (!dir.isEmpty()) {
-    data_reader_.reset(new DataReader(dir));  // to reserve
-    if (!data_reader_->isValid()) {
-      data_reader_ = nullptr;
-      QMessageBox::warning(this, tr("Warn"), tr("The directory is invalid"));
-      return;
-    }
-    Eigen::Matrix3d K;
-    Eigen::Matrix<double, 5, 1> D;
-    auto& JK = js_["cam"]["K"];
-    auto& JD = js_["cam"]["D"];
-    for (uint8_t i = 0; i < 9; i++) {
-      K(i / 3, i % 3) = JK[i / 3][i % 3];
-      if (i < 5) {
-        D(i) = JD[i];
-      }
-    }
-    data_reader_->setCameraK(K);
-    data_reader_->setCameraD(D);
-    data_root_ = dir;
-    ui->total_data_num->setText(
-        QString::number(data_reader_->getDatasetSize()));
+  readConfig();
 
-    showTFWindow();
+  auto& flt = js_["pc"]["filter"];
+  ui->angle_start_slide->setValue(static_cast<int>(flt["angle_start"]));
+  ui->angle_size_slide->setValue(static_cast<int>(flt["angle_size"]));
+  ui->distance_slide->setValue(
+      static_cast<int>(10 * flt["distance"].get<double>()));
+  ui->floor_gap_slide->setValue(
+      static_cast<int>(10 * flt["floor_gap"].get<double>()));
+
+  img_viewer_.reset(new ImageViewer);
+  img_viewer_->show();
+  pc_viewer_.reset(new PointcloudViewer);
+  pc_viewer_->show();
+
+  connect(ui->angle_start_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->angle_size_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->distance_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+
+  QString dir = ui->datasetPathP6->text();
+  data_reader_.reset(new DataReader(dir));
+
+  // QString dir = QFileDialog::getExistingDirectory(
+  //     this, tr("Open Directory"), QDir::homePath(),
+  //     QFileDialog::ShowDirsOnly);
+  // if (!dir.isEmpty()) {
+  //   data_reader_.reset(new DataReader(dir));  // to reserve
+  // if (!data_reader_->isValid()) {
+  //   data_reader_ = nullptr;
+  //   QMessageBox::warning(this, tr("Warn"), tr("The directory is invalid"));
+  //   return;
+  // }
+
+  Eigen::Matrix3d K;
+  Eigen::Matrix<double, 5, 1> D;
+  auto& JK = js_["cam"]["K"];
+  auto& JD = js_["cam"]["D"];
+  for (uint8_t i = 0; i < 9; i++) {
+    K(i / 3, i % 3) = JK[i / 3][i % 3];
+    if (i < 5) {
+      D(i) = JD[i];
+    }
   }
+  data_reader_->setCameraK(K);
+  data_reader_->setCameraD(D);
+  data_root_ = dir;
+  ui->total_data_num->setText(QString::number(data_reader_->getDatasetSize()));
+
+  showTFWindow();
+  // }
 }
 
 void MainWindow::on_next_pose_clicked() {
