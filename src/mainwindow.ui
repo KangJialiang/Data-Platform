@@ -1027,16 +1027,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="Open_Dataset_Button">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Open Dataset</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item row="9" column="0">
@@ -1286,6 +1276,13 @@ color: rgb(239, 41, 41);
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
+           <widget class="QLabel" name="pathToConfigLabelP6">
+            <property name="text">
+             <string>Path of Config </string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QLineEdit" name="configPathP6"/>
           </item>
           <item>
@@ -1353,6 +1350,30 @@ color: rgb(239, 41, 41);
            </item>
           </layout>
          </widget>
+        </item>
+        <item row="1" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QLabel" name="pathToDatasetLabelP6">
+            <property name="text">
+             <string>Path of Dataset</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="datasetPathP6"/>
+          </item>
+          <item>
+           <widget class="QPushButton" name="Open_Dataset_Button">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="text">
+             <string>Open Dataset</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

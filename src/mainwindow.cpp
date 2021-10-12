@@ -201,6 +201,7 @@ void MainWindow::settingFinished() {
 
   ui->saveToLine->setEnabled(false);
   ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
+
   ui->configPathP6->setText(ui->savePathLine->text() + "/jointCalibration/");
 
   ui->pathToConfigLineP5->setEnabled(false);
