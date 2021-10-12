@@ -201,7 +201,7 @@ void MainWindow::settingFinished() {
 
   ui->saveToLine->setEnabled(false);
   ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
-  ui->configPath->setText(ui->savePathLine->text() + "/jointCalibration/");
+  ui->configPathP6->setText(ui->savePathLine->text() + "/jointCalibration/");
 
   ui->pathToConfigLineP5->setEnabled(false);
   ui->pathToConfigLineP5->setText(
@@ -552,7 +552,10 @@ void MainWindow::on_refreshButton_clicked() {
   tfProcess();
 }
 
-void MainWindow::on_finishButton_clicked() { closeImgAndPcViewers(); }
+void MainWindow::on_finishButton_clicked() {
+  closeImgAndPcViewers();
+  ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
+}
 
 void MainWindow::on_saveButton_clicked() {
   if (img_ && pc_) {
