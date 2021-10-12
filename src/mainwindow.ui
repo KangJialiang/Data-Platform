@@ -889,7 +889,7 @@
           <item>
            <widget class="QLabel" name="pathToConfigLabelP5">
             <property name="text">
-             <string>Path of Config </string>
+             <string>Path to Config </string>
             </property>
            </widget>
           </item>
@@ -1264,7 +1264,7 @@ color: rgb(239, 41, 41);
           <item>
            <widget class="QLabel" name="pathToConfigLabelP6">
             <property name="text">
-             <string>Path of Config </string>
+             <string>Path to Config </string>
             </property>
            </widget>
           </item>
@@ -1342,7 +1342,7 @@ color: rgb(239, 41, 41);
           <item>
            <widget class="QLabel" name="pathToDatasetLabelP6">
             <property name="text">
-             <string>Path of Dataset</string>
+             <string>Path to Dataset</string>
             </property>
            </widget>
           </item>
