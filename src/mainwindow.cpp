@@ -167,32 +167,23 @@ void MainWindow::settingFinished() {
 
     cameraP.reset(rsCameraP.release());
   } else if (usbCameraP) {
-    try {
-      float fx = std::stof(ui->fxLinePmain->text().toStdString());
-      float fy = ui->fyLinePmain->text().toFloat();
-      float cx = ui->cxLinePmain->text().toFloat();
-      float cy = ui->cyLinePmain->text().toFloat();
-      float k1 = ui->k1LinePmain->text().toFloat();
-      float k2 = ui->k2LinePmain->text().toFloat();
-      float k3 = ui->k3LinePmain->text().toFloat();
-      float p1 = ui->p1LinePmain->text().toFloat();
-      float p2 = ui->p2LinePmain->text().toFloat();
+    float fx = std::stof(ui->fxLinePmain->text().toStdString());
+    float fy = std::stof(ui->fyLinePmain->text().toStdString());
+    float cx = std::stof(ui->cxLinePmain->text().toStdString());
+    float cy = std::stof(ui->cyLinePmain->text().toStdString());
+    float k1 = std::stof(ui->k1LinePmain->text().toStdString());
+    float k2 = std::stof(ui->k2LinePmain->text().toStdString());
+    float k3 = std::stof(ui->k3LinePmain->text().toStdString());
+    float p1 = std::stof(ui->p1LinePmain->text().toStdString());
+    float p2 = std::stof(ui->p2LinePmain->text().toStdString());
 
-      usbCameraP->getResolution(width, height);
-      if (fx > 0 && fy > 0 && cx > 0 && cy > 0 && cx < width && cy < height) {
-        usbCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
-      } else {
-        throw std::invalid_argument("Invalid fx fy cx or cy!");
-      }
-      cameraP.reset(usbCameraP.release());
-    } catch (const std::exception& e) {
-      if (std::string(e.what()) == "stof") {
-        QMessageBox::warning(this, tr("Error:"),
-                             tr("fx fy cx cy k1 k2 k3 p1 p2 is not a number!"));
-      } else {
-        QMessageBox::warning(this, tr("Error:"), tr("Invalid fx fy cx or cy!"));
-      }
+    usbCameraP->getResolution(width, height);
+    if (fx > 0 && fy > 0 && cx > 0 && cy > 0 && cx < width && cy < height) {
+      usbCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
+    } else {
+      throw std::invalid_argument("Invalid fx fy cx or cy!");
     }
+    cameraP.reset(usbCameraP.release());
   }
 
   std::string savePath = ui->savePathLine->text().toStdString();
@@ -262,7 +253,12 @@ void MainWindow::on_mainStartLidarCalibButton_clicked() {
     ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
 
   } catch (std::exception& e) {
-    QMessageBox::warning(this, tr("Error"), tr(e.what()));
+    if (std::string(e.what()) == "stof") {
+      QMessageBox::warning(this, tr("Error:"),
+                           tr("fx fy cx cy k1 k2 k3 p1 p2 is not a number!"));
+    } else {
+      QMessageBox::warning(this, tr("Error"), tr(e.what()));
+    }
   }
 }
 void MainWindow::on_maxExposureSliderP1_valueChanged(int value) {
