@@ -202,13 +202,14 @@ void MainWindow::settingFinished() {
   ui->saveToLine->setEnabled(false);
   ui->saveToLine->setText(ui->savePathLine->text() + "/jointCalibration/");
 
-  ui->configPathP6->setText(ui->savePathLine->text() + "/jointCalibration/");
+  ui->configPathP6->setText(ui->savePathLine->text() +
+                            "/jointCalibration/config.json");
   ui->datasetPathP6->setEnabled(false);
   ui->datasetPathP6->setText(ui->savePathLine->text() + "/jointCalibration/");
 
   ui->pathToConfigLineP5->setEnabled(false);
   ui->pathToConfigLineP5->setText(
-      QString::fromStdString(savePath + "jointCalibration/"));
+      QString::fromStdString(savePath + "jointCalibration/config.json"));
 
   if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
     throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
@@ -558,6 +559,30 @@ void MainWindow::on_refreshButton_clicked() {
 void MainWindow::on_finishButton_clicked() {
   closeImgAndPcViewers();
   ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
+
+  readConfig();
+
+  auto& flt = js_["pc"]["filter"];
+  ui->angle_start_slide->setValue(static_cast<int>(flt["angle_start"]));
+  ui->angle_size_slide->setValue(static_cast<int>(flt["angle_size"]));
+  ui->distance_slide->setValue(
+      static_cast<int>(10 * flt["distance"].get<double>()));
+  ui->floor_gap_slide->setValue(
+      static_cast<int>(10 * flt["floor_gap"].get<double>()));
+
+  img_viewer_.reset(new ImageViewer);
+  img_viewer_->show();
+  pc_viewer_.reset(new PointcloudViewer);
+  pc_viewer_->show();
+
+  connect(ui->angle_start_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->angle_size_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->distance_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
 }
 
 void MainWindow::on_saveButton_clicked() {
@@ -612,6 +637,7 @@ void MainWindow::tfProcess() {
 }
 
 void MainWindow::on_Open_Config_Button_clicked() {
+  /*
   readConfig();
 
   auto& flt = js_["pc"]["filter"];
@@ -635,6 +661,15 @@ void MainWindow::on_Open_Config_Button_clicked() {
           &MainWindow::processSlider);
   connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
           &MainWindow::processSlider);
+  */
+  config_path_ = QFileDialog::getOpenFileName(
+      this, tr("Open File"), QDir::homePath(), tr("Config JSON Files(*.json)"));
+  if (config_path_.isEmpty()) {
+    QMessageBox::warning(this, tr("Error"), tr("Config file is not changed!"));
+    return;
+  } else {
+    ui->configPathP6->setText(config_path_);
+  }
 };
 
 void MainWindow::closeEvent(QCloseEvent* event) {
@@ -884,8 +919,7 @@ void MainWindow::readConfig() {
     QMessageBox::warning(this, tr("Error"), tr("Config file is empty"));
     return;
   }
-  std::ifstream f(config_path_.toStdString() + "config.json");
-  std::cout << config_path_.toStdString() + "config.json" << std::endl;
+  std::ifstream f(config_path_.toStdString());
   if (!f.good()) {
     f.close();
     QMessageBox::warning(this, tr("Error"), tr("Failed to read config file"));
