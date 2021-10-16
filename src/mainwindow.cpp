@@ -256,7 +256,7 @@ void MainWindow::on_mainStartButton_clicked() {
 void MainWindow::on_mainStartLidarCalibButton_clicked() {
   try {
     settingFinished();
-    ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
+    toLiDARCalib();
 
   } catch (std::exception& e) {
     if (std::string(e.what()) == "stof") {
@@ -357,21 +357,6 @@ void MainWindow::on_startButtonP1_clicked() {
     stopResponseData = true;
 }
 
-/*
-void MainWindow::on_pathToCameraLineP3_editingFinished() {
-  int cameraIndex;
-  std::string pathToCameraTxt;
-
-  if (ui->LOrRBoxP3->currentText() == QString("L"))
-    cameraIndex = 0;
-  else if (ui->LOrRBoxP3->currentText() == QString("R"))
-    cameraIndex = 1;
-  pathToCameraTxt = ui->pathToCameraLineP3->text().toStdString();
-
-  camera = RsCamera(cameraIndex, pathToCameraTxt);
-}
-*/
-
 void MainWindow::on_exposureSliderP3_valueChanged(int value) {
   if (cameraP) {
     cv::Mat tmpMat = cameraP->getFrame(value);
@@ -464,6 +449,8 @@ void MainWindow::on_nextButtonP2_clicked() {
 void MainWindow::on_nextButtonP3_clicked() {
   ui->tabWidget->setCurrentWidget(ui->vignetteCalib);
 }
+
+void MainWindow::on_nextButtonP4_clicked() { toLiDARCalib(); }
 
 void MainWindow::on_startButtonP2_clicked() {
   if (ui->startButtonP2->text() == tr("开始")) {
@@ -562,24 +549,28 @@ void MainWindow::on_finishButton_clicked() {
 }
 
 void MainWindow::on_saveButton_clicked() {
-  if (img_ && pc_) {
-    std::string dataPath = ui->saveToLine->text().toStdString();
-    static int index = 0;
-    if (dataPath.back() != '/') dataPath += '/';
+  try {
+    if (img_ && pc_) {
+      std::string dataPath = ui->saveToLine->text().toStdString();
+      static int index = 0;
+      if (dataPath.back() != '/') dataPath += '/';
 
-    if (index == 0) {
-      if (-1 == system(("mkdir -p " + dataPath + "image_orig/").c_str()))
-        throw std::invalid_argument("Cannot create dir " + dataPath +
-                                    "image_orig/");
-      if (-1 == system(("mkdir -p " + dataPath + "pointcloud/").c_str()))
-        throw std::invalid_argument("Cannot create dir " + dataPath +
-                                    "pointcloud/");
+      if (index == 0) {
+        if (-1 == system(("mkdir -p " + dataPath + "image_orig/").c_str()))
+          throw std::invalid_argument("Cannot create dir " + dataPath +
+                                      "image_orig/");
+        if (-1 == system(("mkdir -p " + dataPath + "pointcloud/").c_str()))
+          throw std::invalid_argument("Cannot create dir " + dataPath +
+                                      "pointcloud/");
+      }
+      cv::imwrite(dataPath + "image_orig/" + std::to_string(index) + ".jpg",
+                  *img_);
+      pcl::io::savePCDFile(
+          dataPath + "pointcloud/" + std::to_string(index) + ".pcd", *pc_);
+      ++index;
     }
-    cv::imwrite(dataPath + "image_orig/" + std::to_string(index) + ".jpg",
-                *img_);
-    pcl::io::savePCDFile(
-        dataPath + "pointcloud/" + std::to_string(index) + ".pcd", *pc_);
-    ++index;
+  } catch (std::exception& e) {
+    QMessageBox::warning(this, tr("Error"), tr(e.what()));
   }
 }
 
@@ -1180,7 +1171,7 @@ void MainWindow::closeImgAndPcViewers() {
   }
 }
 
-void MainWindow::on_nextButtonP4_clicked() {
+void MainWindow::toLiDARCalib() {
   QString fp = ui->saveToLine->text() + QDir::separator() + "config.json";
   std::ofstream f(fp.toStdString());
   if (!f.good()) {

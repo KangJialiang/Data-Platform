@@ -42,12 +42,6 @@ class MainWindow : public QMainWindow {
  protected:
   void closeEvent(QCloseEvent *);
 
- private slots:
-  void on_nextButtonP4_clicked();
-
- private slots:
-  void on_mainStartLidarCalibButton_clicked();
-
  private:
   Ui::MainWindow *ui;
 
@@ -109,6 +103,8 @@ class MainWindow : public QMainWindow {
   std::unique_ptr<lqh::Calibrator> calibrator_;
   std::vector<SensorData> sensor_data_;
 
+  void toLiDARCalib();
+
   void readConfig();
   void updateLabels();
   bool processData(bool is_check = true);
@@ -127,11 +123,15 @@ class MainWindow : public QMainWindow {
 
   void on_mainStartButton_clicked();
 
+  void on_mainStartLidarCalibButton_clicked();
+
   void on_nextButtonP1_clicked();
 
   void on_nextButtonP2_clicked();
 
   void on_nextButtonP3_clicked();
+
+  void on_nextButtonP4_clicked();
 
   void on_startButtonP2_clicked();
 
