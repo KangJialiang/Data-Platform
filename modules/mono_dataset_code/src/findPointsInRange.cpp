@@ -136,7 +136,7 @@ void findPointsInRange(cv::InputArray inputImg, cv::Mat& result,
   // std::clock_t last = std::clock();
 
   cv::Mat inRange = cv::Mat::zeros(result.size(), CV_8U);
-  cv::fillConvexPoly(inRange, contours, cv::Scalar(1));
+  cv::fillConvexPoly(inRange, contours, cv::Scalar(255 / 20));
   result += inRange;
 
   // std::cout << (double)(std::clock() - last) / CLOCKS_PER_SEC << "s"
