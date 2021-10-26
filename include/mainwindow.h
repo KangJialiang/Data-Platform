@@ -42,6 +42,9 @@ class MainWindow : public QMainWindow {
  protected:
   void closeEvent(QCloseEvent *);
 
+ private slots:
+  void on_startButtonP5_clicked();
+
  private:
   Ui::MainWindow *ui;
 
@@ -87,6 +90,8 @@ class MainWindow : public QMainWindow {
   };
 
   QString config_path_;
+  std::string rostopic;
+
   nlohmann::json js_;
 
   bool is_calibrated_;
@@ -103,7 +108,7 @@ class MainWindow : public QMainWindow {
   std::unique_ptr<lqh::Calibrator> calibrator_;
   std::vector<SensorData> sensor_data_;
 
-  void toLiDARCalib();
+  void generateConfig();
 
   void readConfig();
   void updateLabels();

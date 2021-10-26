@@ -65,8 +65,8 @@ MainWindow::MainWindow(QWidget* parent)
   this->resize(QSize(1000, 800));
 
   rosSpinner.start();
-  subPointCloud = nh.subscribe<sensor_msgs::PointCloud2>(
-      "velodyne_points", 2, &MainWindow::pointCloudHandler, this);
+  // subPointCloud = nh.subscribe<sensor_msgs::PointCloud2>(
+  //    "lslidar_point_cloud", 2, &MainWindow::pointCloudHandler, this);
   // rosTimer = new QTimer(this);
   // rosTimer->setInterval(20);  // 单位毫秒
   // connect(rosTimer, &QTimer::timeout, this, &ros::spinOnce);
@@ -256,7 +256,8 @@ void MainWindow::on_mainStartButton_clicked() {
 void MainWindow::on_mainStartLidarCalibButton_clicked() {
   try {
     settingFinished();
-    toLiDARCalib();
+    generateConfig();
+    ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
 
   } catch (std::exception& e) {
     if (std::string(e.what()) == "stof") {
@@ -450,7 +451,14 @@ void MainWindow::on_nextButtonP3_clicked() {
   ui->tabWidget->setCurrentWidget(ui->vignetteCalib);
 }
 
-void MainWindow::on_nextButtonP4_clicked() { toLiDARCalib(); }
+void MainWindow::on_nextButtonP4_clicked() {
+  try {
+    generateConfig();
+    ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
+  } catch (std::exception& e) {
+    QMessageBox::warning(this, tr("Error"), tr(e.what()));
+  }
+}
 
 void MainWindow::on_startButtonP2_clicked() {
   if (ui->startButtonP2->text() == tr("开始")) {
@@ -536,7 +544,7 @@ void MainWindow::pointCloudHandler(
 // }
 
 void MainWindow::on_refreshButton_clicked() {
-  img_ = std::make_shared<cv::Mat>(cameraP->getFrame());
+    img_ = std::make_shared<cv::Mat>(cameraP->getFrame());
   pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
   *pc_ = pointCloud;
 
@@ -1145,7 +1153,7 @@ void MainWindow::showTFWindow() {
   std::shared_ptr<cv::Mat> img_mark = std::make_shared<cv::Mat>();
   img_->copyTo(*img_mark);
 
-  tfwindow_.reset(new TFwindow(calibrator_->GetTransformation()));
+  tfwindow_.reset(new TFwindow(calibrator_->GetTransformation()));  // reserve
   connect(tfwindow_.get(), &TFwindow::newTransformation, this,
           &MainWindow::updateWithTransformation);
   connect(tfwindow_.get(), &TFwindow::tfwindowClose, this,
@@ -1171,7 +1179,7 @@ void MainWindow::closeImgAndPcViewers() {
   }
 }
 
-void MainWindow::toLiDARCalib() {
+void MainWindow::generateConfig() {
   QString fp = ui->saveToLine->text() + QDir::separator() + "config.json";
   std::ofstream f(fp.toStdString());
   if (!f.good()) {
@@ -1228,7 +1236,8 @@ void MainWindow::toLiDARCalib() {
   f << js.dump(4);
   f.close();
 
-  ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
+  // ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
+  /*
   readConfig();
 
   img_viewer_.reset(new ImageViewer);
@@ -1242,4 +1251,33 @@ void MainWindow::toLiDARCalib() {
   connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
   connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
   connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  */
+}
+
+void MainWindow::on_startButtonP5_clicked() {
+  try {
+    readConfig();
+
+    img_viewer_.reset(new ImageViewer);
+    img_viewer_->show();
+    pc_viewer_.reset(new PointcloudViewer);
+    pc_viewer_->show();
+
+    if (ui->topicLineP5->text().isEmpty()) {
+      throw std::invalid_argument("Rostopic of lidar is empty!");
+    } else {
+      rostopic = ui->topicLineP5->text().toStdString();
+      subPointCloud = nh.subscribe<sensor_msgs::PointCloud2>(
+          rostopic, 2, &MainWindow::pointCloudHandler, this);
+    }
+
+    connect(ui->rx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+    connect(ui->ry_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+    connect(ui->rz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+    connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+    connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+    connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+  } catch (std::exception& e) {
+    QMessageBox::warning(this, tr("Error"), tr(e.what()));
+  }
 }
