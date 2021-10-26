@@ -165,7 +165,9 @@ cv::Mat RsCamera::getFrame() {
                profSelected.as<rs2::video_stream_profile>().height()),
       CV_8U, (void *)rsFrame.get_data(), cv::Mat::AUTO_STEP);
 
-  return frameMat.clone();
+  cv::Mat imgBGR;
+  cv::cvtColor(frameMat, imgBGR, cv::COLOR_GRAY2BGR);
+  return imgBGR;
 }
 
 cv::Mat RsCamera::getFrame(int exposureTime) {
@@ -175,7 +177,9 @@ cv::Mat RsCamera::getFrame(int exposureTime) {
                profSelected.as<rs2::video_stream_profile>().height()),
       CV_8U, (void *)rsFrame.get_data(), cv::Mat::AUTO_STEP);
 
-  return frameMat.clone();
+  cv::Mat imgBGR;
+  cv::cvtColor(frameMat, imgBGR, cv::COLOR_GRAY2BGR);
+  return imgBGR;
 }
 
 cv::Mat RsCamera::getFrame(int exposureTime, long long &timeOfArrival) {
@@ -187,7 +191,9 @@ cv::Mat RsCamera::getFrame(int exposureTime, long long &timeOfArrival) {
   timeOfArrival =
       rsFrame.get_frame_metadata(RS2_FRAME_METADATA_TIME_OF_ARRIVAL);
 
-  return frameMat.clone();
+  cv::Mat imgBGR;
+  cv::cvtColor(frameMat, imgBGR, cv::COLOR_GRAY2BGR);
+  return imgBGR;
 }
 
 void RsCamera::getResolution(int &width, int &height) {
