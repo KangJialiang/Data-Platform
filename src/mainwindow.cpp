@@ -1153,7 +1153,7 @@ void MainWindow::showTFWindow() {
   std::shared_ptr<cv::Mat> img_mark = std::make_shared<cv::Mat>();
   img_->copyTo(*img_mark);
 
-  tfwindow_.reset(new TFwindow(calibrator_->GetTransformation()));  // reserve
+  tfwindow_.reset(new TFwindow(calibrator_->GetTransformation()));
   connect(tfwindow_.get(), &TFwindow::newTransformation, this,
           &MainWindow::updateWithTransformation);
   connect(tfwindow_.get(), &TFwindow::tfwindowClose, this,
