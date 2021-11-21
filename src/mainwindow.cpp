@@ -544,7 +544,14 @@ void MainWindow::pointCloudHandler(
 // }
 
 void MainWindow::on_refreshButton_clicked() {
-  img_ = std::make_shared<cv::Mat>(cameraP->getFrame());
+  cv::Mat imgOrg, imgBGR;
+  imgOrg = cameraP->getFrame();
+  if (imgOrg.type() == CV_8UC1)
+    cv::cvtColor(imgOrg, imgBGR, CV_GRAY2BGR);
+  else
+    imgBGR = imgOrg;
+
+  img_ = std::make_shared<cv::Mat>(imgBGR);
   pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
   *pc_ = pointCloud;
 
@@ -1136,7 +1143,7 @@ void MainWindow::tfwindowClose() {
 }
 
 void MainWindow::showTFWindow() {
-  img_ = data_reader_->getImage();
+  img_ = data_reader_->getImage();  // always get BGR image
   pc_ = data_reader_->getPointcloud();
   if (img_ == nullptr || pc_ == nullptr) {
     QMessageBox::warning(this, tr("Error"),
