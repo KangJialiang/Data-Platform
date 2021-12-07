@@ -1,8 +1,8 @@
 #include "USBCamera.h"
 
 USBCamera::USBCamera() : cap(0), startFlag(true) {
-  widthOfFrame = cap.get(CV_CAP_PROP_FRAME_WIDTH);
-  heightOfFrame = cap.get(CV_CAP_PROP_FRAME_HEIGHT);
+  widthOfFrame = cap.get(cv::CAP_PROP_FRAME_WIDTH);
+  heightOfFrame = cap.get(cv::CAP_PROP_FRAME_HEIGHT);
   pthread_spin_init(&frameLock, PTHREAD_PROCESS_PRIVATE);
   pthread_create(
       &readThread, 0,

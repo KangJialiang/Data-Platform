@@ -547,7 +547,7 @@ void MainWindow::on_refreshButton_clicked() {
   cv::Mat imgOrg, imgBGR;
   imgOrg = cameraP->getFrame();
   if (imgOrg.type() == CV_8UC1)
-    cv::cvtColor(imgOrg, imgBGR, CV_GRAY2BGR);
+    cv::cvtColor(imgOrg, imgBGR, cv::COLOR_GRAY2BGR);
   else
     imgBGR = imgOrg;
 
