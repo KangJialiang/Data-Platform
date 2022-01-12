@@ -23,6 +23,7 @@
 #include <QPushButton>
 #include <QStringList>
 #include <QThread>
+#include <QTimer>
 #include <algorithm>
 #include <fstream>
 #include <memory>
@@ -577,50 +578,84 @@ void MainWindow::on_startButtonP5_clicked() {
   }
 }
 
-void MainWindow::on_refreshButton_clicked() {
-  cv::Mat imgOrg, imgBGR;
-  imgOrg = cameraP->getFrame();
-  if (imgOrg.type() == CV_8UC1)
-    cv::cvtColor(imgOrg, imgBGR, cv::COLOR_GRAY2BGR);
-  else
-    imgBGR = imgOrg;
+void MainWindow::on_playButtonP5_clicked() {
+  ui->playButtonP5->setDisabled(true);
+  ui->pauseButtonP5->setEnabled(true);
 
-  img_ = std::make_shared<cv::Mat>(imgBGR);
-  pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
-  *pc_ = pointCloud;
+  while (ui->pauseButtonP5->isEnabled()) {
+    cv::Mat imgOrg, imgBGR;
+    imgOrg = cameraP->getFrame();
+    if (imgOrg.type() == CV_8UC1)
+      cv::cvtColor(imgOrg, imgBGR, cv::COLOR_GRAY2BGR);
+    else
+      imgBGR = imgOrg;
 
-  tfProcess();
+    img_ = std::make_shared<cv::Mat>(imgBGR);
+    pc_.reset(new pcl::PointCloud<pcl::PointXYZI>);
+    *pc_ = pointCloud;
+
+    tfProcess();
+
+    QCoreApplication::processEvents();
+  }
+}
+
+void MainWindow::on_pauseButtonP5_clicked() {
+  ui->pauseButtonP5->setDisabled(true);
+  ui->playButtonP5->setEnabled(true);
+}
+
+// Save image and pointclouds after 2 seconds.
+void MainWindow::on_saveButton_clicked() {
+  ui->pauseButtonP5->setDisabled(true);
+  ui->playButtonP5->setDisabled(true);
+  ui->saveButton->setDisabled(true);
+  ui->unsaveButtonP5->setEnabled(true);
+
+  QTimer::singleShot(2 * 1000, this, &MainWindow::doRealSaveImgPcl);
+}
+
+void MainWindow::on_unsaveButtonP5_clicked() {
+  ui->unsaveButtonP5->setDisabled(true);
+  ui->unsaveButtonP5->setText("Unsaved");
+}
+
+void MainWindow::doRealSaveImgPcl() {
+  if (ui->unsaveButtonP5->isEnabled()) {
+    try {
+      if (img_ && pc_) {
+        std::string dataPath = ui->saveToLine->text().toStdString();
+        static int index = 0;
+        if (dataPath.back() != '/') dataPath += '/';
+
+        if (index == 0) {
+          if (-1 == system(("mkdir -p " + dataPath + "image_orig/").c_str()))
+            throw std::invalid_argument("Cannot create dir " + dataPath +
+                                        "image_orig/");
+          if (-1 == system(("mkdir -p " + dataPath + "pointcloud/").c_str()))
+            throw std::invalid_argument("Cannot create dir " + dataPath +
+                                        "pointcloud/");
+        }
+        cv::imwrite(dataPath + "image_orig/" + std::to_string(index) + ".jpg",
+                    *img_);
+        pcl::io::savePCDFile(
+            dataPath + "pointcloud/" + std::to_string(index) + ".pcd", *pc_);
+        ++index;
+      }
+    } catch (std::exception& e) {
+      QMessageBox::warning(this, tr("Error"), tr(e.what()));
+    }
+  }
+
+  ui->saveButton->setEnabled(true);
+  ui->unsaveButtonP5->setDisabled(true);
+  ui->unsaveButtonP5->setText("Unsave");
+  on_playButtonP5_clicked();
 }
 
 void MainWindow::on_finishButton_clicked() {
   closeImgAndPcViewers();
   ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
-}
-
-void MainWindow::on_saveButton_clicked() {
-  try {
-    if (img_ && pc_) {
-      std::string dataPath = ui->saveToLine->text().toStdString();
-      static int index = 0;
-      if (dataPath.back() != '/') dataPath += '/';
-
-      if (index == 0) {
-        if (-1 == system(("mkdir -p " + dataPath + "image_orig/").c_str()))
-          throw std::invalid_argument("Cannot create dir " + dataPath +
-                                      "image_orig/");
-        if (-1 == system(("mkdir -p " + dataPath + "pointcloud/").c_str()))
-          throw std::invalid_argument("Cannot create dir " + dataPath +
-                                      "pointcloud/");
-      }
-      cv::imwrite(dataPath + "image_orig/" + std::to_string(index) + ".jpg",
-                  *img_);
-      pcl::io::savePCDFile(
-          dataPath + "pointcloud/" + std::to_string(index) + ".pcd", *pc_);
-      ++index;
-    }
-  } catch (std::exception& e) {
-    QMessageBox::warning(this, tr("Error"), tr(e.what()));
-  }
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index) {

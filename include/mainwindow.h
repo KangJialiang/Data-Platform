@@ -110,6 +110,8 @@ class MainWindow : public QMainWindow {
 
   void generateConfig();
 
+  void doRealSaveImgPcl();
+
   void readConfig();
   void updateLabels();
   bool processData(bool is_check = true);
@@ -178,7 +180,11 @@ class MainWindow : public QMainWindow {
 
   // void on_openConfigButton_clicked();
 
-  void on_refreshButton_clicked();
+  // void on_refreshButton_clicked();
+
+  void on_playButtonP5_clicked();
+  void on_pauseButtonP5_clicked();
+  void on_unsaveButtonP5_clicked();
 
   void on_saveButton_clicked();
 

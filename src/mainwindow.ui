@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>692</width>
+    <width>711</width>
     <height>614</height>
    </rect>
   </property>
@@ -693,9 +693,16 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="refreshButton">
+           <widget class="QPushButton" name="playButtonP5">
             <property name="text">
-             <string>Refresh</string>
+             <string>Play</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pauseButtonP5">
+            <property name="text">
+             <string>Pause</string>
             </property>
            </widget>
           </item>
@@ -703,6 +710,19 @@
            <widget class="QPushButton" name="saveButton">
             <property name="text">
              <string>Save</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="unsaveButtonP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Unsave</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
             </property>
            </widget>
           </item>
