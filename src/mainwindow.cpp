@@ -76,6 +76,8 @@ MainWindow::MainWindow(QWidget* parent)
   // ui->leftorRightComboBox->setVisible(false);
   ui->rsParamsBoxPmain->setVisible(false);
   ui->usbParamsBoxPmain->setVisible(false);
+  ui->mainStartLidarCalibButton->setVisible(false);
+  ui->mainStartButton->setVisible(false);
 }
 
 MainWindow::~MainWindow() {
@@ -119,8 +121,12 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(
       auto streamNames = tempRsCameraP->getSupportedStreamNames();
       for (auto streamName : streamNames)
         ui->streamNameBoxPmain->addItem(QString::fromStdString(streamName));
+
       ui->usbParamsBoxPmain->setVisible(false);
-      ui->mainStartButton->setEnabled(true);
+
+      ui->mainStartCalibButton->setVisible(false);
+      ui->mainStartLidarCalibButton->setVisible(true);
+      ui->mainStartButton->setVisible(true);
 
     } catch (const std::exception& e) {
       QMessageBox::warning(this, tr("Error"), tr(e.what()));
@@ -131,13 +137,17 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(
 
     ui->usbParamsBoxPmain->setVisible(true);
     ui->rsParamsBoxPmain->setVisible(false);
-    ui->mainStartButton->setEnabled(false);
-    cameraP.reset(tempUSBCameraP);
+
+    ui->mainStartCalibButton->setVisible(false);
+    ui->mainStartLidarCalibButton->setVisible(true);
+    ui->mainStartButton->setVisible(false);
 
   } else {
-    ui->mainStartButton->setEnabled(true);
     ui->rsParamsBoxPmain->setVisible(false);
     ui->usbParamsBoxPmain->setVisible(false);
+    ui->mainStartCalibButton->setVisible(true);
+    ui->mainStartLidarCalibButton->setVisible(false);
+    ui->mainStartButton->setVisible(false);
   }
 }
 
