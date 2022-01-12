@@ -3,6 +3,7 @@
 
 #include <array>
 #include <librealsense2/rs.hpp>
+#include <librealsense2/rs_advanced_mode.hpp>
 #include <map>
 #include <opencv2/opencv.hpp>
 #include <set>
@@ -37,8 +38,22 @@ class RsCamera : public Camera {
 
   intrinsicT getIntrinsic() override;
 
+  uint32_t getMeanIntensitySetPoint() {
+    rs400::advanced_mode advnc_mode(currentDevice);
+    return advnc_mode.get_ae_control().meanIntensitySetPoint;
+  };
+
+  // set meanIntensitySetPoint (used in auto-exposure): higher->image brighter
+  void setMeanIntensitySetPoint(uint32_t meanIntensitySetPoint) {
+    rs400::advanced_mode advnc_mode(currentDevice);
+    STAEControl ae_ctrl;
+    ae_ctrl.meanIntensitySetPoint = meanIntensitySetPoint;
+    advnc_mode.set_ae_control(ae_ctrl);
+  };
+
  private:
   std::string deviceName, serialNumber, firmwareVersion;
+  rs2::device currentDevice;
   rs2::pipeline pipe;
   rs2::stream_profile profSelected;
   rs2::sensor sensorSelected;

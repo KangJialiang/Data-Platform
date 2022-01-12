@@ -590,6 +590,11 @@ void MainWindow::on_startButtonP5_clicked() {
     connect(ui->tx_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
     connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
     connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
+
+    RsCamera* tempRsCamera = dynamic_cast<RsCamera*>(cameraP.get());
+    if (tempRsCamera) {
+      ui->AEControlLineP5->setEnabled(true);
+    }
   } catch (std::exception& e) {
     QMessageBox::warning(this, tr("Error"), tr(e.what()));
   }
