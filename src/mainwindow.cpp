@@ -151,44 +151,6 @@ void MainWindow::on_streamNameBoxPmain_currentIndexChanged(
 }
 
 void MainWindow::settingFinished() {
-  int width, height;
-  Camera* tempCameraP = cameraP.get();
-  RsCamera* tempRsCameraP = dynamic_cast<RsCamera*>(tempCameraP);
-  USBCamera* tempUSBCameraP = dynamic_cast<USBCamera*>(tempCameraP);
-
-  if (tempRsCameraP) {
-    tempRsCameraP->selectProfile(
-        ui->streamNameBoxPmain->currentText().toStdString(),
-        ui->resFPSBoxPmain->currentText().toStdString());
-
-    int minExp = tempRsCameraP->getMinExposure();
-    int maxExp = tempRsCameraP->getMaxExposure();
-    ui->maxExposureSliderP1->setRange(minExp, maxExp);
-    ui->maxExposureBoxP1->setRange(minExp, maxExp);
-    ui->minExposureSliderP1->setRange(minExp, maxExp);
-    ui->minExposureBoxP1->setRange(minExp, maxExp);
-    ui->exposureSliderP3->setRange(minExp, maxExp);
-    ui->exposureBoxP3->setRange(minExp, maxExp);
-
-  } else if (tempUSBCameraP) {
-    float fx = std::stof(ui->fxLinePmain->text().toStdString());
-    float fy = std::stof(ui->fyLinePmain->text().toStdString());
-    float cx = std::stof(ui->cxLinePmain->text().toStdString());
-    float cy = std::stof(ui->cyLinePmain->text().toStdString());
-    float k1 = std::stof(ui->k1LinePmain->text().toStdString());
-    float k2 = std::stof(ui->k2LinePmain->text().toStdString());
-    float k3 = std::stof(ui->k3LinePmain->text().toStdString());
-    float p1 = std::stof(ui->p1LinePmain->text().toStdString());
-    float p2 = std::stof(ui->p2LinePmain->text().toStdString());
-
-    tempUSBCameraP->getResolution(width, height);
-    if (fx > 0 && fy > 0 && cx > 0 && cy > 0 && cx < width && cy < height) {
-      tempUSBCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
-    } else {
-      throw std::invalid_argument("Invalid fx fy cx or cy!");
-    }
-  }
-
   std::string savePath = ui->savePathLine->text().toStdString();
   if (savePath.back() != '/') savePath += '/';
   std::string cameraPath = savePath + "camera.txt";
@@ -233,21 +195,61 @@ void MainWindow::settingFinished() {
   // P4 is automatically changed
   ui->vignettePathLineP4->setEnabled(false);
 
-  std::ofstream camParamsFile(cameraPath);
-  // int width, height;
-  cameraP->getResolution(width, height);
-  auto intrinsic = cameraP->getIntrinsic();
-  float fx, fy, cx, cy;
-  fx = intrinsic.fx / width;
-  fy = intrinsic.fy / height;
-  cx = (intrinsic.cx + 0.5) / width;
-  cy = (intrinsic.cy + 0.5) / height;
-  camParamsFile << fx << " " << fy << " " << cx << " " << cy << " "
-                << "0" << std::endl;
-  camParamsFile << width << " " << height << std::endl;
-  camParamsFile << "crop" << std::endl;
-  camParamsFile << width / 2 << " " << height / 2 << std::endl;
-  camParamsFile.close();
+  if (cameraP) {
+    int width, height;
+    Camera* tempCameraP = cameraP.get();
+    RsCamera* tempRsCameraP = dynamic_cast<RsCamera*>(tempCameraP);
+    USBCamera* tempUSBCameraP = dynamic_cast<USBCamera*>(tempCameraP);
+
+    if (tempRsCameraP) {
+      tempRsCameraP->selectProfile(
+          ui->streamNameBoxPmain->currentText().toStdString(),
+          ui->resFPSBoxPmain->currentText().toStdString());
+
+      int minExp = tempRsCameraP->getMinExposure();
+      int maxExp = tempRsCameraP->getMaxExposure();
+      ui->maxExposureSliderP1->setRange(minExp, maxExp);
+      ui->maxExposureBoxP1->setRange(minExp, maxExp);
+      ui->minExposureSliderP1->setRange(minExp, maxExp);
+      ui->minExposureBoxP1->setRange(minExp, maxExp);
+      ui->exposureSliderP3->setRange(minExp, maxExp);
+      ui->exposureBoxP3->setRange(minExp, maxExp);
+
+    } else if (tempUSBCameraP) {
+      float fx = std::stof(ui->fxLinePmain->text().toStdString());
+      float fy = std::stof(ui->fyLinePmain->text().toStdString());
+      float cx = std::stof(ui->cxLinePmain->text().toStdString());
+      float cy = std::stof(ui->cyLinePmain->text().toStdString());
+      float k1 = std::stof(ui->k1LinePmain->text().toStdString());
+      float k2 = std::stof(ui->k2LinePmain->text().toStdString());
+      float k3 = std::stof(ui->k3LinePmain->text().toStdString());
+      float p1 = std::stof(ui->p1LinePmain->text().toStdString());
+      float p2 = std::stof(ui->p2LinePmain->text().toStdString());
+
+      tempUSBCameraP->getResolution(width, height);
+      if (fx > 0 && fy > 0 && cx > 0 && cy > 0 && cx < width && cy < height) {
+        tempUSBCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
+      } else {
+        throw std::invalid_argument("Invalid fx fy cx or cy!");
+      }
+    }
+
+    std::ofstream camParamsFile(cameraPath);
+    // int width, height;
+    cameraP->getResolution(width, height);
+    auto intrinsic = cameraP->getIntrinsic();
+    float fx, fy, cx, cy;
+    fx = intrinsic.fx / width;
+    fy = intrinsic.fy / height;
+    cx = (intrinsic.cx + 0.5) / width;
+    cy = (intrinsic.cy + 0.5) / height;
+    camParamsFile << fx << " " << fy << " " << cx << " " << cy << " "
+                  << "0" << std::endl;
+    camParamsFile << width << " " << height << std::endl;
+    camParamsFile << "crop" << std::endl;
+    camParamsFile << width / 2 << " " << height / 2 << std::endl;
+    camParamsFile.close();
+  }
 }
 void MainWindow::on_mainStartButton_clicked() {
   try {
