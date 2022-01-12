@@ -17,10 +17,9 @@ RsCamera::RsCamera() {
     throw std::runtime_error("No device detected. Is it plugged in?");
   else if (device_count > 1)
     throw std::runtime_error("More than one devices detected.");
-  rs2::device device;
   for (size_t i = 0; i < device_count; i++) {
     try {
-      device = devices_list[0];
+      currentDevice = devices_list[0];
     } catch (const std::exception &e) {
       throw std::runtime_error("Could not create device - " +
                                std::string(e.what()));
@@ -28,11 +27,11 @@ RsCamera::RsCamera() {
       throw std::runtime_error("Failed to created device.");
     }
   }
-  deviceName = device.get_info(RS2_CAMERA_INFO_NAME);
-  serialNumber = device.get_info(RS2_CAMERA_INFO_SERIAL_NUMBER);
-  firmwareVersion = device.get_info(RS2_CAMERA_INFO_FIRMWARE_VERSION);
+  deviceName = currentDevice.get_info(RS2_CAMERA_INFO_NAME);
+  serialNumber = currentDevice.get_info(RS2_CAMERA_INFO_SERIAL_NUMBER);
+  firmwareVersion = currentDevice.get_info(RS2_CAMERA_INFO_FIRMWARE_VERSION);
 
-  for (rs2::sensor sensor : device.query_sensors())
+  for (rs2::sensor sensor : currentDevice.query_sensors())
     for (rs2::stream_profile profile : sensor.get_stream_profiles())
       if (profile.stream_type() == RS2_STREAM_INFRARED &&
           profile.format() == RS2_FORMAT_Y8)
@@ -94,13 +93,12 @@ void RsCamera::selectRawProfile(rs2::stream_profile profile) {
   rs2::pipeline_profile pipeProf = this->pipe.start(conf);
 
   // disable emitter
-  rs2::device devices = pipeProf.get_device();
-  auto depth_sensor = devices.first<rs2::depth_sensor>();
+  auto depth_sensor = currentDevice.first<rs2::depth_sensor>();
   if (depth_sensor.supports(RS2_OPTION_EMITTER_ENABLED))
     depth_sensor.set_option(RS2_OPTION_EMITTER_ENABLED, 0.f);
 
   // sensor will change, can only be determined now
-  std::vector<rs2::sensor> sensors = devices.query_sensors();
+  std::vector<rs2::sensor> sensors = currentDevice.query_sensors();
   for (auto sensor : sensors)
     for (auto profile : sensor.get_stream_profiles())
       if (profSelected == profile) {
