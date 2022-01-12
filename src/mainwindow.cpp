@@ -34,9 +34,6 @@
 #include "ui_mainwindow.h"
 #include "vignetteCalib.h"
 
-std::unique_ptr<RsCamera> rsCameraP;
-std::unique_ptr<USBCamera> usbCameraP;
-
 QPixmap MainWindow::cvMat2QPixmap(cv::Mat& inMat) {
   cv::Mat rgb;
   QImage img;
@@ -114,51 +111,58 @@ void MainWindow::on_cameraComboBox_currentIndexChanged(
     const QString& camSelected) {
   if (camSelected == tr("realsense")) {
     try {
-      rsCameraP.reset(new RsCamera());
+      RsCamera* tempRsCameraP(new RsCamera());
+      cameraP.reset(tempRsCameraP);
+
       ui->rsParamsBoxPmain->setVisible(true);
       ui->streamNameBoxPmain->clear();
-      auto streamNames = rsCameraP->getSupportedStreamNames();
+      auto streamNames = tempRsCameraP->getSupportedStreamNames();
       for (auto streamName : streamNames)
         ui->streamNameBoxPmain->addItem(QString::fromStdString(streamName));
       ui->usbParamsBoxPmain->setVisible(false);
       ui->mainStartButton->setEnabled(true);
-      usbCameraP = nullptr;
 
     } catch (const std::exception& e) {
       QMessageBox::warning(this, tr("Error"), tr(e.what()));
     }
   } else if (camSelected == tr("usb")) {
-    usbCameraP.reset(new USBCamera());
+    USBCamera* tempUSBCameraP(new USBCamera());
+    cameraP.reset(tempUSBCameraP);
+
     ui->usbParamsBoxPmain->setVisible(true);
     ui->rsParamsBoxPmain->setVisible(false);
     ui->mainStartButton->setEnabled(false);
-    rsCameraP = nullptr;
+    cameraP.reset(tempUSBCameraP);
 
   } else {
     ui->mainStartButton->setEnabled(true);
     ui->rsParamsBoxPmain->setVisible(false);
-    rsCameraP = nullptr;
     ui->usbParamsBoxPmain->setVisible(false);
-    usbCameraP = nullptr;
   }
 }
 
 void MainWindow::on_streamNameBoxPmain_currentIndexChanged(
     const QString& streamNameSelected) {
   ui->resFPSBoxPmain->clear();
-  auto profiles = rsCameraP->getProfiles(streamNameSelected.toStdString());
+  auto profiles = dynamic_cast<RsCamera*>(cameraP.get())
+                      ->getProfiles(streamNameSelected.toStdString());
   for (const auto& profile : profiles)
     ui->resFPSBoxPmain->addItem(QString::fromStdString(profile));
 }
+
 void MainWindow::settingFinished() {
   int width, height;
-  if (rsCameraP) {
-    rsCameraP->selectProfile(
+  Camera* tempCameraP = cameraP.get();
+  RsCamera* tempRsCameraP = dynamic_cast<RsCamera*>(tempCameraP);
+  USBCamera* tempUSBCameraP = dynamic_cast<USBCamera*>(tempCameraP);
+
+  if (tempRsCameraP) {
+    tempRsCameraP->selectProfile(
         ui->streamNameBoxPmain->currentText().toStdString(),
         ui->resFPSBoxPmain->currentText().toStdString());
 
-    int minExp = rsCameraP->getMinExposure();
-    int maxExp = rsCameraP->getMaxExposure();
+    int minExp = tempRsCameraP->getMinExposure();
+    int maxExp = tempRsCameraP->getMaxExposure();
     ui->maxExposureSliderP1->setRange(minExp, maxExp);
     ui->maxExposureBoxP1->setRange(minExp, maxExp);
     ui->minExposureSliderP1->setRange(minExp, maxExp);
@@ -166,8 +170,7 @@ void MainWindow::settingFinished() {
     ui->exposureSliderP3->setRange(minExp, maxExp);
     ui->exposureBoxP3->setRange(minExp, maxExp);
 
-    cameraP.reset(rsCameraP.release());
-  } else if (usbCameraP) {
+  } else if (tempUSBCameraP) {
     float fx = std::stof(ui->fxLinePmain->text().toStdString());
     float fy = std::stof(ui->fyLinePmain->text().toStdString());
     float cx = std::stof(ui->cxLinePmain->text().toStdString());
@@ -178,13 +181,12 @@ void MainWindow::settingFinished() {
     float p1 = std::stof(ui->p1LinePmain->text().toStdString());
     float p2 = std::stof(ui->p2LinePmain->text().toStdString());
 
-    usbCameraP->getResolution(width, height);
+    tempUSBCameraP->getResolution(width, height);
     if (fx > 0 && fy > 0 && cx > 0 && cy > 0 && cx < width && cy < height) {
-      usbCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
+      tempUSBCameraP->setIntrinsic(fx, fy, cx, cy, k1, k2, p1, p2, k3);
     } else {
       throw std::invalid_argument("Invalid fx fy cx or cy!");
     }
-    cameraP.reset(usbCameraP.release());
   }
 
   std::string savePath = ui->savePathLine->text().toStdString();
