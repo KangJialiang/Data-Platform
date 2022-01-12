@@ -1245,6 +1245,9 @@ void MainWindow::showTFWindow() {
 }
 
 void MainWindow::closeImgAndPcViewers() {
+  if (ui->pauseButtonP5->isEnabled()) {
+    on_pauseButtonP5_clicked();
+  }
   if (img_viewer_) {
     img_viewer_->close();
     img_viewer_.release();
