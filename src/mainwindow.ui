@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>6</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -243,17 +243,24 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
+        <item row="5" column="3">
+         <widget class="QPushButton" name="mainStartButton">
+          <property name="text">
+           <string>开始相机响应函数晕影函数标定</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="2">
          <widget class="QPushButton" name="mainStartLidarCalibButton">
           <property name="text">
            <string>开始激光雷达与相机联合标定</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="2" alignment="Qt::AlignRight">
-         <widget class="QPushButton" name="mainStartButton">
+        <item row="5" column="1">
+         <widget class="QPushButton" name="mainStartCalibButton">
           <property name="text">
-           <string>开始相机响应函数晕影函数标定</string>
+           <string>直接开始联合标定</string>
           </property>
          </widget>
         </item>
@@ -1312,16 +1319,6 @@ color: rgb(239, 41, 41);
           <item>
            <widget class="QLineEdit" name="configPathP6"/>
           </item>
-          <item>
-           <widget class="QPushButton" name="Open_Config_Button">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>Open Config</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item row="6" column="0">
@@ -1389,16 +1386,6 @@ color: rgb(239, 41, 41);
           </item>
           <item>
            <widget class="QLineEdit" name="datasetPathP6"/>
-          </item>
-          <item>
-           <widget class="QPushButton" name="startButtonP6">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="text">
-             <string>       Start        </string>
-            </property>
-           </widget>
           </item>
          </layout>
         </item>

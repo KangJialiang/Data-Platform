@@ -214,6 +214,8 @@ void MainWindow::settingFinished() {
   ui->pathToConfigLineP5->setText(
       QString::fromStdString(savePath + "jointCalibration/config.json"));
 
+  config_path_ = ui->pathToConfigLineP5->text();
+
   if (-1 == system(("mkdir -p " + savePath + "gamma/").c_str()))
     throw std::invalid_argument("Cannot create dir " + savePath + "gamma/");
 
@@ -519,7 +521,8 @@ void MainWindow::pointCloudHandler(
 
 void MainWindow::on_startButtonP5_clicked() {
   try {
-    readConfig();
+    // readConfig();
+    calibrator_.reset(new lqh::Calibrator(js_));
 
     img_viewer_.reset(new ImageViewer);
     img_viewer_->show();
@@ -677,6 +680,7 @@ void MainWindow::on_finishButton_clicked() {
                           Eigen::AngleAxisd(rz, Eigen::Vector3d::UnitZ());
   tf.topLeftCorner(3, 3) = ag.matrix();
   tf.row(3) << 0, 0, 0, 1;
+
   js_["tf"] = {};
   for (uint8_t i = 0; i < 4; i++) {
     js_["tf"].push_back({tf(i, 0), tf(i, 1), tf(i, 2), tf(i, 3)});
@@ -684,6 +688,7 @@ void MainWindow::on_finishButton_clicked() {
   generateNewConfig();
   closeImgAndPcViewers();
   ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
+  startCalib();
 }
 
 void MainWindow::on_tabWidget_currentChanged(int index) {
@@ -715,8 +720,9 @@ void MainWindow::tfProcess() {
   updateWithTransformation(tf);
 }
 
+/*
 void MainWindow::on_Open_Config_Button_clicked() {
-  /*
+
   readConfig();
 
   auto& flt = js_["pc"]["filter"];
@@ -740,7 +746,7 @@ void MainWindow::on_Open_Config_Button_clicked() {
           &MainWindow::processSlider);
   connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
           &MainWindow::processSlider);
-  */
+
   config_path_ = QFileDialog::getOpenFileName(
       this, tr("Open File"), QDir::homePath(), tr("Config JSON Files(*.json)"));
   if (config_path_.isEmpty()) {
@@ -749,7 +755,8 @@ void MainWindow::on_Open_Config_Button_clicked() {
   } else {
     ui->configPathP6->setText(config_path_);
   }
-};
+}
+*/
 
 void MainWindow::closeEvent(QCloseEvent* event) {
   closeImgAndPcViewers();
@@ -821,8 +828,10 @@ void MainWindow::on_Set_D_Button_clicked() {
   QMessageBox::warning(this, tr("Error"), tr("Invalid parameters"));
 }
 */
-void MainWindow::on_startButtonP6_clicked() {
-  readConfig();
+void MainWindow::startCalib() {
+  // readConfig();
+
+  calibrator_.reset(new lqh::Calibrator(js_));
 
   auto& flt = js_["pc"]["filter"];
   ui->angle_start_slide->setValue(static_cast<int>(flt["angle_start"]));
@@ -1019,7 +1028,7 @@ void MainWindow::on_pick_points_end_clicked() {
 
   updateLabels();
 }
-
+/*
 void MainWindow::readConfig() {
   config_path_ = ui->pathToConfigLineP5->text();
   if (config_path_.isEmpty()) {
@@ -1042,7 +1051,7 @@ void MainWindow::readConfig() {
   }
   calibrator_.reset(new lqh::Calibrator(js_));
 }
-
+*/
 void MainWindow::updateLabels() {
   if (sensor_data_.size() > 0) {
     ui->current_data_id->setText(QString::number(sid_));
@@ -1204,6 +1213,8 @@ void MainWindow::processSlider() {
 }
 
 void MainWindow::on_Save_Config_Button_clicked() {
+  generateNewConfig();
+  /*
   std::ofstream f(config_path_.toStdString());
   if (!f.good()) {
     QMessageBox::warning(this, tr("Error"), tr("Fail to open config file"));
@@ -1211,6 +1222,7 @@ void MainWindow::on_Save_Config_Button_clicked() {
   }
   f << js_.dump(4);
   f.close();
+  */
 }
 
 void MainWindow::updateWithTransformation(Eigen::Matrix4d tf) {
@@ -1351,6 +1363,7 @@ void MainWindow::generateConfig() {
         {0.0, 0.0, 0.0, 1.0}}},
       {"track_error_threshold", 30}};
   f << js.dump(4);
+  js_ = js;
   f.close();
 
   // ui->tabWidget->setCurrentWidget(ui->LiDARCalibData);
@@ -1369,4 +1382,40 @@ void MainWindow::generateConfig() {
   connect(ui->ty_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
   connect(ui->tz_slide, &QSlider::valueChanged, this, &MainWindow::tfProcess);
   */
+}
+
+void MainWindow::on_mainStartCalibButton_clicked() {
+  try {
+    settingFinished();
+    ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
+
+  } catch (std::exception& e) {
+    if (std::string(e.what()) == "stof") {
+      QMessageBox::warning(this, tr("Error:"),
+                           tr("fx fy cx cy k1 k2 k3 p1 p2 is not a number!"));
+    } else {
+      QMessageBox::warning(this, tr("Error"), tr(e.what()));
+    }
+  }
+
+  if (config_path_.isEmpty()) {
+    QMessageBox::warning(this, tr("Error"), tr("Config file is empty"));
+    return;
+  }
+  std::ifstream f(config_path_.toStdString());
+  if (!f.good()) {
+    f.close();
+    QMessageBox::warning(this, tr("Error"), tr("Failed to read config file"));
+    return;
+  }
+  try {
+    f >> js_;
+  } catch (nlohmann::json::parse_error& e) {
+    std::cerr << e.what();
+    f.close();
+    QMessageBox::warning(this, tr("Error"), tr(e.what()));
+    return;
+  }
+
+  startCalib();
 }

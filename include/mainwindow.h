@@ -43,6 +43,9 @@ class MainWindow : public QMainWindow {
   void closeEvent(QCloseEvent *);
 
  private slots:
+  void on_mainStartCalibButton_clicked();
+
+ private slots:
   void on_startButtonP5_clicked();
 
  private:
@@ -113,13 +116,14 @@ class MainWindow : public QMainWindow {
 
   void doRealSaveImgPcl();
 
-  void readConfig();
+  // void readConfig();
   void updateLabels();
   bool processData(bool is_check = true);
   void setEnabledAll(bool status);
   void showCalibrateResult();
   void showTFWindow();
   void tfProcess();
+
   void closeImgAndPcViewers();
 
  private slots:
@@ -159,9 +163,9 @@ class MainWindow : public QMainWindow {
 
   void on_startButtonP3_clicked();
 
-  void on_Open_Config_Button_clicked();
+  // void on_Open_Config_Button_clicked();
 
-  void on_startButtonP6_clicked();
+  void startCalib();
   // void on_Set_K_Button_clicked();
   // void on_Set_D_Button_clicked();
   void on_Save_Result_Button_clicked();
