@@ -1,7 +1,8 @@
 #include "tfwindow.h"
-#include "ui_tfwindow.h"
 
 #include <Eigen/Geometry>
+
+#include "ui_tfwindow.h"
 
 static const double PI(3.141592653589793238462);
 
@@ -9,7 +10,9 @@ TFwindow::TFwindow(const Eigen::Matrix4d& tf, QWidget* parent)
     : QMainWindow(parent), ui(new Ui::TFwindow) {
   ui->setupUi(this);
 
-  auto setWidget = [](double data, QSlider* sld, QLabel* lb) {
+  int scale = 20;  // Can drag the sliders more precisely.
+
+  auto setWidget = [&scale](double data, QSlider* sld, QLabel* lb) {
     int32_t val = static_cast<int32_t>(std::round(data * 500 + 500));
     if (val < 0) {
       val = 0;
@@ -18,6 +21,8 @@ TFwindow::TFwindow(const Eigen::Matrix4d& tf, QWidget* parent)
       val = 1000;
     }
     sld->setValue(val);
+    sld->setRange((val - 1000 / scale < 0 ? 0 : val - 1000 / scale),
+                  val + 1000 / scale > 1000 ? 1000 : val + 1000 / scale);
     lb->setText(QString("%1").arg((val - 500.0) / 500.0, 6, 'f', 3, ' '));
   };
 
@@ -33,14 +38,17 @@ TFwindow::TFwindow(const Eigen::Matrix4d& tf, QWidget* parent)
 
   uint16_t v = r(0) < 0 ? 0 : (r(0) > 180 ? 180 : r(0));
   ui->rx_slide->setValue(v);
+  ui->rx_slide->setRange(v - 180 / scale, v + 180 / scale);
   ui->rx_text->setText(QString::number(v));
 
   v = r(1) < -180 ? 0 : (r(1) > 180 ? 360 : r(1) + 180);
   ui->ry_slide->setValue(v);
+  ui->ry_slide->setRange(v - 360 / scale, v + 360 / scale);
   ui->ry_text->setText(QString::number(r(1)));
 
   v = r(2) < -180 ? 0 : (r(2) > 180 ? 360 : r(2) + 180);
   ui->rz_slide->setValue(v);
+  ui->rz_slide->setRange(v - 360 / scale, v + 360 / scale);
   ui->rz_text->setText(QString::number(r(2)));
 
   connect(ui->rx_slide, &QSlider::valueChanged, this, &TFwindow::process);
@@ -65,10 +73,15 @@ void TFwindow::process() {
 
   ui->rx_text->setText(QString::number(ui->rx_slide->value()));
   double rx = ui->rx_slide->value() / 180.0 * PI;
+  rx = rx > PI ? rx - PI : (rx < 0 ? rx + PI : rx);
+
   ui->ry_text->setText(QString::number(ui->ry_slide->value() - 180));
   double ry = (ui->ry_slide->value() - 180.0) / 180.0 * PI;
+  ry = ry > PI ? ry - 2 * PI : (ry < -PI ? ry + 2 * PI : ry);
+
   ui->rz_text->setText(QString::number(ui->rz_slide->value() - 180));
   double rz = (ui->rz_slide->value() - 180.0) / 180.0 * PI;
+  rz = rz > PI ? rz - 2 * PI : (rz < -PI ? rz + 2 * PI : rz);
 
   Eigen::Quaterniond ag = Eigen::AngleAxisd(rx, Eigen::Vector3d::UnitX()) *
                           Eigen::AngleAxisd(ry, Eigen::Vector3d::UnitY()) *
