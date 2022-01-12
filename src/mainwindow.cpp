@@ -654,6 +654,32 @@ void MainWindow::doRealSaveImgPcl() {
 }
 
 void MainWindow::on_finishButton_clicked() {
+  Eigen::Matrix4d tf;
+  tf.setIdentity();
+  tf(0, 3) = (ui->tx_slide->value() - 500) / 500.0;
+  ui->tx_text->setText(QString::number(tf(0, 3)));
+  tf(1, 3) = (ui->ty_slide->value() - 500) / 500.0;
+  ui->ty_text->setText(QString::number(tf(1, 3)));
+  tf(2, 3) = (ui->tz_slide->value() - 500) / 500.0;
+  ui->tz_text->setText(QString::number(tf(2, 3)));
+
+  ui->rx_text->setText(QString::number(ui->rx_slide->value()));
+  double rx = ui->rx_slide->value() / 180.0 * PI;
+  ui->ry_text->setText(QString::number(ui->ry_slide->value() - 180));
+  double ry = (ui->ry_slide->value() - 180.0) / 180.0 * PI;
+  ui->rz_text->setText(QString::number(ui->rz_slide->value() - 180));
+  double rz = (ui->rz_slide->value() - 180.0) / 180.0 * PI;
+
+  Eigen::Quaterniond ag = Eigen::AngleAxisd(rx, Eigen::Vector3d::UnitX()) *
+                          Eigen::AngleAxisd(ry, Eigen::Vector3d::UnitY()) *
+                          Eigen::AngleAxisd(rz, Eigen::Vector3d::UnitZ());
+  tf.topLeftCorner(3, 3) = ag.matrix();
+  tf.row(3) << 0, 0, 0, 1;
+  js_["tf"] = {};
+  for (uint8_t i = 0; i < 4; i++) {
+    js_["tf"].push_back({tf(i, 0), tf(i, 1), tf(i, 2), tf(i, 3)});
+  }
+  generateNewConfig();
   closeImgAndPcViewers();
   ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
 }
@@ -1256,6 +1282,16 @@ void MainWindow::closeImgAndPcViewers() {
     pc_viewer_->close();
     img_viewer_.release();
   }
+}
+
+void MainWindow::generateNewConfig() {
+  std::ofstream f(config_path_.toStdString());
+  if (!f.good()) {
+    QMessageBox::warning(this, tr("Error"), tr("Fail to open config file"));
+    return;
+  }
+  f << js_.dump(4);
+  f.close();
 }
 
 void MainWindow::generateConfig() {

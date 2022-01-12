@@ -109,6 +109,7 @@ class MainWindow : public QMainWindow {
   std::vector<SensorData> sensor_data_;
 
   void generateConfig();
+  void generateNewConfig();
 
   void doRealSaveImgPcl();
 
