@@ -532,6 +532,14 @@ void MainWindow::pointCloudHandler(
 }
 
 void MainWindow::on_startButtonP5_clicked() {
+  QString pathToLaunchFile = ui->pathToLaunchFileLineP5->text();
+  if (pathToLaunchFile.isEmpty()) {
+    QMessageBox::warning(this, tr("Error"), tr("Launch file is empty!"));
+  } else {
+    if (-1 == system((pathToLaunchFile.toStdString() + "&").c_str()))
+      QMessageBox::warning(this, tr("Error"), tr("Could not launch!"));
+  }
+
   try {
     // readConfig();
     calibrator_.reset(new lqh::Calibrator(js_));
@@ -599,6 +607,7 @@ void MainWindow::on_startButtonP5_clicked() {
   } catch (std::exception& e) {
     QMessageBox::warning(this, tr("Error"), tr(e.what()));
   }
+  on_playButtonP5_clicked();
 }
 
 void MainWindow::on_AEControlBoxP5_valueChanged(int value) {
@@ -1452,6 +1461,7 @@ void MainWindow::on_openFileButton_clicked() {
   }
 }
 
+/*
 void MainWindow::on_launchButton_clicked() {
   QString pathToLaunchFile = ui->pathToLaunchFileLineP5->text();
   if (pathToLaunchFile.isEmpty()) {
@@ -1461,3 +1471,4 @@ void MainWindow::on_launchButton_clicked() {
       QMessageBox::warning(this, tr("Error"), tr("Could not launch!"));
   }
 }
+*/

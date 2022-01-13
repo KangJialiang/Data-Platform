@@ -904,13 +904,6 @@
         <item row="8" column="0" colspan="2">
          <layout class="QHBoxLayout" name="buttonGroup">
           <item>
-           <widget class="QPushButton" name="startButtonP5">
-            <property name="text">
-             <string>Start</string>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="playButtonP5">
             <property name="text">
              <string>Play</string>
@@ -987,9 +980,9 @@
            </widget>
           </item>
           <item>
-           <widget class="QPushButton" name="launchButton">
+           <widget class="QPushButton" name="startButtonP5">
             <property name="text">
-             <string>Launch</string>
+             <string>Start</string>
             </property>
            </widget>
           </item>

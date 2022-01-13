@@ -42,13 +42,13 @@ class MainWindow : public QMainWindow {
  protected:
   void closeEvent(QCloseEvent *);
 
-private slots:
-  void on_launchButton_clicked();
+  // private slots:
+  //  void on_launchButton_clicked();
 
-private slots:
+ private slots:
   void on_openFileButton_clicked();
 
-private slots:
+ private slots:
   void on_mainStartCalibButton_clicked();
 
  private slots:
