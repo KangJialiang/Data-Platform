@@ -4,9 +4,9 @@
 
 #include "mainwindow.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   QApplication a(argc, argv);
-  system("roscore&");  // start roscore in background
+  FILE* filePipe = popen("roscore&", "r");  // start roscore in background
   ros::init(argc, argv, "node");
   MainWindow w;
   w.show();
