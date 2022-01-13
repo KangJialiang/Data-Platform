@@ -93,6 +93,7 @@ void RsCamera::selectRawProfile(rs2::stream_profile profile) {
   rs2::pipeline_profile pipeProf = this->pipe.start(conf);
 
   // disable emitter
+  currentDevice = pipeProf.get_device();
   auto depth_sensor = currentDevice.first<rs2::depth_sensor>();
   if (depth_sensor.supports(RS2_OPTION_EMITTER_ENABLED))
     depth_sensor.set_option(RS2_OPTION_EMITTER_ENABLED, 0.f);

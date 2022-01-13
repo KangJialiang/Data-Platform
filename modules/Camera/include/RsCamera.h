@@ -39,16 +39,16 @@ class RsCamera : public Camera {
   intrinsicT getIntrinsic() override;
 
   uint32_t getMeanIntensitySetPoint() {
-    rs400::advanced_mode advnc_mode(currentDevice);
-    return advnc_mode.get_ae_control().meanIntensitySetPoint;
+    rs400::advanced_mode advMode(currentDevice);
+    return advMode.get_ae_control().meanIntensitySetPoint;
   };
 
   // set meanIntensitySetPoint (used in auto-exposure): higher->image brighter
   void setMeanIntensitySetPoint(uint32_t meanIntensitySetPoint) {
-    rs400::advanced_mode advnc_mode(currentDevice);
-    STAEControl ae_ctrl;
-    ae_ctrl.meanIntensitySetPoint = meanIntensitySetPoint;
-    advnc_mode.set_ae_control(ae_ctrl);
+    rs400::advanced_mode advMode(currentDevice);
+    STAEControl aeCtrl;
+    aeCtrl.meanIntensitySetPoint = meanIntensitySetPoint;
+    advMode.set_ae_control(aeCtrl);
   };
 
  private:
