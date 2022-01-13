@@ -865,6 +865,14 @@ void MainWindow::on_Set_D_Button_clicked() {
 */
 void MainWindow::startCalib() {
   // readConfig();
+  connect(ui->angle_start_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->angle_size_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->distance_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
+  connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
+          &MainWindow::processSlider);
 
   calibrator_.reset(new lqh::Calibrator(js_));
 
@@ -880,15 +888,6 @@ void MainWindow::startCalib() {
   img_viewer_->show();
   pc_viewer_.reset(new PointcloudViewer);
   pc_viewer_->show();
-
-  connect(ui->angle_start_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->angle_size_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->distance_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
-  connect(ui->floor_gap_slide, &QSlider::valueChanged, this,
-          &MainWindow::processSlider);
 
   QString dir = ui->datasetPathP6->text();
   data_reader_.reset(new DataReader(dir));
@@ -1214,6 +1213,12 @@ void MainWindow::on_Save_Result_Button_clicked() {
   f << js.dump(4);
   f.close();
 
+  js_["tf"] = {};
+  for (uint8_t i = 0; i < 4; i++) {
+    js_["tf"].push_back({tf(i, 0), tf(i, 1), tf(i, 2), tf(i, 3)});
+  }
+  generateNewConfig();
+
   QMessageBox::information(this, tr("Success"),
                            tr("Save calibration result to ") + fp);
 }
@@ -1247,9 +1252,10 @@ void MainWindow::processSlider() {
   pc_viewer_->showPointcloud(sd.pc_marked);
 }
 
+/*
 void MainWindow::on_Save_Config_Button_clicked() {
   generateNewConfig();
-  /*
+
   std::ofstream f(config_path_.toStdString());
   if (!f.good()) {
     QMessageBox::warning(this, tr("Error"), tr("Fail to open config file"));
@@ -1257,8 +1263,8 @@ void MainWindow::on_Save_Config_Button_clicked() {
   }
   f << js_.dump(4);
   f.close();
-  */
 }
+*/
 
 void MainWindow::updateWithTransformation(Eigen::Matrix4d tf) {
   std::shared_ptr<cv::Mat> img_mark = std::make_shared<cv::Mat>();
