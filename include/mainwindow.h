@@ -183,9 +183,7 @@ class MainWindow : public QMainWindow {
 
   void on_tabWidget_currentChanged(int index);
 
-  // void on_openConfigButton_clicked();
-
-  // void on_refreshButton_clicked();
+  void on_AEControlBoxP5_valueChanged(int value);
 
   void on_playButtonP5_clicked();
   void on_pauseButtonP5_clicked();

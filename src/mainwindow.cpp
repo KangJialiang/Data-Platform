@@ -593,11 +593,17 @@ void MainWindow::on_startButtonP5_clicked() {
 
     RsCamera* tempRsCamera = dynamic_cast<RsCamera*>(cameraP.get());
     if (tempRsCamera) {
-      ui->AEControlLineP5->setEnabled(true);
+      ui->AEControlBoxP5->setValue(tempRsCamera->getMeanIntensitySetPoint());
+      ui->AEControlBoxP5->setEnabled(true);
     }
   } catch (std::exception& e) {
     QMessageBox::warning(this, tr("Error"), tr(e.what()));
   }
+}
+
+void MainWindow::on_AEControlBoxP5_valueChanged(int value) {
+  RsCamera* tempRsCamera = dynamic_cast<RsCamera*>(cameraP.get());
+  if (tempRsCamera) tempRsCamera->setMeanIntensitySetPoint(value);
 }
 
 void MainWindow::on_playButtonP5_clicked() {
