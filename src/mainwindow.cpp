@@ -81,6 +81,8 @@ MainWindow::MainWindow(QWidget* parent)
   ui->mainStartLidarCalibButton->setVisible(false);
   ui->mainStartButton->setVisible(false);
   ui->quick_next_pose->setVisible(false);
+  ui->pathToLaunchFileLineP5->setPlaceholderText(
+      "Choose a script to launch LiDAR.");
 }
 
 MainWindow::~MainWindow() {
