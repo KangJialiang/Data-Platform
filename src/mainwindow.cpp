@@ -537,7 +537,9 @@ void MainWindow::on_startButtonP5_clicked() {
   if (pathToLaunchFile.isEmpty()) {
     QMessageBox::warning(this, tr("Error"), tr("Launch file is empty!"));
   } else {
-    if (-1 == system((pathToLaunchFile.toStdString() + "&").c_str()))
+    FILE* filePipe =
+        popen(("sh " + pathToLaunchFile.toStdString() + "&").c_str(), "r");
+    if (!filePipe)
       QMessageBox::warning(this, tr("Error"), tr("Could not launch!"));
   }
 
@@ -1461,17 +1463,3 @@ void MainWindow::on_openFileButton_clicked() {
     ui->pathToLaunchFileLineP5->setText(pathToLaunchFile);
   }
 }
-
-/*
-void MainWindow::on_launchButton_clicked() {
-  QString pathToLaunchFile = ui->pathToLaunchFileLineP5->text();
-  if (pathToLaunchFile.isEmpty()) {
-    QMessageBox::warning(this, tr("Error"), tr("Launch file is empty!"));
-  } else {
-    FILE* filePipe =
-        popen(("sh " + pathToLaunchFile.toStdString() + "&").c_str(), "r");
-    if (!filePipe)
-      QMessageBox::warning(this, tr("Error"), tr("Could not launch!"));
-  }
-}
-*/
