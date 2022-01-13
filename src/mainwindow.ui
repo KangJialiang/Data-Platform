@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>5</number>
+       <number>6</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -1155,6 +1155,9 @@ color: rgb(239, 41, 41);
         </item>
         <item row="8" column="0">
          <widget class="QGroupBox" name="pointcloud_group">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="title">
            <string>PointCloud Control</string>
           </property>
@@ -1295,7 +1298,11 @@ color: rgb(239, 41, 41);
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="configPathP6"/>
+           <widget class="QLineEdit" name="configPathP6">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -1319,7 +1326,7 @@ color: rgb(239, 41, 41);
           <item>
            <widget class="QPushButton" name="next_pose">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -1334,6 +1341,9 @@ color: rgb(239, 41, 41);
           </item>
           <item>
            <widget class="QPushButton" name="quick_next_pose">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
               <horstretch>0</horstretch>
@@ -1348,7 +1358,7 @@ color: rgb(239, 41, 41);
           <item>
            <widget class="QPushButton" name="delete_pose">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -1364,7 +1374,7 @@ color: rgb(239, 41, 41);
           <item>
            <widget class="QPushButton" name="calibrate">
             <property name="enabled">
-             <bool>true</bool>
+             <bool>false</bool>
             </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -1385,6 +1395,9 @@ color: rgb(239, 41, 41);
           </item>
           <item>
            <widget class="QPushButton" name="Save_Result_Button">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Save Result</string>
             </property>
@@ -1426,7 +1439,7 @@ color: rgb(239, 41, 41);
            <item>
             <widget class="QPushButton" name="pick_points_quit">
              <property name="enabled">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="text">
               <string>Quit Selection</string>
@@ -1436,7 +1449,7 @@ color: rgb(239, 41, 41);
            <item>
             <widget class="QPushButton" name="pick_points_end">
              <property name="enabled">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="text">
               <string>Finish Selection</string>

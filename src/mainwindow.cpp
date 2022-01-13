@@ -80,6 +80,7 @@ MainWindow::MainWindow(QWidget* parent)
   ui->usbParamsBoxPmain->setVisible(false);
   ui->mainStartLidarCalibButton->setVisible(false);
   ui->mainStartButton->setVisible(false);
+  ui->quick_next_pose->setVisible(false);
 }
 
 MainWindow::~MainWindow() {
@@ -979,6 +980,18 @@ void MainWindow::on_next_pose_clicked() {
     showCalibrateResult();
   } else {
     // before calibration
+
+    if (sid_ < data_reader_->getDatasetSize() - 1) {
+      ui->pick_points_start->setEnabled(true);
+      ui->pick_points_quit->setEnabled(false);
+      ui->pick_points_end->setEnabled(false);
+      ui->pointcloud_group->setEnabled(false);
+
+      ui->next_pose->setEnabled(false);
+      ui->quick_next_pose->setEnabled(false);
+      ui->delete_pose->setEnabled(false);
+      ui->calibrate->setEnabled(false);
+    }
     processData();
   }
 }
@@ -1013,6 +1026,17 @@ void MainWindow::on_delete_pose_clicked() {
     sensor_data_.back().img_good = false;
     sensor_data_.back().pc_good = false;
     calibrator_->Remove();
+  }
+  if (sid_ < data_reader_->getDatasetSize() - 1) {
+    ui->pick_points_start->setEnabled(true);
+    ui->pick_points_quit->setEnabled(false);
+    ui->pick_points_end->setEnabled(false);
+    ui->pointcloud_group->setEnabled(false);
+
+    ui->next_pose->setEnabled(false);
+    ui->quick_next_pose->setEnabled(false);
+    ui->delete_pose->setEnabled(false);
+    ui->calibrate->setEnabled(false);
   }
   processData(false);
 }
@@ -1051,14 +1075,24 @@ void MainWindow::on_calibrate_clicked() {
   for (uint8_t i = 0; i < 4; i++) {
     tf.push_back(std::vector<double>{T(i, 0), T(i, 1), T(i, 2), T(i, 3)});
   }
+  ui->quick_next_pose->setVisible(true);
+  ui->quick_next_pose->setEnabled(true);
+  ui->delete_pose->setEnabled(false);
+  ui->Save_Result_Button->setEnabled(true);
 }
 
 void MainWindow::on_pick_points_start_clicked() {
   img_viewer_->startPickPoints();
+  ui->pick_points_start->setEnabled(false);
+  ui->pick_points_quit->setEnabled(true);
+  ui->pick_points_end->setEnabled(true);
 }
 
 void MainWindow::on_pick_points_quit_clicked() {
   img_viewer_->quitPickPoints();
+  ui->pick_points_start->setEnabled(true);
+  ui->pick_points_quit->setEnabled(false);
+  ui->pick_points_end->setEnabled(false);
 }
 
 void MainWindow::on_pick_points_end_clicked() {
@@ -1070,6 +1104,10 @@ void MainWindow::on_pick_points_end_clicked() {
                          tr("Must choose ") +
                              QString::number(js_["size"].get<int>()) +
                              tr(" points"));
+    ui->pick_points_start->setEnabled(true);
+    ui->pick_points_quit->setEnabled(false);
+    ui->pick_points_end->setEnabled(false);
+
     return;
   }
   auto& img_i = js_["img"]["init"];
@@ -1086,6 +1124,14 @@ void MainWindow::on_pick_points_end_clicked() {
   img_viewer_->showImage(last.img_marked);
 
   updateLabels();
+  ui->pick_points_start->setEnabled(false);
+  ui->pick_points_quit->setEnabled(false);
+  ui->pick_points_end->setEnabled(false);
+  ui->pointcloud_group->setEnabled(true);
+  ui->next_pose->setEnabled(true);
+  // ui->quick_next_pose->setEnabled(true);
+  ui->delete_pose->setEnabled(true);
+  ui->calibrate->setEnabled(true);
 }
 /*
 void MainWindow::readConfig() {
