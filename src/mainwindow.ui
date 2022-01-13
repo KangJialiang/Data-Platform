@@ -806,6 +806,9 @@
         </item>
         <item row="7" column="0">
          <widget class="QGroupBox" name="rotationGroup">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="title">
            <string>Rotation</string>
           </property>
@@ -901,6 +904,9 @@
         </item>
         <item row="8" column="0">
          <widget class="QGroupBox" name="translationGroup">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="title">
            <string>Translation</string>
           </property>
