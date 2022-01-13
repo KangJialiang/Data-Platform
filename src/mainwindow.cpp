@@ -8,6 +8,8 @@
 #include <ros/ros.h>
 #include <ros/spinner.h>
 #include <sensor_msgs/PointCloud2.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 #include <QAction>
 #include <QCloseEvent>
@@ -87,7 +89,6 @@ MainWindow::~MainWindow() {
   stopVignetteCalib = true;
 
   rosSpinner.stop();
-  system("killall -9 roscore && killall -9 rosmaster");  // stop roscore
 
   delete ui;
 }
@@ -1457,7 +1458,9 @@ void MainWindow::on_launchButton_clicked() {
   if (pathToLaunchFile.isEmpty()) {
     QMessageBox::warning(this, tr("Error"), tr("Launch file is empty!"));
   } else {
-    if (-1 == system((pathToLaunchFile.toStdString() + "&").c_str()))
+    FILE* filePipe =
+        popen(("sh " + pathToLaunchFile.toStdString() + "&").c_str(), "r");
+    if (!filePipe)
       QMessageBox::warning(this, tr("Error"), tr("Could not launch!"));
   }
 }
