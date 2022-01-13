@@ -1442,3 +1442,22 @@ void MainWindow::on_mainStartCalibButton_clicked() {
 
   startCalib();
 }
+
+void MainWindow::on_openFileButton_clicked() {
+  QString pathToLaunchFile = QFileDialog::getOpenFileName(
+      this, tr("Path to LaunchFile"), QDir::homePath(),
+      tr("Script File(*.sh);;All files(*.*)"));
+  if (!pathToLaunchFile.isEmpty()) {
+    ui->pathToLaunchFileLineP5->setText(pathToLaunchFile);
+  }
+}
+
+void MainWindow::on_launchButton_clicked() {
+  QString pathToLaunchFile = ui->pathToLaunchFileLineP5->text();
+  if (pathToLaunchFile.isEmpty()) {
+    QMessageBox::warning(this, tr("Error"), tr("Launch file is empty!"));
+  } else {
+    if (-1 == system((pathToLaunchFile.toStdString() + "&").c_str()))
+      QMessageBox::warning(this, tr("Error"), tr("Could not launch!"));
+  }
+}
