@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>798</width>
-    <height>614</height>
+    <height>617</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>5</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -34,10 +34,7 @@
         <string>主页面</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_11">
-        <item row="0" column="1" colspan="2">
-         <widget class="QLineEdit" name="savePathLine"/>
-        </item>
-        <item row="3" column="0" colspan="4">
+        <item row="4" column="0" colspan="4">
          <widget class="QGroupBox" name="usbParamsBoxPmain">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -49,51 +46,24 @@
            <string>USBCamera 内参</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_13">
-           <item row="2" column="3">
-            <widget class="QLineEdit" name="k2LinePmain">
+           <item row="4" column="1">
+            <widget class="QLineEdit" name="p2LinePmain">
              <property name="text">
               <string>0</string>
              </property>
             </widget>
            </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="k3LabelPmain">
+           <item row="1" column="2">
+            <widget class="QLabel" name="cyLabelPmain">
              <property name="text">
-              <string>k3</string>
+              <string>cy</string>
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="cxLabelPmain">
+           <item row="2" column="3">
+            <widget class="QLineEdit" name="k2LinePmain">
              <property name="text">
-              <string>cx</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="p2LabelPmain">
-             <property name="text">
-              <string>p2</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="k1LabelPmain">
-             <property name="text">
-              <string>k1</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QLineEdit" name="fxLinePmain"/>
-           </item>
-           <item row="1" column="1">
-            <widget class="QLineEdit" name="cxLinePmain"/>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="k2LabelPmain">
-             <property name="text">
-              <string>k2</string>
+              <string>0</string>
              </property>
             </widget>
            </item>
@@ -104,13 +74,20 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="3">
-            <widget class="QLineEdit" name="fyLinePmain"/>
+           <item row="0" column="1">
+            <widget class="QLineEdit" name="fxLinePmain"/>
            </item>
-           <item row="3" column="3">
-            <widget class="QLineEdit" name="p1LinePmain">
+           <item row="2" column="2">
+            <widget class="QLabel" name="k2LabelPmain">
              <property name="text">
-              <string>0</string>
+              <string>k2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="k3LabelPmain">
+             <property name="text">
+              <string>k3</string>
              </property>
             </widget>
            </item>
@@ -121,27 +98,10 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="3">
-            <widget class="QLineEdit" name="cyLinePmain"/>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="cyLabelPmain">
+           <item row="1" column="0">
+            <widget class="QLabel" name="cxLabelPmain">
              <property name="text">
-              <string>cy</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QLineEdit" name="k3LinePmain">
-             <property name="text">
-              <string>0</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="fyLabelPmain">
-             <property name="text">
-              <string>fy</string>
+              <string>cx</string>
              </property>
             </widget>
            </item>
@@ -152,33 +112,74 @@
              </property>
             </widget>
            </item>
-           <item row="4" column="1">
-            <widget class="QLineEdit" name="p2LinePmain">
+           <item row="4" column="0">
+            <widget class="QLabel" name="p2LabelPmain">
+             <property name="text">
+              <string>p2</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="3">
+            <widget class="QLineEdit" name="p1LinePmain">
              <property name="text">
               <string>0</string>
              </property>
             </widget>
            </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="cxLinePmain"/>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="k1LabelPmain">
+             <property name="text">
+              <string>k1</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QLineEdit" name="fyLinePmain"/>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="fyLabelPmain">
+             <property name="text">
+              <string>fy</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLineEdit" name="k3LinePmain">
+             <property name="text">
+              <string>0</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="3">
+            <widget class="QLineEdit" name="cyLinePmain"/>
+           </item>
           </layout>
          </widget>
         </item>
-        <item row="1" column="1" colspan="2">
-         <widget class="QComboBox" name="cameraComboBox">
-          <item>
-           <property name="text">
-            <string/>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>realsense</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>usb</string>
-           </property>
-          </item>
+        <item row="0" column="1" colspan="2">
+         <widget class="QLineEdit" name="savePathLine"/>
+        </item>
+        <item row="0" column="3">
+         <widget class="QToolButton" name="savePathChooseButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>浏览...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="savePath">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;保存路径&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
          </widget>
         </item>
         <item row="2" column="0" colspan="4">
@@ -216,17 +217,23 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="3">
-         <widget class="QToolButton" name="savePathChooseButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>浏览...</string>
-          </property>
+        <item row="1" column="1" colspan="2">
+         <widget class="QComboBox" name="cameraComboBox">
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>realsense</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>usb</string>
+           </property>
+          </item>
          </widget>
         </item>
         <item row="1" column="0">
@@ -236,33 +243,30 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="savePath">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;保存路径&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QPushButton" name="mainStartCalibButton">
-          <property name="text">
-           <string>直接开始联合标定</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="2">
-         <widget class="QPushButton" name="mainStartLidarCalibButton">
-          <property name="text">
-           <string>开始激光雷达与相机联合标定</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="3">
-         <widget class="QPushButton" name="mainStartButton">
-          <property name="text">
-           <string>开始相机响应函数晕影函数标定</string>
-          </property>
-         </widget>
+        <item row="5" column="0" colspan="4">
+         <layout class="QHBoxLayout" name="startGroupPmain">
+          <item>
+           <widget class="QPushButton" name="mainStartCalibButton">
+            <property name="text">
+             <string>直接开始联合标定</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="mainStartButton">
+            <property name="text">
+             <string>开始相机响应函数晕影函数标定</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="mainStartLidarCalibButton">
+            <property name="text">
+             <string>开始激光雷达与相机联合标定</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
@@ -691,87 +695,6 @@
        </attribute>
        <layout class="QGridLayout" name="gridLayout_10">
         <item row="5" column="0">
-         <widget class="QGroupBox" name="translationGroup">
-          <property name="title">
-           <string>Translation</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_9">
-           <item row="0" column="0">
-            <widget class="QLabel" name="tx_label">
-             <property name="text">
-              <string>X</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QSlider" name="tx_slide">
-             <property name="maximum">
-              <number>1000</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="tz_label">
-             <property name="text">
-              <string>Z</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="ty_text">
-             <property name="text">
-              <string>000</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QSlider" name="tz_slide">
-             <property name="maximum">
-              <number>1000</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="tx_text">
-             <property name="text">
-              <string>000</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QSlider" name="ty_slide">
-             <property name="maximum">
-              <number>1000</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="tz_text">
-             <property name="text">
-              <string>000</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="ty_label">
-             <property name="text">
-              <string>Y</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="2" column="0">
          <layout class="QHBoxLayout" name="AEControlGroupP5">
           <item>
            <widget class="QLabel" name="AEControlLabelP5">
@@ -792,21 +715,96 @@
           </item>
          </layout>
         </item>
-        <item row="6" column="0">
-         <layout class="QHBoxLayout" name="saveToGroup">
+        <item row="11" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="buttonGroup">
           <item>
-           <widget class="QLabel" name="saveToLabel">
+           <widget class="QPushButton" name="playButtonP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
-             <string>Save To</string>
+             <string>Play</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="saveToLine"/>
+           <widget class="QPushButton" name="pauseButtonP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Pause</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="saveButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Save</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="unsaveButtonP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Unsave</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="finishButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Finish</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
-        <item row="4" column="0">
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="pathToConfigLabelP5">
+            <property name="text">
+             <string>Path to Config </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="pathToConfigLineP5"/>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <layout class="QHBoxLayout" name="rosTopicGroupP5">
+          <item>
+           <widget class="QLabel" name="rosTopicLabelP5">
+            <property name="text">
+             <string>Rostopic of Lidar</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="rosTopicBoxP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="7" column="0">
          <widget class="QGroupBox" name="rotationGroup">
           <property name="title">
            <string>Rotation</string>
@@ -887,80 +885,102 @@
           </layout>
          </widget>
         </item>
+        <item row="9" column="0">
+         <layout class="QHBoxLayout" name="saveToGroup">
+          <item>
+           <widget class="QLabel" name="saveToLabel">
+            <property name="text">
+             <string>Save To</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="saveToLine"/>
+          </item>
+         </layout>
+        </item>
+        <item row="8" column="0">
+         <widget class="QGroupBox" name="translationGroup">
+          <property name="title">
+           <string>Translation</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="0" column="0">
+            <widget class="QLabel" name="tx_label">
+             <property name="text">
+              <string>X</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QSlider" name="tx_slide">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="tz_label">
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="ty_text">
+             <property name="text">
+              <string>000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSlider" name="tz_slide">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="tx_text">
+             <property name="text">
+              <string>000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSlider" name="ty_slide">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="tz_text">
+             <property name="text">
+              <string>000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="ty_label">
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
         <item row="1" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="pathToConfigLabelP5">
-            <property name="text">
-             <string>Path to Config </string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="pathToConfigLineP5"/>
-          </item>
-         </layout>
-        </item>
-        <item row="8" column="0" colspan="2">
-         <layout class="QHBoxLayout" name="buttonGroup">
-          <item>
-           <widget class="QPushButton" name="playButtonP5">
-            <property name="text">
-             <string>Play</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pauseButtonP5">
-            <property name="text">
-             <string>Pause</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="saveButton">
-            <property name="text">
-             <string>Save</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="unsaveButtonP5">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Unsave</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="finishButton">
-            <property name="text">
-             <string>Finish</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QLabel" name="topicLabelP5">
-            <property name="text">
-             <string>Rostopic of Lidar</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="topicLineP5"/>
-          </item>
-         </layout>
-        </item>
-        <item row="3" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <widget class="QLabel" name="pathToLaunchFileLableP5">
@@ -979,14 +999,14 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="startButtonP5">
-            <property name="text">
-             <string>Start</string>
-            </property>
-           </widget>
-          </item>
          </layout>
+        </item>
+        <item row="2" column="0">
+         <widget class="QPushButton" name="startButtonP5">
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

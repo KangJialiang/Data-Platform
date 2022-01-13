@@ -189,6 +189,8 @@ class MainWindow : public QMainWindow {
 
   void on_tabWidget_currentChanged(int index);
 
+  void on_rosTopicBoxP5_currentIndexChanged(const QString &);
+
   void on_AEControlBoxP5_valueChanged(int value);
 
   void on_playButtonP5_clicked();

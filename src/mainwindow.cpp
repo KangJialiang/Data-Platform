@@ -532,18 +532,29 @@ void MainWindow::pointCloudHandler(
   pcl::fromROSMsg(*msg, pointCloud);
 }
 
-void MainWindow::on_startButtonP5_clicked() {
-  QString pathToLaunchFile = ui->pathToLaunchFileLineP5->text();
-  if (pathToLaunchFile.isEmpty()) {
-    QMessageBox::warning(this, tr("Error"), tr("Launch file is empty!"));
-  } else {
-    FILE* filePipe =
-        popen(("sh " + pathToLaunchFile.toStdString() + "&").c_str(), "r");
-    if (!filePipe)
-      QMessageBox::warning(this, tr("Error"), tr("Could not launch!"));
-  }
-
+void MainWindow::on_rosTopicBoxP5_currentIndexChanged(const QString& rostopic) {
   try {
+    subPointCloud = nh.subscribe<sensor_msgs::PointCloud2>(
+        rostopic.toStdString(), 2, &MainWindow::pointCloudHandler, this);
+  } catch (std::exception& e) {
+    QMessageBox::warning(this, tr("Error"), tr(e.what()));
+  }
+}
+
+void MainWindow::on_startButtonP5_clicked() {
+  try {
+    QString pathToLaunchFile = ui->pathToLaunchFileLineP5->text();
+    if (pathToLaunchFile.isEmpty()) {
+      throw std::invalid_argument("Launch file is empty!");
+    } else {
+      FILE* filePipe =
+          popen(("sh " + pathToLaunchFile.toStdString() + "&").c_str(), "r");
+      sleep(1);  // Wait untill the sh file is executed.
+      if (!filePipe)
+        throw std::invalid_argument("Could not launch " +
+                                    pathToLaunchFile.toStdString() + "!");
+    }
+
     // readConfig();
     calibrator_.reset(new lqh::Calibrator(js_));
 
@@ -552,13 +563,15 @@ void MainWindow::on_startButtonP5_clicked() {
     pc_viewer_.reset(new PointcloudViewer);
     pc_viewer_->show();
 
-    if (ui->topicLineP5->text().isEmpty()) {
-      throw std::invalid_argument("Rostopic of lidar is empty!");
-    } else {
-      rostopic = ui->topicLineP5->text().toStdString();
-      subPointCloud = nh.subscribe<sensor_msgs::PointCloud2>(
-          rostopic, 2, &MainWindow::pointCloudHandler, this);
-    }
+    FILE* filePipe = popen("rostopic list", "r");
+    if (filePipe) {
+      ui->rosTopicBoxP5->clear();
+      constexpr std::size_t MAX_LINE_SZ = 1024;
+      char line[MAX_LINE_SZ];
+      while (fgets(line, MAX_LINE_SZ, filePipe))
+        ui->rosTopicBoxP5->addItem(QString(line).remove((QRegExp("[/\\s]"))));
+    } else
+      throw std::invalid_argument("Could not get rostopic!");
 
     const Eigen::Matrix4d& tf = calibrator_->GetTransformation();
     auto setWidget = [](double data, QSlider* sld, QLabel* lb) {
@@ -607,10 +620,26 @@ void MainWindow::on_startButtonP5_clicked() {
       ui->AEControlBoxP5->setValue(tempRsCamera->getMeanIntensitySetPoint());
       ui->AEControlBoxP5->setEnabled(true);
     }
+
+    ui->pathToLaunchFileLineP5->setDisabled(true);
+    ui->openFileButton->setDisabled(true);
+
+    ui->startButtonP5->setDisabled(true);
+
+    ui->rosTopicBoxP5->setEnabled(true);
+
+    ui->rotationGroup->setEnabled(true);
+    ui->translationGroup->setEnabled(true);
+
+    ui->playButtonP5->setEnabled(true);
+    ui->saveButton->setEnabled(true);
+    ui->finishButton->setEnabled(true);
+
+    ui->playButtonP5->click();
+
   } catch (std::exception& e) {
     QMessageBox::warning(this, tr("Error"), tr(e.what()));
   }
-  on_playButtonP5_clicked();
 }
 
 void MainWindow::on_AEControlBoxP5_valueChanged(int value) {
@@ -783,11 +812,9 @@ void MainWindow::on_Open_Config_Button_clicked() {
           &MainWindow::processSlider);
 
   config_path_ = QFileDialog::getOpenFileName(
-      this, tr("Open File"), QDir::homePath(), tr("Config JSON Files(*.json)"));
-  if (config_path_.isEmpty()) {
-    QMessageBox::warning(this, tr("Error"), tr("Config file is not changed!"));
-    return;
-  } else {
+      this, tr("Open File"), QDir::homePath(), tr("Config JSON
+Files(*.json)")); if (config_path_.isEmpty()) { QMessageBox::warning(this,
+tr("Error"), tr("Config file is not changed!")); return; } else {
     ui->configPathP6->setText(config_path_);
   }
 }
@@ -840,10 +867,8 @@ void MainWindow::on_Set_D_Button_clicked() {
                      .arg(D[3].get<double>())
                      .arg(D[4].get<double>());
 
-  QString ks = QInputDialog::getText(this, tr("Distortion Parameters"), tr("D"),
-                                     QLineEdit::Normal, last, &ok);
-  if (!ok) {
-    return;
+  QString ks = QInputDialog::getText(this, tr("Distortion Parameters"),
+tr("D"), QLineEdit::Normal, last, &ok); if (!ok) { return;
   }
   if (!ks.isEmpty()) {
     Eigen::Matrix<double, 5, 1> CD;
