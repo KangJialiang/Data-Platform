@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -282,8 +282,8 @@
            </font>
           </property>
           <property name="text">
-           <string>若要新采集数据并标定，则选择一空文件夹作为保持路径，标定中采集的数据、标定结果及配置文件均存于该路径下。
-否则选上次采集时创建的文件夹直接利用其中数据进行外参标定。</string>
+           <string>1、需要新采集数据进行标定时，选择或新建一空文件夹作为保存路径，后选择所需要的相机类型，点击相应的标定按钮进行标定。标定结果及配置文件均存于该路径下。
+2、需要利用原有数据集进行标定时，选择上次采集时创建的文件夹，无需进行相机选择，点击直接开始联合标定开始标定。</string>
           </property>
           <property name="textFormat">
            <enum>Qt::AutoText</enum>
@@ -1127,16 +1127,6 @@ Finish：保存足够多的有效数据后结束采集</string>
            <property name="bottomMargin">
             <number>10</number>
            </property>
-           <item row="1" column="2">
-            <widget class="QPushButton" name="pick_points_end">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Finish Selection</string>
-             </property>
-            </widget>
-           </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pick_points_start">
              <property name="enabled">
@@ -1144,16 +1134,6 @@ Finish：保存足够多的有效数据后结束采集</string>
              </property>
              <property name="text">
               <string>Start Selection</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="pick_points_quit">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Quit Selection</string>
              </property>
             </widget>
            </item>
@@ -1166,11 +1146,31 @@ Finish：保存足够多的有效数据后结束采集</string>
              </property>
              <property name="text">
               <string>Start Selection：在图像上选择标定板的四个角点；
-Quit Selection：放弃选择；
-Finish Selection：完成选择，若程序成功识别到标定板则会在图像中显示四条直线并在其旁标注序号，否则识别不成功，请直接点击Delete Pose放弃此组数据。</string>
+Finish Selection：完成选择，若程序成功识别到标定板则会在图像中显示四条直线并在其旁标注序号，否则识别不成功，请直接点击Delete Pose放弃此组数据；
+Quit Selection：放弃选择。</string>
              </property>
              <property name="wordWrap">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="pick_points_end">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Finish Selection</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QPushButton" name="pick_points_quit">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Quit Selection</string>
              </property>
             </widget>
            </item>
