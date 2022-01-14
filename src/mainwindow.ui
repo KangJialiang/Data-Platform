@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>811</width>
-    <height>743</height>
+    <height>962</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -270,6 +270,17 @@
         </item>
         <item row="9" column="0" colspan="4">
          <widget class="QLabel" name="label_2">
+          <property name="font">
+           <font>
+            <weight>50</weight>
+            <italic>true</italic>
+            <bold>false</bold>
+            <underline>false</underline>
+            <strikeout>false</strikeout>
+            <stylestrategy>PreferDefault</stylestrategy>
+            <kerning>true</kerning>
+           </font>
+          </property>
           <property name="text">
            <string>若要新采集数据并标定，则选择一空文件夹作为保持路径，标定中采集的数据、标定结果及配置文件均存于该路径下。
 否则选上次采集时创建的文件夹直接利用其中数据进行外参标定。</string>
@@ -823,6 +834,11 @@
         </item>
         <item row="9" column="0">
          <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <italic>true</italic>
+           </font>
+          </property>
           <property name="text">
            <string>请拖动以下滑块对齐激光点云和相片中的标定板。在激光和相机视野范围内尽可能移动标定板。</string>
           </property>
@@ -1025,6 +1041,11 @@
          <layout class="QHBoxLayout" name="rosTopicGroupP5">
           <item>
            <widget class="QLabel" name="rosTopicLabelP5">
+            <property name="font">
+             <font>
+              <italic>false</italic>
+             </font>
+            </property>
             <property name="text">
              <string>Rostopic of Lidar（雷达消息的主题）</string>
             </property>
@@ -1041,6 +1062,11 @@
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label_3">
+          <property name="font">
+           <font>
+            <italic>true</italic>
+           </font>
+          </property>
           <property name="text">
            <string>1. 点击Open File选中一启动激光雷达的脚本；
 2. 点击Start启动预览；
@@ -1056,6 +1082,11 @@
         </item>
         <item row="13" column="0">
          <widget class="QLabel" name="label_4">
+          <property name="font">
+           <font>
+            <italic>true</italic>
+           </font>
+          </property>
           <property name="text">
            <string>Pause：暂停数据采集
 Play：继续数据采集
@@ -1128,6 +1159,11 @@ Finish：保存足够多的有效数据后结束采集</string>
            </item>
            <item row="0" column="0" colspan="3">
             <widget class="QLabel" name="label_5">
+             <property name="font">
+              <font>
+               <italic>true</italic>
+              </font>
+             </property>
              <property name="text">
               <string>Start Selection：在图像上选择标定板的四个角点；
 Quit Selection：放弃选择；
@@ -1277,7 +1313,7 @@ color: rgb(239, 41, 41);
            <bool>false</bool>
           </property>
           <property name="title">
-           <string>PointCloud Control（拖动滑块调节ROI，使得点云中有且仅有标定板区域变为绿色））</string>
+           <string>PointCloud Control</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_8">
            <property name="leftMargin">
@@ -1403,6 +1439,18 @@ color: rgb(239, 41, 41);
              </property>
             </widget>
            </item>
+           <item row="0" column="0" colspan="4">
+            <widget class="QLabel" name="label_7">
+             <property name="font">
+              <font>
+               <italic>true</italic>
+              </font>
+             </property>
+             <property name="text">
+              <string>拖动滑块调节ROI，使得点云中有且仅有标定板区域变为绿色。</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -1521,6 +1569,11 @@ color: rgb(239, 41, 41);
         </item>
         <item row="8" column="0">
          <widget class="QLabel" name="label_6">
+          <property name="font">
+           <font>
+            <italic>true</italic>
+           </font>
+          </property>
           <property name="text">
            <string>确认标定板在相片中找到四条边，在点云中变绿后点击Next Pose，否则点击Delete Pose放弃该组数据。处理足够多的数据后点击Calibrate进行标定。
 标定结束后，可通过Previous和Next键检查标定结果后保存。</string>
