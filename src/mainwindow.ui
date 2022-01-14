@@ -24,7 +24,7 @@
        <bool>false</bool>
       </property>
       <property name="currentIndex">
-       <number>6</number>
+       <number>0</number>
       </property>
       <property name="tabBarAutoHide">
        <bool>false</bool>
@@ -269,14 +269,16 @@
          </widget>
         </item>
         <item row="9" column="0" colspan="4">
-         <widget class="QTextBrowser" name="textBrowser_3">
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;若要新采集数据并标定，则选择一空文件夹作为保持路径，标定中采集的数据、标定结果及配置文件均存于该路径下。&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;否则选上次采集时创建的文件夹直接利用其中数据进行外参标定。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>若要新采集数据并标定，则选择一空文件夹作为保持路径，标定中采集的数据、标定结果及配置文件均存于该路径下。
+否则选上次采集时创建的文件夹直接利用其中数据进行外参标定。</string>
+          </property>
+          <property name="textFormat">
+           <enum>Qt::AutoText</enum>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -762,21 +764,6 @@ p, li { white-space: pre-wrap; }
           </property>
          </widget>
         </item>
-        <item row="13" column="0">
-         <widget class="QTextBrowser" name="textBrowser_2">
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Pause：暂停数据采集&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Play：继续数据采集&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Save：确认标定板完全在点云覆盖范围内后保存   &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Unsave：2s内可以撤销保存&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Finish：保存足够多的有效数据后结束采集&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
         <item row="14" column="0" colspan="2">
          <layout class="QHBoxLayout" name="buttonGroup">
           <item>
@@ -1053,18 +1040,28 @@ p, li { white-space: pre-wrap; }
          </layout>
         </item>
         <item row="0" column="0">
-         <widget class="QTextBrowser" name="textBrowser_5">
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1. 点击Open File选中一启动激光雷达的脚本；&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2. 点击Start启动预览；&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;3. 选择雷达消息主题并调节RealSense相机的自动曝光亮度，使得预览框中显示正确的点云和图像；&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;4. 拖动六个滑块对齐激光点云和相机中的标定板，此时可点击Pause暂停实时预览方便调节；&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;5. 若标定板在相机和激光雷达的视野中均能被完整捕捉则按Save键保存一组数据；&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;6. 存完足够多的数据后点击Finish结束采集。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>1. 点击Open File选中一启动激光雷达的脚本；
+2. 点击Start启动预览；
+3. 选择雷达消息主题并调节RealSense相机的自动曝光亮度，使得预览框中显示正确的点云和图像；
+4. 拖动六个滑块对齐激光点云和相机中的标定板，此时可点击Pause暂停实时预览方便调节；
+5. 若标定板在相机和激光雷达的视野中均能被完整捕捉则按Save键保存一组数据；
+6. 存完足够多的数据后点击Finish结束采集。</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="0">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Pause：暂停数据采集
+Play：继续数据采集
+Save：确认标定板完全在点云覆盖范围内后保存   
+Unsave：2s内可以撤销保存
+Finish：保存足够多的有效数据后结束采集</string>
           </property>
          </widget>
         </item>
@@ -1099,6 +1096,16 @@ p, li { white-space: pre-wrap; }
            <property name="bottomMargin">
             <number>10</number>
            </property>
+           <item row="1" column="2">
+            <widget class="QPushButton" name="pick_points_end">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Finish Selection</string>
+             </property>
+            </widget>
+           </item>
            <item row="1" column="0">
             <widget class="QPushButton" name="pick_points_start">
              <property name="enabled">
@@ -1119,61 +1126,148 @@ p, li { white-space: pre-wrap; }
              </property>
             </widget>
            </item>
-           <item row="1" column="2">
-            <widget class="QPushButton" name="pick_points_end">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Finish Selection</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="0" colspan="3">
-            <widget class="QTextBrowser" name="textBrowser">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Start Selection：在图像上选择标定板的四个角点；
+Quit Selection：放弃选择；
+Finish Selection：完成选择，若程序成功识别到标定板则会在图像中显示四条直线并在其旁标注序号，否则识别不成功，请直接点击Delete Pose放弃此组数据。</string>
              </property>
-             <property name="html">
-              <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Start Selection：在图像上选择标定板的四个角点；&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Quit Selection：放弃选择；&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Finish Selection：完成选择，若程序成功识别到标定板则会在图像中显示四条直线并在其旁标注序号，否则识别不成功，请直接点击Delete Pose放弃此组数据。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <property name="wordWrap">
+              <bool>true</bool>
              </property>
             </widget>
            </item>
           </layout>
          </widget>
         </item>
-        <item row="8" column="0">
-         <widget class="QTextBrowser" name="textBrowser_4">
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;确认标定板在相片中找到四条边，在点云中变绿后点击Next Pose，否则点击Delete Pose放弃该组数据。处理足够多的数据后点击Calibrate进行标定。&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;标定结束后，可通过Previous和Next键检查标定结果后保存。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        <item row="4" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <property name="topMargin">
+           <number>6</number>
           </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
           <item>
-           <widget class="QLabel" name="pathToDatasetLabelP6">
+           <widget class="QLabel" name="current_data_id_label">
             <property name="text">
-             <string>Path to Dataset</string>
+             <string>Current Data ID</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="datasetPathP6"/>
+           <widget class="QLabel" name="current_data_id">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: rgb(115, 210, 22);
+	background-color: #ccc;
+}</string>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="processed_data_num_label">
+            <property name="text">
+             <string>Processed Data Num</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="processed_data_num">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+	color: rgb(115, 210, 22);
+	background-color: #ccc;
+}</string>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="total_data_num_label">
+            <property name="text">
+             <string>Total Data Num</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="total_data_num">
+            <property name="font">
+             <font>
+              <pointsize>16</pointsize>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel{
+color: rgb(239, 41, 41);
+	background-color: #ccc;
+}</string>
+            </property>
+            <property name="text">
+             <string>0</string>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QLabel" name="pathToConfigLabelP6">
+            <property name="text">
+             <string>Path to Config </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="configPathP6">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
@@ -1411,135 +1505,30 @@ p, li { white-space: pre-wrap; }
           </item>
          </layout>
         </item>
-        <item row="4" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_7">
-          <property name="topMargin">
-           <number>6</number>
-          </property>
-          <property name="bottomMargin">
-           <number>6</number>
-          </property>
+        <item row="1" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QLabel" name="current_data_id_label">
+           <widget class="QLabel" name="pathToDatasetLabelP6">
             <property name="text">
-             <string>Current Data ID</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
+             <string>Path to Dataset</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLabel" name="current_data_id">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QLabel{
-	color: rgb(115, 210, 22);
-	background-color: #ccc;
-}</string>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="processed_data_num_label">
-            <property name="text">
-             <string>Processed Data Num</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="processed_data_num">
-            <property name="font">
-             <font>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QLabel{
-	color: rgb(115, 210, 22);
-	background-color: #ccc;
-}</string>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="total_data_num_label">
-            <property name="text">
-             <string>Total Data Num</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="total_data_num">
-            <property name="font">
-             <font>
-              <pointsize>16</pointsize>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QLabel{
-color: rgb(239, 41, 41);
-	background-color: #ccc;
-}</string>
-            </property>
-            <property name="text">
-             <string>0</string>
-            </property>
-            <property name="alignment">
-             <set>Qt::AlignCenter</set>
-            </property>
-           </widget>
+           <widget class="QLineEdit" name="datasetPathP6"/>
           </item>
          </layout>
         </item>
-        <item row="0" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
-           <widget class="QLabel" name="pathToConfigLabelP6">
-            <property name="text">
-             <string>Path to Config </string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="configPathP6">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="8" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>确认标定板在相片中找到四条边，在点云中变绿后点击Next Pose，否则点击Delete Pose放弃该组数据。处理足够多的数据后点击Calibrate进行标定。
+标定结束后，可通过Previous和Next键检查标定结果后保存。</string>
+          </property>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
