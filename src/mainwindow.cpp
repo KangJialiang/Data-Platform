@@ -1512,6 +1512,7 @@ void MainWindow::on_mainStartCalibButton_clicked() {
     } else {
       QMessageBox::warning(this, tr("Error"), tr(e.what()));
     }
+    return;
   }
 
   if (config_path_.isEmpty()) {
@@ -1533,8 +1534,8 @@ void MainWindow::on_mainStartCalibButton_clicked() {
     return;
   }
 
-  startCalib();
   ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
+  startCalib();
 }
 
 void MainWindow::on_openFileButton_clicked() {
