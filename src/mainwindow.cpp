@@ -551,7 +551,7 @@ void MainWindow::on_startButtonP5_clicked() {
       throw std::invalid_argument("Launch file is empty!");
     } else {
       FILE* filePipe =
-          popen((pathToLaunchFile.toStdString() + "&").c_str(), "r");
+          popen(("bash " + pathToLaunchFile.toStdString() + "&").c_str(), "r");
       sleep(1);  // Wait untill the sh file is executed.
       if (!filePipe)
         throw std::invalid_argument("Could not launch " +
