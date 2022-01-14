@@ -1050,6 +1050,9 @@ void MainWindow::on_calibrate_clicked() {
     return;
   }
 
+  if (!sensor_data_.back().good())
+    ui->delete_pose->click();  // delete last bad data
+
   setEnabledAll(false);
   setCursor(Qt::WaitCursor);
   //    calibrator_->SavePolygonData(std::string("/home/nick/tmp"));
