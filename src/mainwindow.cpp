@@ -1129,6 +1129,8 @@ void MainWindow::on_pick_points_end_clicked() {
   img_viewer_->showImage(last.img_marked);
 
   updateLabels();
+  processSlider();
+
   ui->pick_points_start->setEnabled(false);
   ui->pick_points_quit->setEnabled(false);
   ui->pick_points_end->setEnabled(false);
@@ -1325,6 +1327,25 @@ void MainWindow::processSlider() {
     sd.pc_good = true;
   }
 
+  // project ROI
+  cv::Mat tempImg = sd.img_marked->clone();
+  for (const auto& p : *sd.pc_marked) {
+    if (p.rgba == 0xffffffff) continue;
+
+    Eigen::Vector3d pt =
+        calibrator_->GetCameraK() *
+        (calibrator_->GetTransformation() * Eigen::Vector4d(p.x, p.y, p.z, 1))
+            .topRows(3);
+
+    if (pt(2) < 0.5) continue;
+
+    int u = static_cast<int>(pt(0) / pt(2));
+    int v = static_cast<int>(pt(1) / pt(2));
+    if (u < 0 || u >= tempImg.cols || v < 0 || v >= tempImg.rows) continue;
+    cv::circle(tempImg, cv::Point2d(u, v), 2, cv::Scalar(p.b, p.g, p.r), -1);
+  }
+
+  img_viewer_->showImage(std::make_shared<cv::Mat>(tempImg));
   pc_viewer_->showPointcloud(sd.pc_marked);
 }
 

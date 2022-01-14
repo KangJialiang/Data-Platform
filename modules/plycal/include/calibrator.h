@@ -56,6 +56,7 @@ class Calibrator {
   bool Compute(Eigen::Matrix4d& tf);
   bool Compute() { return Compute(T_); }
   const Eigen::Matrix4d& GetTransformation() { return T_; }
+  const Eigen::Matrix3d& GetCameraK() { return K_; }
 
   bool ImageGood(uint32_t id) {
     if (id >= polygons_v_.size()) {
