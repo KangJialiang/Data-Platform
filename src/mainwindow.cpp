@@ -551,7 +551,7 @@ void MainWindow::on_startButtonP5_clicked() {
       throw std::invalid_argument("Launch file is empty!");
     } else {
       FILE* filePipe =
-          popen(("sh " + pathToLaunchFile.toStdString() + "&").c_str(), "r");
+          popen((pathToLaunchFile.toStdString() + "&").c_str(), "r");
       sleep(1);  // Wait untill the sh file is executed.
       if (!filePipe)
         throw std::invalid_argument("Could not launch " +
@@ -572,7 +572,7 @@ void MainWindow::on_startButtonP5_clicked() {
       constexpr std::size_t MAX_LINE_SZ = 1024;
       char line[MAX_LINE_SZ];
       while (fgets(line, MAX_LINE_SZ, filePipe))
-        ui->rosTopicBoxP5->addItem(QString(line).remove((QRegExp("[/\\s]"))));
+        ui->rosTopicBoxP5->addItem(QString(line).remove((QRegExp("[\\s]"))));
     } else
       throw std::invalid_argument("Could not get rostopic!");
 
