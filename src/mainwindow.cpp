@@ -1504,7 +1504,6 @@ void MainWindow::generateConfig() {
 void MainWindow::on_mainStartCalibButton_clicked() {
   try {
     settingFinished();
-    ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
 
   } catch (std::exception& e) {
     if (std::string(e.what()) == "stof") {
@@ -1535,6 +1534,7 @@ void MainWindow::on_mainStartCalibButton_clicked() {
   }
 
   startCalib();
+  ui->tabWidget->setCurrentWidget(ui->LiDARCalib);
 }
 
 void MainWindow::on_openFileButton_clicked() {
