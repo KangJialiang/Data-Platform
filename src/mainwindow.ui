@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>798</width>
-    <height>617</height>
+    <width>811</width>
+    <height>743</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,7 +18,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <item row="0" column="1">
      <widget class="QTabWidget" name="tabWidget">
       <property name="mouseTracking">
        <bool>false</bool>
@@ -34,7 +34,116 @@
         <string>主页面</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_11">
-        <item row="4" column="0" colspan="4">
+        <item row="3" column="1" colspan="2">
+         <widget class="QComboBox" name="cameraComboBox">
+          <item>
+           <property name="text">
+            <string/>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>realsense</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>usb</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="cameraChoose">
+          <property name="text">
+           <string>相机选择</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0" colspan="4">
+         <widget class="QGroupBox" name="rsParamsBoxPmain">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="title">
+           <string>realsense 参数选择</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_12">
+           <item row="0" column="1">
+            <widget class="QComboBox" name="streamNameBoxPmain"/>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="streamNameLabelPmain">
+             <property name="text">
+              <string>流</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="resFPSLabelPmain">
+             <property name="text">
+              <string>分辨率和帧率</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="3">
+            <widget class="QComboBox" name="resFPSBoxPmain"/>
+           </item>
+          </layout>
+         </widget>
+        </item>
+        <item row="1" column="1" colspan="2">
+         <widget class="QLineEdit" name="savePathLine"/>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="savePath">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;保存路径&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0" colspan="4">
+         <layout class="QHBoxLayout" name="startGroupPmain">
+          <item>
+           <widget class="QPushButton" name="mainStartCalibButton">
+            <property name="text">
+             <string>直接开始联合标定</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="mainStartButton">
+            <property name="text">
+             <string>开始相机响应函数晕影函数标定</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="mainStartLidarCalibButton">
+            <property name="text">
+             <string>开始激光雷达与相机联合标定</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="3">
+         <widget class="QToolButton" name="savePathChooseButton">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="text">
+           <string>浏览...</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0" colspan="4">
          <widget class="QGroupBox" name="usbParamsBoxPmain">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -159,114 +268,17 @@
           </layout>
          </widget>
         </item>
-        <item row="0" column="1" colspan="2">
-         <widget class="QLineEdit" name="savePathLine"/>
-        </item>
-        <item row="0" column="3">
-         <widget class="QToolButton" name="savePathChooseButton">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="text">
-           <string>浏览...</string>
+        <item row="9" column="0" colspan="4">
+         <widget class="QTextBrowser" name="textBrowser_3">
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;若要新采集数据并标定，则选择一空文件夹作为保持路径，标定中采集的数据、标定结果及配置文件均存于该路径下。&lt;/p&gt;
+&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;否则选上次采集时创建的文件夹直接利用其中数据进行外参标定。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="savePath">
-          <property name="text">
-           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;保存路径&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0" colspan="4">
-         <widget class="QGroupBox" name="rsParamsBoxPmain">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="title">
-           <string>realsense 参数选择</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_12">
-           <item row="0" column="1">
-            <widget class="QComboBox" name="streamNameBoxPmain"/>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="streamNameLabelPmain">
-             <property name="text">
-              <string>流</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="resFPSLabelPmain">
-             <property name="text">
-              <string>分辨率和帧率</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="3">
-            <widget class="QComboBox" name="resFPSBoxPmain"/>
-           </item>
-          </layout>
-         </widget>
-        </item>
-        <item row="1" column="1" colspan="2">
-         <widget class="QComboBox" name="cameraComboBox">
-          <item>
-           <property name="text">
-            <string/>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>realsense</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>usb</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="cameraChoose">
-          <property name="text">
-           <string>相机选择</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0" colspan="4">
-         <layout class="QHBoxLayout" name="startGroupPmain">
-          <item>
-           <widget class="QPushButton" name="mainStartCalibButton">
-            <property name="text">
-             <string>直接开始联合标定</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="mainStartButton">
-            <property name="text">
-             <string>开始相机响应函数晕影函数标定</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="mainStartLidarCalibButton">
-            <property name="text">
-             <string>开始激光雷达与相机联合标定</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </item>
        </layout>
       </widget>
@@ -694,116 +706,142 @@
         <string>激光雷达数据采集</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_10">
-        <item row="7" column="0">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>请拖动以下滑块对齐激光点云和相片中的标定板。在激光和相机视野范围内尽可能移动标定板。</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <layout class="QHBoxLayout" name="rosTopicGroupP5">
+        <item row="12" column="0">
+         <layout class="QHBoxLayout" name="saveToGroup">
           <item>
-           <widget class="QLabel" name="rosTopicLabelP5">
+           <widget class="QLabel" name="saveToLabel">
             <property name="text">
-             <string>Rostopic of Lidar（雷达消息的主题）</string>
+             <string>Save To</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QComboBox" name="rosTopicBoxP5">
+           <widget class="QLineEdit" name="saveToLine"/>
+          </item>
+         </layout>
+        </item>
+        <item row="7" column="0">
+         <layout class="QHBoxLayout" name="AEControlGroupP5">
+          <item>
+           <widget class="QLabel" name="AEControlLabelP5">
+            <property name="text">
+             <string>Mean Intensity Set Point（调节自动曝光，越高越亮）</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="AEControlBoxP5">
             <property name="enabled">
              <bool>false</bool>
+            </property>
+            <property name="maximum">
+             <number>10000</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="1" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <item>
+           <widget class="QLabel" name="pathToConfigLabelP5">
+            <property name="text">
+             <string>Path to Config </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="pathToConfigLineP5"/>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <widget class="QPushButton" name="startButtonP5">
+          <property name="text">
+           <string>Start</string>
+          </property>
+         </widget>
+        </item>
+        <item row="13" column="0">
+         <widget class="QTextBrowser" name="textBrowser_2">
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Pause：暂停数据采集&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Play：继续数据采集&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Save：确认标定板完全在点云覆盖范围内后保存   &lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Unsave：2s内可以撤销保存&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Finish：保存足够多的有效数据后结束采集&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item row="14" column="0" colspan="2">
+         <layout class="QHBoxLayout" name="buttonGroup">
+          <item>
+           <widget class="QPushButton" name="playButtonP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Play</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pauseButtonP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Pause</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="saveButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Save</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="unsaveButtonP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Unsave</string>
+            </property>
+            <property name="checkable">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="finishButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Finish</string>
             </property>
            </widget>
           </item>
          </layout>
         </item>
         <item row="9" column="0">
-         <widget class="QGroupBox" name="translationGroup">
-          <property name="enabled">
-           <bool>false</bool>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>请拖动以下滑块对齐激光点云和相片中的标定板。在激光和相机视野范围内尽可能移动标定板。</string>
           </property>
-          <property name="title">
-           <string>Translation</string>
-          </property>
-          <layout class="QGridLayout" name="gridLayout_9">
-           <item row="0" column="0">
-            <widget class="QLabel" name="tx_label">
-             <property name="text">
-              <string>X</string>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QSlider" name="tx_slide">
-             <property name="maximum">
-              <number>1000</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="tz_label">
-             <property name="text">
-              <string>Z</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QLabel" name="ty_text">
-             <property name="text">
-              <string>000</string>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QSlider" name="tz_slide">
-             <property name="maximum">
-              <number>1000</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2">
-            <widget class="QLabel" name="tx_text">
-             <property name="text">
-              <string>000</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QSlider" name="ty_slide">
-             <property name="maximum">
-              <number>1000</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLabel" name="tz_text">
-             <property name="text">
-              <string>000</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="ty_label">
-             <property name="text">
-              <string>Y</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="2" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_6">
           <item>
            <widget class="QLabel" name="pathToLaunchFileLableP5">
@@ -828,43 +866,7 @@
           </item>
          </layout>
         </item>
-        <item row="11" column="0">
-         <widget class="QTextBrowser" name="textBrowser_2">
-          <property name="html">
-           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Pause：暂停数据采集&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Play：继续数据采集&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Save：确认标定板完全在点云覆盖范围内后保存   &lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Unsave：2s内可以撤销保存&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Finish：保存足够多的有效数据后结束采集&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <layout class="QHBoxLayout" name="AEControlGroupP5">
-          <item>
-           <widget class="QLabel" name="AEControlLabelP5">
-            <property name="text">
-             <string>Mean Intensity Set Point（调节自动曝光，越高越亮）</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QSpinBox" name="AEControlBoxP5">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="maximum">
-             <number>10000</number>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item row="8" column="0">
+        <item row="10" column="0">
          <widget class="QGroupBox" name="rotationGroup">
           <property name="enabled">
            <bool>false</bool>
@@ -948,95 +950,121 @@ p, li { white-space: pre-wrap; }
           </layout>
          </widget>
         </item>
-        <item row="12" column="0" colspan="2">
-         <layout class="QHBoxLayout" name="buttonGroup">
-          <item>
-           <widget class="QPushButton" name="playButtonP5">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Play</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="pauseButtonP5">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Pause</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="saveButton">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Save</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="unsaveButtonP5">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Unsave</string>
-            </property>
-            <property name="checkable">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QPushButton" name="finishButton">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Finish</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+        <item row="11" column="0">
+         <widget class="QGroupBox" name="translationGroup">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="title">
+           <string>Translation</string>
+          </property>
+          <layout class="QGridLayout" name="gridLayout_9">
+           <item row="0" column="0">
+            <widget class="QLabel" name="tx_label">
+             <property name="text">
+              <string>X</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QSlider" name="tx_slide">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="tz_label">
+             <property name="text">
+              <string>Z</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QLabel" name="ty_text">
+             <property name="text">
+              <string>000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QSlider" name="tz_slide">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2">
+            <widget class="QLabel" name="tx_text">
+             <property name="text">
+              <string>000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QSlider" name="ty_slide">
+             <property name="maximum">
+              <number>1000</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLabel" name="tz_text">
+             <property name="text">
+              <string>000</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="ty_label">
+             <property name="text">
+              <string>Y</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
         </item>
-        <item row="10" column="0">
-         <layout class="QHBoxLayout" name="saveToGroup">
+        <item row="5" column="0">
+         <layout class="QHBoxLayout" name="rosTopicGroupP5">
           <item>
-           <widget class="QLabel" name="saveToLabel">
+           <widget class="QLabel" name="rosTopicLabelP5">
             <property name="text">
-             <string>Save To</string>
+             <string>Rostopic of Lidar（雷达消息的主题）</string>
             </property>
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="saveToLine"/>
+           <widget class="QComboBox" name="rosTopicBoxP5">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>
         <item row="0" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <item>
-           <widget class="QLabel" name="pathToConfigLabelP5">
-            <property name="text">
-             <string>Path to Config </string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="pathToConfigLineP5"/>
-          </item>
-         </layout>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="startButtonP5">
-          <property name="text">
-           <string>Start</string>
+         <widget class="QTextBrowser" name="textBrowser_5">
+          <property name="html">
+           <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;1. 点击Open File选中一启动激光雷达的脚本；&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;2. 点击Start启动预览；&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;3. 选择雷达消息主题并调节RealSense相机的自动曝光亮度，使得预览框中显示正确的点云和图像；&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;4. 拖动六个滑块对齐激光点云和相机中的标定板，此时可点击Pause暂停实时预览方便调节；&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;5. 若标定板在相机和激光雷达的视野中均能被完整捕捉则按Save键保存一组数据；&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;6. 存完足够多的数据后点击Finish结束采集。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
           </property>
          </widget>
         </item>
@@ -1114,9 +1142,9 @@ p, li { white-space: pre-wrap; }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Start Selection:图像上选择标定板的四个角点&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Quit Selection:放弃选择&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Finish Selection:完成选择&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Start Selection：在图像上选择标定板的四个角点；&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Quit Selection：放弃选择；&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Finish Selection：完成选择，若程序成功识别到标定板则会在图像中显示四条直线并在其旁标注序号，否则识别不成功，请直接点击Delete Pose放弃此组数据。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -1155,7 +1183,7 @@ p, li { white-space: pre-wrap; }
            <bool>false</bool>
           </property>
           <property name="title">
-           <string>PointCloud Control（调节激光雷达寻找范围（角度、距离、高度）</string>
+           <string>PointCloud Control（拖动滑块调节ROI，使得点云中有且仅有标定板区域变为绿色））</string>
           </property>
           <layout class="QGridLayout" name="gridLayout_8">
            <property name="leftMargin">
@@ -1177,7 +1205,7 @@ p, li { white-space: pre-wrap; }
            <item row="1" column="0">
             <widget class="QLabel" name="angle_start_label">
              <property name="text">
-              <string>Angle Start</string>
+              <string>Angle Start（开始角度）</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1187,7 +1215,7 @@ p, li { white-space: pre-wrap; }
            <item row="9" column="0">
             <widget class="QLabel" name="angle_start_label_2">
              <property name="text">
-              <string>Distance</string>
+              <string>Distance（离雷达距离）</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1197,7 +1225,7 @@ p, li { white-space: pre-wrap; }
            <item row="5" column="0">
             <widget class="QLabel" name="angle_size_label">
              <property name="text">
-              <string>Angle Size</string>
+              <string>Angle Size（角度大小）</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
@@ -1247,7 +1275,7 @@ p, li { white-space: pre-wrap; }
            <item row="12" column="0">
             <widget class="QLabel" name="floor_gap_label">
              <property name="text">
-              <string>Floor Gap</string>
+              <string>Floor Gap（离地面距离）</string>
              </property>
             </widget>
            </item>
