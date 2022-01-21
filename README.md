@@ -1,28 +1,37 @@
 # Data-Platform
 
-Code for collecting data using Qt.
+Collecting data using Qt.
 
-## 1.IntelRealSense/librealsense
+## Dependencies
 
-librealsense 安装请参照这里[执行](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation.md).
-(从 Download/Clone librealsense github repository 开始，只看自己对应版本的安装)
+- [OpenCV 3](https://opencv.org/)\
+`apt install libopencv-dev`
 
-安装过程中，为读取图像曝光时间等 image.metadata，cmake 时请执行：
+- [Qt 5](https://www.qt.io/)\
+`apt install libeigen3-dev`
 
-```shell
-cmake ../ -DFORCE_RSUSB_BACKEND=true -DCMAKE_BUILD_TYPE=release
-```
+- [ROS Melodic Morenia](https://wiki.ros.org/cn/melodic/Installation/Ubuntu)
 
-## 2.my_realsense_lab
+- [PCL 1.8](http://pointclouds.org/)\
+`apt install libpcl-dev`
 
-该文件夹下代码是为满足特定需求而编写的代码，在每一个子文件夹下（如 rs-gamma）执行以下命令可在 build 目录下的 bin 文件夹中生成对应的可执行文件（编译前需要先修改源码中的文件储存路径及创建 setting.txt）
+- [Ceres Solver](http://ceres-solver.org/)\
+`apt install libceres-dev`
 
-```shell
-mkdir build && cd build && cmake .. && make
-```
+- [Eigen 3](https://eigen.tuxfamily.org/)\
+`apt install libeigen3-dev`
 
-执行生成的可执行文件“rs-xxx”：
+- [Intel RealSense SDK](https://github.com/IntelRealSense/librealsense/blob/master/doc/installation.md)\
+从 Download/Clone librealsense github repository 开始，只看自己对应版本的安装。\
+安装过程中，为读取图像曝光时间等 image.metadata，cmake 时请执行：\
+`cmake ../ -DFORCE_RSUSB_BACKEND=true -DCMAKE_BUILD_TYPE=release`
 
-```shell
-bin/rs-xxx
+## Build
+
+Tested on `Ubuntu 18.04`.
+
+```sh
+$ mkdir build & cd build
+$ cmake ..
+$ make
 ```
